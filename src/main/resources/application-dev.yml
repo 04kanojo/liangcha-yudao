@@ -1,0 +1,7 @@
+spring:
+  datasource: #数据库配置
+    url: jdbc:mysql://124.223.63.101:3306/carbon?useUnicode=true&serverTimezone=Asia/Shanghai&characterEncoding=utf8&autoReconnect=true&useSSL=false&allowMultiQueries=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: woshidashuaibi
+    type: com.alibaba.druid.pool.DruidDataSource
