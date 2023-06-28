@@ -2,13 +2,16 @@ package com.liangcha;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
+import org.springframework.cache.annotation.EnableCaching;
 
 
 /**
  * @author 凉茶
  */
+@EnableCaching
 @SpringBootApplication
+@ConfigurationPropertiesScan
 public class Application {
 
     public static void main(String[] args) {
