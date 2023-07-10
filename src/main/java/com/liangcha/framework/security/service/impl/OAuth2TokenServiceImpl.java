@@ -162,7 +162,14 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
     }
 
     private OAuth2RefreshTokenDO createOAuth2RefreshToken(Long userId, Integer userType, OAuth2ClientDO clientDO, List<String> scopes) {
-        OAuth2RefreshTokenDO refreshToken = new OAuth2RefreshTokenDO().setRefreshToken(generateToken()).setUserId(userId).setUserType(userType).setClientId(clientDO.getClientId()).setScopes(scopes).setExpiresTime(LocalDateTime.now().plusSeconds(clientDO.getRefreshTokenValiditySeconds()));
+        OAuth2RefreshTokenDO refreshToken = OAuth2RefreshTokenDO.builder()
+                .refreshToken(generateToken())
+                .userId(userId)
+                .userType(userType)
+                .clientId(clientDO.getClientId())
+                .scopes(scopes)
+                .expiresTime(LocalDateTime.now().plusSeconds(clientDO.getRefreshTokenValiditySeconds()))
+                .build();
         oauth2RefreshTokenMapper.insert(refreshToken);
         return refreshToken;
     }

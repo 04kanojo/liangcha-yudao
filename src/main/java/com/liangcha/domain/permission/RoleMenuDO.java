@@ -1,19 +1,17 @@
 package com.liangcha.domain.permission;
 
-import cn.iocoder.yudao.framework.tenant.core.db.TenantBaseDO;
-import com.baomidou.mybatisplus.annotation.KeySequence;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.liangcha.framework.tenant.pojo.TenantBaseDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
  * 角色和菜单关联
  *
- * @author ruoyi
+ * @author 凉茶
  */
 @TableName("system_role_menu")
-@KeySequence("system_role_menu_seq") // 用于 Oracle、PostgreSQL、Kingbase、DB2、H2 数据库的主键自增。如果是 MySQL 等数据库，可不写。
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class RoleMenuDO extends TenantBaseDO {

@@ -5,7 +5,6 @@ import com.alicp.jetcache.CacheManager;
 import com.alicp.jetcache.anno.CacheType;
 import com.alicp.jetcache.template.QuickConfig;
 import com.liangcha.framework.security.pojo.domain.OAuth2AccessTokenDO;
-import com.liangcha.framework.security.pojo.domain.OAuth2ClientDO;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -31,7 +30,7 @@ public class CacheService {
      * 客户端缓存
      * key：客户端编号
      */
-    public static Cache<String, OAuth2ClientDO> clientCache;
+//    public static Cache<String, OAuth2ClientDO> clientCache;
 
     @Autowired
     private CacheManager cacheManager;
@@ -46,12 +45,12 @@ public class CacheService {
                 .build();
         tokenCache = cacheManager.getOrCreateCache(tokenQc);
 
-        QuickConfig clientQc = QuickConfig.newBuilder("clientCache")
-                .expire(Duration.ofSeconds(100))
-                .cacheType(CacheType.LOCAL)
-                .localLimit(50)
-                .syncLocal(true)
-                .build();
-        clientCache = cacheManager.getOrCreateCache(clientQc);
+//        QuickConfig clientQc = QuickConfig.newBuilder("clientCache")
+//                .expire(Duration.ofSeconds(100))
+//                .cacheType(CacheType.LOCAL)
+//                .localLimit(50)
+//                .syncLocal(true)
+//                .build();
+//        clientCache = cacheManager.getOrCreateCache(clientQc);
     }
 }

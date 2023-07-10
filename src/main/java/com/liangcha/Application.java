@@ -19,7 +19,7 @@ import org.springframework.cache.annotation.EnableCaching;
 @EnableCaching
 @EnableMethodCache(basePackages = "com")
 @SpringBootApplication
-@MapperScan("com.liangcha.security.pojo.dao")
+@MapperScan("com.liangcha.dao")
 @ConfigurationPropertiesScan
 public class Application {
 

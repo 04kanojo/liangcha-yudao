@@ -5,7 +5,6 @@ import com.liangcha.controller.auth.vo.AuthLoginReqVO;
 import com.liangcha.controller.auth.vo.AuthLoginRespVO;
 import com.liangcha.convert.auth.AuthConvert;
 import com.liangcha.domain.auth.AdminUserDO;
-import com.liangcha.domain.auth.enums.LoginLogTypeEnum;
 import com.liangcha.framework.common.enums.CommonStatusEnum;
 import com.liangcha.framework.common.enums.ErrorCodeConstants;
 import com.liangcha.framework.common.enums.UserTypeEnum;
@@ -55,16 +54,12 @@ public class AdminAuthServiceImpl implements AdminAuthService {
 //                    reqVO.getSocialType(), reqVO.getSocialCode(), reqVO.getSocialState()));
 //        }
         // 创建 Token 令牌
-        return createTokenAfterLoginSuccess(user.getId(), reqVO.getUsername(), LoginLogTypeEnum.LOGIN_USERNAME);
+        return createTokenAfterLoginSuccess(user.getId());
     }
 
-    private AuthLoginRespVO createTokenAfterLoginSuccess(Long userId, String username, LoginLogTypeEnum logType) {
+    private AuthLoginRespVO createTokenAfterLoginSuccess(Long userId) {
         // 创建访问令牌
-        OAuth2AccessTokenCreateReqDTO oAuth2AccessTokenCreateReqDTO = OAuth2AccessTokenCreateReqDTO.builder()
-                .userId(userId)
-                .userType(UserTypeEnum.ADMIN.getCode())
-                .clientId("default")
-                .build();
+        OAuth2AccessTokenCreateReqDTO oAuth2AccessTokenCreateReqDTO = OAuth2AccessTokenCreateReqDTO.builder().userId(userId).userType(UserTypeEnum.ADMIN.getCode()).clientId("default").build();
         OAuth2AccessTokenDO accessTokenDO = oauth2TokenService.createAccessToken(oAuth2AccessTokenCreateReqDTO);
         return AuthConvert.INSTANCE.convert(accessTokenDO);
     }

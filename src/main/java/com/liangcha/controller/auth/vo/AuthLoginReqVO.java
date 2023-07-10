@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.AssertTrue;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
@@ -20,12 +19,12 @@ import javax.validation.constraints.Pattern;
 public class AuthLoginReqVO {
 
     @NotEmpty(message = "登录账号不能为空")
-    @Min(value = 6, message = "账号长度最少为6位")
+//    @Min(value = 4, message = "账号长度最少为4位")
     @Pattern(regexp = "^[A-Za-z0-9]+$", message = "账号格式为数字以及字母")
     private String username;
 
     @NotEmpty(message = "密码不能为空")
-    @Min(value = 4, message = "密码长度最少为6位")
+//    @Min(value = 4, message = "密码长度最少为4位")
     private String password;
 
     // ========== 图片验证码相关 ==========

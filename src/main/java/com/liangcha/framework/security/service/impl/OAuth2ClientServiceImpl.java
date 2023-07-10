@@ -10,7 +10,6 @@ import com.liangcha.dao.auth.OAuth2ClientMapper;
 import com.liangcha.framework.common.enums.CommonStatusEnum;
 import com.liangcha.framework.common.enums.ErrorCodeConstants;
 import com.liangcha.framework.common.exception.ServiceException;
-import com.liangcha.framework.common.redis.CacheService;
 import com.liangcha.framework.security.mq.OAuth2ClientProducer;
 import com.liangcha.framework.security.pojo.domain.OAuth2ClientDO;
 import com.liangcha.framework.security.pojo.vo.OAuth2ClientCreateReqVO;
@@ -148,7 +147,7 @@ public class OAuth2ClientServiceImpl implements OAuth2ClientService {
     @Override
     public OAuth2ClientDO validOAuthClientFromCache(String clientId, String clientSecret, String authorizedGrantType, Collection<String> scopes, String redirectUri) {
         // 校验客户端存在、且开启
-        OAuth2ClientDO client = CacheService.clientCache.get(clientId);
+        OAuth2ClientDO client = clientCache.get(clientId);
         if (client == null) {
             throw new ServiceException(ErrorCodeConstants.OAUTH2_CLIENT_NOT_EXISTS.getCode(), ErrorCodeConstants.OAUTH2_CLIENT_NOT_EXISTS.getMessage());
 

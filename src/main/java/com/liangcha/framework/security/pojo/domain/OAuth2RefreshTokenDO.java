@@ -4,9 +4,9 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.liangcha.framework.common.pojo.BaseDO;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,7 +17,7 @@ import java.util.List;
  * @author 凉茶
  */
 @Data
-@Accessors(chain = true)
+@Builder
 @EqualsAndHashCode(callSuper = true)
 @TableName(value = "system_oauth2_refresh_token", autoResultMap = true)
 public class OAuth2RefreshTokenDO extends BaseDO {

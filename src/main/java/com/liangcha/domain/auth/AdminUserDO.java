@@ -1,7 +1,9 @@
 package com.liangcha.domain.auth;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.liangcha.framework.tenant.pojo.TenantBaseDO;
 import lombok.*;
 
@@ -55,6 +57,7 @@ public class AdminUserDO extends TenantBaseDO {
     /**
      * 岗位编号数组
      */
+    @TableField(typeHandler = JacksonTypeHandler.class)
     private Set<Long> postIds;
 
     /**

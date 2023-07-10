@@ -1,14 +1,10 @@
 package com.liangcha.domain.permission;
 
-import cn.iocoder.yudao.framework.common.enums.CommonStatusEnum;
-import cn.iocoder.yudao.framework.mybatis.core.type.JsonLongSetTypeHandler;
-import cn.iocoder.yudao.framework.tenant.core.db.TenantBaseDO;
-import cn.iocoder.yudao.module.system.enums.permission.DataScopeEnum;
-import cn.iocoder.yudao.module.system.enums.permission.RoleTypeEnum;
-import com.baomidou.mybatisplus.annotation.KeySequence;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
+import com.liangcha.framework.tenant.pojo.TenantBaseDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -17,12 +13,11 @@ import java.util.Set;
 /**
  * 角色 DO
  *
- * @author ruoyi
+ * @author 凉茶
  */
-@TableName(value = "system_role", autoResultMap = true)
-@KeySequence("system_role_seq") // 用于 Oracle、PostgreSQL、Kingbase、DB2、H2 数据库的主键自增。如果是 MySQL 等数据库，可不写。
 @Data
 @EqualsAndHashCode(callSuper = true)
+@TableName(value = "system_role", autoResultMap = true)
 public class RoleDO extends TenantBaseDO {
 
     /**
@@ -36,8 +31,6 @@ public class RoleDO extends TenantBaseDO {
     private String name;
     /**
      * 角色标识
-     * <p>
-     * 枚举
      */
     private String code;
     /**
@@ -46,14 +39,10 @@ public class RoleDO extends TenantBaseDO {
     private Integer sort;
     /**
      * 角色状态
-     * <p>
-     * 枚举 {@link CommonStatusEnum}
      */
     private Integer status;
     /**
      * 角色类型
-     * <p>
-     * 枚举 {@link RoleTypeEnum}
      */
     private Integer type;
     /**
@@ -63,16 +52,12 @@ public class RoleDO extends TenantBaseDO {
 
     /**
      * 数据范围
-     * <p>
-     * 枚举 {@link DataScopeEnum}
      */
     private Integer dataScope;
     /**
      * 数据范围(指定部门数组)
-     * <p>
-     * 适用于 {@link #dataScope} 的值为 {@link DataScopeEnum#DEPT_CUSTOM} 时
      */
-    @TableField(typeHandler = JsonLongSetTypeHandler.class)
+    @TableField(typeHandler = JacksonTypeHandler.class)
     private Set<Long> dataScopeDeptIds;
 
 }
