@@ -15,29 +15,26 @@ liangcha:
       - /auth/login
       - /captcha/get
       - /captcha/check
+      #swagger需要不登录访问的路径
       - /websocket/message
       - /doc.html
       - /favicon.ico
+      - /swagger-resources
+      - /v2/api-docs
 
 #接口文档配置
 knife4j:
   enable: true
   openapi:
-    title: Knife4j官方文档
-    description: "`我是测试`,**你知道吗**"
-    email: xiaoymin@foxmail.com
-    concat: 八一菜刀
-    url: https://docs.xiaominfo.com
-    version: v4.0
+    title: 凉茶后台接口文档
+    description: "**根据yudao源码进行修改(学习用)**"
+    email: G2494552478@hotmail.com
+    concat: 凉茶
+    url: /
+    version: v1.0
     license: Apache 2.0
-    license-url: https://stackoverflow.com/
-    terms-of-service-url: https://stackoverflow.com/
-    group:
-      test1:
-        group-name: 分组名称
-        api-rule: package
-        api-rule-resources:
-          - com.knife4j.demo.new3
+    license-url: /
+    terms-of-service-url: /
 
 #阿里缓存操作框架
 jetcache:
