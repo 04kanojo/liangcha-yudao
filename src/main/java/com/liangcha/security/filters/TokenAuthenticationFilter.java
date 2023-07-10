@@ -7,12 +7,12 @@ import cn.hutool.json.JSONUtil;
 import com.common.exception.ServiceException;
 import com.common.handler.GlobalExceptionHandler;
 import com.common.pojo.CommonResult;
-import com.liangcha.pojo.auth.dto.OAuth2AccessTokenCheckRespDTO;
-import com.liangcha.security.LoginUser;
+import com.common.util.WebFrameworkUtils;
 import com.liangcha.security.config.SecurityProperties;
+import com.liangcha.security.pojo.LoginUser;
+import com.liangcha.security.pojo.dto.OAuth2AccessTokenCheckRespDTO;
+import com.liangcha.security.service.OAuth2TokenService;
 import com.liangcha.security.util.SecurityFrameworkUtils;
-import com.liangcha.service.auth.OAuth2TokenApi;
-import com.liangcha.web.WebFrameworkUtils;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -27,11 +27,11 @@ import java.io.IOException;
 /**
  * Token 过滤器，验证 token 的有效性
  *
- * @author 芋道源码
+ * @author 凉茶
  */
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
     @Resource
-    private OAuth2TokenApi oauth2TokenApi;
+    private OAuth2TokenService oauth2TokenService;
     @Resource
     private SecurityProperties securityProperties;
     @Resource
@@ -65,7 +65,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
     private LoginUser buildLoginUserByToken(String token, Integer userType) {
         try {
-            OAuth2AccessTokenCheckRespDTO accessToken = oauth2TokenApi.checkAccessToken(token);
+            OAuth2AccessTokenCheckRespDTO accessToken = oauth2TokenService.checkAccessToken(token);
             if (accessToken == null) {
                 return null;
             }
@@ -76,7 +76,6 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             // 构建登录用户
             return LoginUser.builder().id(accessToken.getUserId()).userType(accessToken.getUserType()).tenantId(accessToken.getTenantId()).scopes(accessToken.getScopes()).build();
         } catch (ServiceException serviceException) {
-            // 校验 Token 不通过时，考虑到一些接口是无需登录的，所以直接返回 null 即可
             return null;
         }
     }

@@ -18,7 +18,7 @@ public enum UserTypeEnum {
     /**
      * 类型
      */
-    private final Integer value;
+    private final Integer code;
 
     /**
      * 类型名

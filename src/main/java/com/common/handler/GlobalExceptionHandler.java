@@ -3,7 +3,7 @@ package com.common.handler;
 import com.common.exception.GlobalErrorCodeEnum;
 import com.common.exception.ServiceException;
 import com.common.pojo.CommonResult;
-import com.liangcha.web.WebFrameworkUtils;
+import com.common.util.WebFrameworkUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
