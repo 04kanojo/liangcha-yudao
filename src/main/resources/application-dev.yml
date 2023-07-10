@@ -1,29 +1,54 @@
 spring:
+  #数据库基本配置
   datasource:
-    url: jdbc:mysql://124.223.63.101:3306/carbon?useUnicode=true&serverTimezone=Asia/Shanghai&characterEncoding=utf8&autoReconnect=true&useSSL=false&allowMultiQueries=true
+    url: jdbc:mysql://124.223.63.101:3306/ruoyi-vue-pro?useUnicode=true&serverTimezone=Asia/Shanghai&characterEncoding=utf8&autoReconnect=true&useSSL=false&allowMultiQueries=true
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: woshidashuaibi
     type: com.alibaba.druid.pool.DruidDataSource
 
 liangcha:
+  #安全框架配置
   security:
     authorizationBearer: Bearer
     permit-all_urls:
-      - /login
+      - /auth/login
+      - /captcha/get
+      - /captcha/check
+      - /websocket/message
+      - /doc.html
+      - /favicon.ico
 
-# 本地缓存配置默认加载给远程(只配本地不会报错)(建议都配)
+#接口文档配置
+knife4j:
+  enable: true
+  openapi:
+    title: Knife4j官方文档
+    description: "`我是测试`,**你知道吗**"
+    email: xiaoymin@foxmail.com
+    concat: 八一菜刀
+    url: https://docs.xiaominfo.com
+    version: v4.0
+    license: Apache 2.0
+    license-url: https://stackoverflow.com/
+    terms-of-service-url: https://stackoverflow.com/
+    group:
+      test1:
+        group-name: 分组名称
+        api-rule: package
+        api-rule-resources:
+          - com.knife4j.demo.new3
+
+#阿里缓存操作框架
 jetcache:
   #设置不把areaName作为Key前缀
   areaInCacheName: false
-
   # 本地缓存
   local:
     default:
       type: linkedhashmap
       # 使用json工具技术
       keyConvertor: fastjson
-
   # 远程缓存
   remote:
     # 默认
@@ -37,4 +62,3 @@ jetcache:
       poolConfig:
         #最大连接数
         maxTotal: 50
-

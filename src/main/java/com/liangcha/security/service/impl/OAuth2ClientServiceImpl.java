@@ -5,34 +5,34 @@ import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.common.enums.CommonStatusEnum;
-import com.common.enums.ErrorCodeConstants;
-import com.common.exception.ServiceException;
-import com.common.redis.CacheService;
-import com.liangcha.convert.service.OAuth2ClientConvert;
+import com.liangcha.common.enums.CommonStatusEnum;
+import com.liangcha.common.enums.ErrorCodeConstants;
+import com.liangcha.common.exception.ServiceException;
+import com.liangcha.common.redis.CacheService;
+import com.liangcha.security.convert.service.OAuth2ClientConvert;
 import com.liangcha.security.mq.OAuth2ClientProducer;
 import com.liangcha.security.pojo.dao.OAuth2ClientMapper;
 import com.liangcha.security.pojo.db.OAuth2ClientDO;
 import com.liangcha.security.pojo.vo.OAuth2ClientCreateReqVO;
 import com.liangcha.security.pojo.vo.OAuth2ClientUpdateReqVO;
 import com.liangcha.security.service.OAuth2ClientService;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * OAuth2.0 Client Service 实现类
  *
  * @author 凉茶
  */
-@Service
+@Component
 @Validated
-@Slf4j
 public class OAuth2ClientServiceImpl implements OAuth2ClientService {
 
     @Resource
@@ -40,6 +40,12 @@ public class OAuth2ClientServiceImpl implements OAuth2ClientService {
 
     @Resource
     private OAuth2ClientProducer oauth2ClientProducer;
+
+    /**
+     * 本地缓存
+     * 使用redis缓存有问题(redis缓存的类还未加载就调用报错)
+     */
+    private static Map<String, OAuth2ClientDO> clientCache = new HashMap<>();
 
     /**
      * 给定字符串是否以任何一个字符串开始
@@ -69,12 +75,11 @@ public class OAuth2ClientServiceImpl implements OAuth2ClientService {
     public void initLocalCache() {
         // 第一步：查询数据
         List<OAuth2ClientDO> clients = oauth2ClientMapper.selectList(null);
-        log.info("[initLocalCache][缓存 OAuth2 客户端，数量为:{}]", clients.size());
 
         // 第二步：构建缓存
         clients.forEach((clientDO) -> {
             String clientId = clientDO.getClientId();
-            CacheService.clientCache.put(clientId, clientDO);
+            clientCache.put(clientId, clientDO);
         });
     }
 
@@ -141,8 +146,7 @@ public class OAuth2ClientServiceImpl implements OAuth2ClientService {
     }
 
     @Override
-    public OAuth2ClientDO validOAuthClientFromCache(String clientId, String clientSecret,
-                                                    String authorizedGrantType, Collection<String> scopes, String redirectUri) {
+    public OAuth2ClientDO validOAuthClientFromCache(String clientId, String clientSecret, String authorizedGrantType, Collection<String> scopes, String redirectUri) {
         // 校验客户端存在、且开启
         OAuth2ClientDO client = CacheService.clientCache.get(clientId);
         if (client == null) {

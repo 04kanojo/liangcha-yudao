@@ -1,4 +1,4 @@
-package com.common.redis;
+package com.liangcha.common.redis;
 
 import com.alicp.jetcache.Cache;
 import com.alicp.jetcache.CacheManager;
@@ -7,10 +7,10 @@ import com.alicp.jetcache.template.QuickConfig;
 import com.liangcha.security.pojo.db.OAuth2AccessTokenDO;
 import com.liangcha.security.pojo.db.OAuth2ClientDO;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import java.time.Duration;
 
 /**
@@ -33,7 +33,7 @@ public class CacheService {
      */
     public static Cache<String, OAuth2ClientDO> clientCache;
 
-    @Resource
+    @Autowired
     private CacheManager cacheManager;
 
     @PostConstruct

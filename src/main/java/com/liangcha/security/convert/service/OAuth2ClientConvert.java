@@ -1,4 +1,4 @@
-package com.liangcha.convert.service;
+package com.liangcha.security.convert.service;
 
 import cn.hutool.db.PageResult;
 import com.liangcha.security.pojo.db.OAuth2ClientDO;
@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * OAuth2 客户端 Convert
  *
- * @author
+ * @author 凉茶
  */
 @Mapper
 public interface OAuth2ClientConvert {

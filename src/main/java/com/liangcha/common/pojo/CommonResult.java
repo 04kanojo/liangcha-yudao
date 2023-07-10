@@ -1,6 +1,6 @@
-package com.common.pojo;
+package com.liangcha.common.pojo;
 
-import com.common.exception.GlobalErrorCodeEnum;
+import com.liangcha.common.exception.GlobalErrorCodeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

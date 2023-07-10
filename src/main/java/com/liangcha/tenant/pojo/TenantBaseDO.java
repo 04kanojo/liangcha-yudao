@@ -1,6 +1,6 @@
-package com.liangcha.tenant.dao;
+package com.liangcha.tenant.pojo;
 
-import com.common.pojo.BaseDO;
+import com.liangcha.common.pojo.BaseDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

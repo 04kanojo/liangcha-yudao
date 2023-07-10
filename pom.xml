@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.14-SNAPSHOT</version>
+        <version>2.7.8-SNAPSHOT</version>
         <relativePath/>
     </parent>
 
@@ -73,12 +73,6 @@
             <version>2.0.32</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
-            <version>3.0.2</version>
-        </dependency>
-
         <!--google工具类-->
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -114,11 +108,22 @@
             <version>3.5.3.1</version>
         </dependency>
 
-        <!--jetcache缓存框架-->
+        <!--处理jedis的版本问题-->
         <dependency>
             <groupId>com.alicp.jetcache</groupId>
             <artifactId>jetcache-starter-redis</artifactId>
             <version>2.7.3</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>redis.clients</groupId>
+                    <artifactId>jedis</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>4.3.1</version>
         </dependency>
 
         <!--阿里的ttl坐标-->
@@ -128,9 +133,17 @@
             <version>2.14.2</version>
         </dependency>
 
+        <!--操作redis-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+
+        <!--knife4j接口文档-->
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-openapi2-spring-boot-starter</artifactId>
+            <version>4.1.0</version>
         </dependency>
     </dependencies>
 

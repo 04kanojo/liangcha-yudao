@@ -1,7 +1,7 @@
-package com.common.util;
+package com.liangcha.common.util;
 
 import cn.hutool.core.util.NumberUtil;
-import com.common.pojo.CommonResult;
+import com.liangcha.common.pojo.CommonResult;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;

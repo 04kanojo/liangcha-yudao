@@ -1,9 +1,9 @@
-package com.common.handler;
+package com.liangcha.common.handler;
 
-import com.common.exception.GlobalErrorCodeEnum;
-import com.common.exception.ServiceException;
-import com.common.pojo.CommonResult;
-import com.common.util.WebFrameworkUtils;
+import com.liangcha.common.exception.GlobalErrorCodeEnum;
+import com.liangcha.common.exception.ServiceException;
+import com.liangcha.common.pojo.CommonResult;
+import com.liangcha.common.util.WebFrameworkUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;

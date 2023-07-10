@@ -1,4 +1,4 @@
-package com.common.util;
+package com.liangcha.common.util;
 
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;

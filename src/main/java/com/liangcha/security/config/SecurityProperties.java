@@ -6,7 +6,6 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -38,7 +37,7 @@ public class SecurityProperties {
     /**
      * 免登录的 URL 列表
      */
-    private List<String> permitAllUrls = Collections.emptyList();
+    private List<String> permitAllUrls;
 
     /**
      * PasswordEncoder 加密复杂度，越高开销越大

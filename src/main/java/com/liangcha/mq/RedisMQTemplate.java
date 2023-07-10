@@ -1,6 +1,6 @@
 package com.liangcha.mq;
 
-import com.common.util.JsonUtils;
+import com.liangcha.common.util.JsonUtils;
 import com.liangcha.mq.interceptor.RedisMessageInterceptor;
 import com.liangcha.mq.message.AbstractRedisMessage;
 import com.liangcha.mq.pubsub.AbstractChannelMessage;
@@ -10,6 +10,7 @@ import lombok.Getter;
 import org.springframework.data.redis.connection.stream.RecordId;
 import org.springframework.data.redis.connection.stream.StreamRecords;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.List;
  *
  * @author 凉茶
  */
+@Component
 @AllArgsConstructor
 public class RedisMQTemplate {
 

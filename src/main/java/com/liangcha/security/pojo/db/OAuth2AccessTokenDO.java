@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
-import com.liangcha.tenant.dao.TenantBaseDO;
+import com.liangcha.tenant.pojo.TenantBaseDO;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

@@ -2,11 +2,12 @@ package com.liangcha.security.handler;
 
 import cn.hutool.extra.servlet.ServletUtil;
 import cn.hutool.json.JSONUtil;
-import com.common.exception.GlobalErrorCodeEnum;
+import com.liangcha.common.exception.GlobalErrorCodeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author 凉茶
  */
 @Slf4j
+@Component
 public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 
     @Override

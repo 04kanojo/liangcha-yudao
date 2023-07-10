@@ -4,10 +4,10 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.servlet.ServletUtil;
 import cn.hutool.json.JSONUtil;
-import com.common.exception.ServiceException;
-import com.common.handler.GlobalExceptionHandler;
-import com.common.pojo.CommonResult;
-import com.common.util.WebFrameworkUtils;
+import com.liangcha.common.exception.ServiceException;
+import com.liangcha.common.handler.GlobalExceptionHandler;
+import com.liangcha.common.pojo.CommonResult;
+import com.liangcha.common.util.WebFrameworkUtils;
 import com.liangcha.security.config.SecurityProperties;
 import com.liangcha.security.pojo.LoginUser;
 import com.liangcha.security.pojo.dto.OAuth2AccessTokenCheckRespDTO;
@@ -15,6 +15,7 @@ import com.liangcha.security.service.OAuth2TokenService;
 import com.liangcha.security.util.SecurityFrameworkUtils;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.annotation.Resource;
@@ -29,6 +30,7 @@ import java.io.IOException;
  *
  * @author 凉茶
  */
+@Component
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
     @Resource
     private OAuth2TokenService oauth2TokenService;

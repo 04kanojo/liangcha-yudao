@@ -1,7 +1,7 @@
 package com.liangcha.mq.stream;
 
 import cn.hutool.core.util.TypeUtil;
-import com.common.util.JsonUtils;
+import com.liangcha.common.util.JsonUtils;
 import com.liangcha.mq.RedisMQTemplate;
 import com.liangcha.mq.interceptor.RedisMessageInterceptor;
 import com.liangcha.mq.message.AbstractRedisMessage;
