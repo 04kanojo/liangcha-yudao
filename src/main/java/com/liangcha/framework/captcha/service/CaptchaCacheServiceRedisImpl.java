@@ -1,21 +1,18 @@
 package com.liangcha.framework.captcha.service;
 
 import com.anji.captcha.service.CaptchaCacheService;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
 import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 基于 Redis 实现验证码的存储
- *
- * @author 凉茶
+ * 对于分布式部署的应用，我们建议应用自己实现CaptchaCacheService，比如用Redis，参考service/spring-boot代码示例。
+ * 如果应用是单点的，也没有使用redis，那默认使用内存。
+ * 内存缓存只适合单节点部署的应用，否则验证码生产与验证在节点之间信息不同步，导致失败。
+ * <p>
  */
-@NoArgsConstructor
-@AllArgsConstructor
-public class RedisCaptchaServiceImpl implements CaptchaCacheService {
+public class CaptchaCacheServiceRedisImpl implements CaptchaCacheService {
 
     @Resource
     private StringRedisTemplate stringRedisTemplate;
@@ -32,7 +29,7 @@ public class RedisCaptchaServiceImpl implements CaptchaCacheService {
 
     @Override
     public boolean exists(String key) {
-        return Boolean.TRUE.equals(stringRedisTemplate.hasKey(key));
+        return stringRedisTemplate.hasKey(key);
     }
 
     @Override
@@ -49,5 +46,4 @@ public class RedisCaptchaServiceImpl implements CaptchaCacheService {
     public Long increment(String key, long val) {
         return stringRedisTemplate.opsForValue().increment(key, val);
     }
-
 }

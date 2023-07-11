@@ -1,4 +1,9 @@
 spring:
+  redis:
+    host: 127.0.0.1
+    port: 6379
+
+
   datasource: #数据库基本配置
     dynamic: #使用@DS切换数据源
       primary: master #设置默认的数据源或者数据源组,默认值即为master
@@ -27,7 +32,7 @@ jetcache:
     default: # 默认
       type: redis
       port: 6379
-      host: 124.223.63.101
+      host: 127.0.0.1
       valueEncoder: java
       valueDecoder: java
       keyConvertor: fastjson

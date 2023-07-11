@@ -87,7 +87,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = ServiceException.class)
     public CommonResult<?> serviceExceptionHandler(ServiceException ex) {
         log.info("[serviceExceptionHandler]", ex);
-        return CommonResult.error(GlobalErrorCodeEnum.SERVICE_ERROR);
+        return CommonResult.error(ex.getCode(), ex.getMessage());
     }
 
     public CommonResult<?> tokenFilterExceptionHandler(Throwable ex) {
