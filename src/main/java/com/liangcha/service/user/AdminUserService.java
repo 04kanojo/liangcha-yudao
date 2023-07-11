@@ -9,12 +9,12 @@ import com.liangcha.domain.auth.AdminUserDO;
  */
 public interface AdminUserService {
 
-//    /**
-//     * 创建用户
-//     *
-//     * @param reqVO 用户信息
-//     * @return 用户编号
-//     */
+    /**
+     * 创建用户
+     *
+     * @param reqVO 用户信息
+     * @return 用户编号
+     */
 //    Long createUser(@Valid UserCreateReqVO reqVO);
 //
 //    /**

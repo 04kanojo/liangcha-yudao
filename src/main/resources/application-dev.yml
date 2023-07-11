@@ -1,22 +1,28 @@
 spring:
-  #数据库基本配置
-  datasource:
-    url: jdbc:mysql://124.223.63.101:3306/ruoyi-vue-pro?useUnicode=true&serverTimezone=Asia/Shanghai&characterEncoding=utf8&autoReconnect=true&useSSL=false&allowMultiQueries=true
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
-    password: woshidashuaibi
-    type: com.alibaba.druid.pool.DruidDataSource
+  datasource: #数据库基本配置
+    dynamic: #使用@DS切换数据源
+      primary: master #设置默认的数据源或者数据源组,默认值即为master
+      strict: false #严格匹配数据源,默认false. true未匹配到指定数据源时抛异常,false使用默认数据源
+      datasource:
+        type: com.alibaba.druid.pool.DruidDataSource
+        master:
+          url: jdbc:mysql://124.223.63.101:3306/ruoyi-vue-pro?useUnicode=true&serverTimezone=Asia/Shanghai&characterEncoding=utf8&autoReconnect=true&useSSL=false&allowMultiQueries=true
+          username: root
+          password: woshidashuaibi
+        slave:
+          url: jdbc:mysql://124.223.63.101:3306/ruoyi-vue-pro?useUnicode=true&serverTimezone=Asia/Shanghai&characterEncoding=utf8&autoReconnect=true&useSSL=false&allowMultiQueries=true
+          username: root
+          password: woshidashuaibi
 
 liangcha:
-  #安全框架配置
-  security:
+  security: #安全框架配置
     authorizationBearer: Bearer
     permit-all_urls:
       - /auth/login
       - /captcha/get
       - /captcha/check
-      #swagger需要不登录访问的路径
       - /websocket/message
+      #swagger需要不登录访问的路径
       - /doc.html
       - /favicon.ico
       - /swagger-resources
@@ -38,18 +44,15 @@ knife4j:
 
 #阿里缓存操作框架
 jetcache:
-  #设置不把areaName作为Key前缀
-  areaInCacheName: false
-  # 本地缓存
-  local:
+  areaInCacheName: false #设置不把areaName作为Key前缀
+  local: # 本地缓存
     default:
       type: linkedhashmap
-      # 使用json工具技术
-      keyConvertor: fastjson
-  # 远程缓存
-  remote:
-    # 默认
-    default:
+      keyConvertor: fastjson  # 使用json工具技术
+
+  remote: # 远程缓存
+
+    default: # 默认
       type: redis
       port: 6379
       host: 124.223.63.101
@@ -57,5 +60,4 @@ jetcache:
       valueDecoder: java
       keyConvertor: fastjson
       poolConfig:
-        #最大连接数
-        maxTotal: 50
+        maxTotal: 50 #最大连接数

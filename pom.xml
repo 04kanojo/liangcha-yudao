@@ -145,6 +145,13 @@
             <artifactId>knife4j-openapi2-spring-boot-starter</artifactId>
             <version>4.1.0</version>
         </dependency>
+
+        <!--baomidou团队提供的多数据源切换-->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+            <version>3.6.1</version>
+        </dependency>
     </dependencies>
 
     <build>
