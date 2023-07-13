@@ -8,6 +8,8 @@ import java.time.LocalDateTime;
 
 /**
  * 管理后台 - OAuth2 客户端 Response VO
+ *
+ * @author 凉茶
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

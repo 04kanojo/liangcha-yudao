@@ -15,7 +15,9 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-
+/**
+ * @author 凉茶
+ */
 @Api("管理后台认证")
 @RestController
 @RequestMapping("/auth")

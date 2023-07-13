@@ -11,11 +11,14 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
+/**
+ * @author 凉茶
+ */
+@ApiModel("管理后台-账号密码登录请求VO，如果登录并绑定社交用户，需要传递 social 开头的参数")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel("管理后台-账号密码登录请求VO，如果登录并绑定社交用户，需要传递 social 开头的参数")
 public class AuthLoginReqVO {
 
     @NotEmpty(message = "登录账号不能为空")

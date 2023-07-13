@@ -9,6 +9,8 @@ import java.util.List;
 
 /**
  * OAuth2 客户端 Base VO，提供给添加、修改、详细的子 VO 使用
+ *
+ * @author 凉茶
  */
 @Data
 public class OAuth2ClientBaseVO {

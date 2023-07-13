@@ -8,6 +8,8 @@ import javax.validation.constraints.NotNull;
 
 /**
  * 管理后台 - OAuth2 客户端更新 Request VO
+ *
+ * @author 凉茶
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

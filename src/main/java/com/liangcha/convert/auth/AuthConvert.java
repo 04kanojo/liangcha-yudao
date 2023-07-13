@@ -5,7 +5,9 @@ import com.liangcha.framework.security.pojo.domain.OAuth2AccessTokenDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-
+/**
+ * 凉茶
+ */
 @Mapper(componentModel = "spring")
 public interface AuthConvert {
 

@@ -7,6 +7,8 @@ import lombok.ToString;
 
 /**
  * 管理后台 - OAuth2 客户端分页 Request VO
+ *
+ * @author 凉茶
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

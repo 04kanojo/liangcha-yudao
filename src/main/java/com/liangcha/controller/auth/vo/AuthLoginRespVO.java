@@ -9,11 +9,14 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+/**
+ * @author 凉茶
+ */
+@ApiModel("管理后台 - 登录响应VO")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel("管理后台-登录响应VO")
 public class AuthLoginRespVO {
 
     @ApiModelProperty("用户编号")

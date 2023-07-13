@@ -20,6 +20,9 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * 凉茶
+ */
 @Service
 public class AdminAuthServiceImpl implements AdminAuthService {
 

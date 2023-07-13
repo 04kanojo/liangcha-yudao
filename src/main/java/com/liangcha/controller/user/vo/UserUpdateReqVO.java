@@ -7,6 +7,9 @@ import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotNull;
 
+/**
+ * @author 凉茶
+ */
 @ApiModel(description = "管理后台 - 用户更新 Request VO")
 @Data
 @EqualsAndHashCode(callSuper = true)

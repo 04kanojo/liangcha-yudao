@@ -7,6 +7,9 @@ import com.liangcha.domain.auth.AdminUserDO;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+/**
+ * 凉茶
+ */
 public interface AdminAuthService {
     /**
      * 验证账号 + 密码。如果通过，则返回用户
