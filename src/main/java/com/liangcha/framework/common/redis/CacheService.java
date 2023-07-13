@@ -1,4 +1,4 @@
-package com.liangcha.framework.common.redisCache;
+package com.liangcha.framework.common.redis;
 
 import com.alicp.jetcache.Cache;
 import com.alicp.jetcache.CacheManager;

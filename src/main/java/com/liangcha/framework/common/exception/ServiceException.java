@@ -14,19 +14,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public final class ServiceException extends RuntimeException {
-
-    /**
-     * 业务错误码
-     */
-    private Integer code;
-
-    /**
-     * 错误提示
-     */
-    private String message;
-
-    public ServiceException(String message) {
-        this.message = message;
-    }
+public class ServiceException extends RuntimeException {
+    private ErrorCodeEnum errorCodeEnum;
 }

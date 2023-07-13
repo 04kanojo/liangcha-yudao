@@ -2,7 +2,7 @@ package com.liangcha.framework.security.handler;
 
 import cn.hutool.extra.servlet.ServletUtil;
 import cn.hutool.json.JSONUtil;
-import com.liangcha.framework.common.exception.GlobalErrorCodeEnum;
+import com.liangcha.framework.common.exception.ErrorCodeEnum;
 import com.liangcha.framework.security.util.SecurityFrameworkUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -25,7 +25,7 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e) {
         log.error("[用户({}) 访问 URL({}) 时，权限不够]", SecurityFrameworkUtils.getLoginUserId(), request.getRequestURI(), e);
-        ServletUtil.write(response, JSONUtil.toJsonStr(GlobalErrorCodeEnum.SMALL_AUTHORITY), MediaType.APPLICATION_JSON_UTF8_VALUE);
+        ServletUtil.write(response, JSONUtil.toJsonStr(ErrorCodeEnum.SMALL_AUTHORITY), MediaType.APPLICATION_JSON_UTF8_VALUE);
     }
 
 }

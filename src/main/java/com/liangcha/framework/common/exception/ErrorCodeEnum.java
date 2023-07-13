@@ -1,16 +1,58 @@
-package com.liangcha.framework.common.enums;
+package com.liangcha.framework.common.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * System 错误码枚举类
- * <p>
- * system 系统
+ * 全局错误码
+ *
+ * @author 凉茶
  */
 @Getter
 @AllArgsConstructor
-public enum ErrorCodeConstants {
+public enum ErrorCodeEnum {
+    // ========== 基本枚举 ==========
+    SUCCESS(200, "成功"),
+
+    SERVICE_ERROR(400, "业务异常"),
+
+    SYSTEM_ERROR(500, "系统异常"),
+
+    UNKNOWN(666, "未知错误"),
+
+
+    // ========== 权限校验 ==========
+
+    NO_LOGIN(401, "账号未登录"),
+
+    SMALL_AUTHORITY(402, "没有该操作权限"),
+
+    TOKEN_ERR(403, "token解析失败"),
+
+    ACCESS_TOKEN_NOT_EXIST(404, "访问令牌不存在"),
+
+    ACCESS_TOKEN_EXPIRED(405, "访问令牌已过期"),
+
+    FLUSH_TOKEN_INVALID(406, "无效的刷新令牌"),
+
+    FLUSH_TOKEN_CLIENT_ERR(407, "刷新令牌的客户端编号不正确"),
+
+    FLUSH_TOKEN_EXPIRED(408, "刷新令牌已过期"),
+
+    // ========== 验证码校验 ==========
+
+    CAPTCHA_EXPIRED(409, "验证码失效，请重新获取"),
+
+    CAPTCHA_ERR(410, "验证码错误"),
+
+    // ========== 请求校验 ==========
+    ERR_REQUEST(403, "请求参数不正确"),
+
+    NOT_FOUND(404, "请求未找到"),
+
+    METHOD_NOT_ALLOWED(405, "请求方法错误"),
+
+    IO_ERR(123, "io流异常"),
 
     //  AUTH 模块 1002000000
     AUTH_LOGIN_BAD_CREDENTIALS(1002000000, "登录失败，账号密码不正确"),
@@ -161,19 +203,11 @@ public enum ErrorCodeConstants {
     NOTIFY_TEMPLATE_NOT_EXISTS(1002026000, "站内信模版不存在"),
     NOTIFY_TEMPLATE_CODE_DUPLICATE(1002026001, "已经存在编码为【{}】的站内信模板"),
 
-    //  站内信模版 1002027000
-
     //  站内信发送 1002028000
     NOTIFY_SEND_TEMPLATE_PARAM_MISS(1002025000, "模板参数({})缺失");
 
-    /**
-     * 类型
-     */
     private final Integer code;
+    private final String msg;
 
-    /**
-     * 类型名
-     */
-    private final String message;
 
 }

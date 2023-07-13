@@ -6,6 +6,7 @@ import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.liangcha.dao.auth.OAuth2AccessTokenMapper;
 import com.liangcha.dao.auth.OAuth2RefreshTokenMapper;
+import com.liangcha.framework.common.exception.ErrorCodeEnum;
 import com.liangcha.framework.common.exception.ServiceException;
 import com.liangcha.framework.security.pojo.domain.OAuth2AccessTokenDO;
 import com.liangcha.framework.security.pojo.domain.OAuth2ClientDO;
@@ -21,8 +22,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.liangcha.framework.common.redisCache.CacheService.PRE_TOKEN_CACHE;
-import static com.liangcha.framework.common.redisCache.CacheService.tokenCache;
+import static com.liangcha.framework.common.redis.CacheService.PRE_TOKEN_CACHE;
+import static com.liangcha.framework.common.redis.CacheService.tokenCache;
 
 /**
  * OAuth2.0 Token Service 实现类
@@ -58,10 +59,10 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
     public OAuth2AccessTokenDO checkAccessToken(String accessToken) {
         OAuth2AccessTokenDO accessTokenDO = getAccessToken(accessToken);
         if (accessTokenDO == null) {
-            throw new ServiceException("访问令牌不存在");
+            throw new ServiceException(ErrorCodeEnum.ACCESS_TOKEN_NOT_EXIST);
         }
         if (LocalDateTime.now().isAfter(accessTokenDO.getExpiresTime())) {
-            throw new ServiceException("访问令牌已过期");
+            throw new ServiceException(ErrorCodeEnum.ACCESS_TOKEN_EXPIRED);
         }
         return accessTokenDO;
     }
@@ -95,13 +96,13 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
         OAuth2RefreshTokenDO refreshTokenDO = oauth2RefreshTokenMapper.selectOne(lqw);
 
         if (refreshTokenDO == null) {
-            throw new ServiceException("无效的刷新令牌");
+            throw new ServiceException(ErrorCodeEnum.FLUSH_TOKEN_INVALID);
         }
 
         // 校验 Client 匹配
         OAuth2ClientDO clientDO = oauth2ClientService.validOAuthClientFromCache(clientId, null, null, null, null);
         if (ObjectUtil.notEqual(clientId, refreshTokenDO.getClientId())) {
-            throw new ServiceException("刷新令牌的客户端编号不正确");
+            throw new ServiceException(ErrorCodeEnum.FLUSH_TOKEN_CLIENT_ERR);
         }
 
         // 移除相关的访问令牌
@@ -118,7 +119,7 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
         // 已过期的情况下，删除刷新令牌
         if (LocalDateTime.now().isAfter(refreshTokenDO.getExpiresTime())) {
             oauth2RefreshTokenMapper.deleteById(refreshTokenDO.getId());
-            throw new ServiceException("刷新令牌已过期");
+            throw new ServiceException(ErrorCodeEnum.FLUSH_TOKEN_EXPIRED);
         }
 
         // 创建访问令牌

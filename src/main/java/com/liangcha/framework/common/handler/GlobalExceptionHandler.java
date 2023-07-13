@@ -1,6 +1,6 @@
 package com.liangcha.framework.common.handler;
 
-import com.liangcha.framework.common.exception.GlobalErrorCodeEnum;
+import com.liangcha.framework.common.exception.ErrorCodeEnum;
 import com.liangcha.framework.common.exception.ServiceException;
 import com.liangcha.framework.common.pojo.CommonResult;
 import com.liangcha.framework.common.util.WebFrameworkUtils;
@@ -40,7 +40,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({MissingServletRequestParameterException.class, MethodArgumentTypeMismatchException.class, MethodArgumentNotValidException.class})
     public CommonResult<?> missingServletRequestParameterExceptionHandler(MissingServletRequestParameterException ex) {
         log.error("[missingServletRequestParameterExceptionHandler]", ex);
-        return CommonResult.error(GlobalErrorCodeEnum.ERR_REQUEST);
+        return CommonResult.error(ErrorCodeEnum.ERR_REQUEST);
     }
 
 
@@ -54,7 +54,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NoHandlerFoundException.class)
     public CommonResult<?> noHandlerFoundExceptionHandler(NoHandlerFoundException ex) {
         log.error("[noHandlerFoundExceptionHandler]", ex);
-        return CommonResult.error(GlobalErrorCodeEnum.NOT_FOUND);
+        return CommonResult.error(ErrorCodeEnum.NOT_FOUND);
     }
 
     /**
@@ -65,7 +65,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public CommonResult<?> httpRequestMethodNotSupportedExceptionHandler(HttpRequestMethodNotSupportedException ex) {
         log.error("[httpRequestMethodNotSupportedExceptionHandler]", ex);
-        return CommonResult.error(GlobalErrorCodeEnum.METHOD_NOT_ALLOWED);
+        return CommonResult.error(ErrorCodeEnum.METHOD_NOT_ALLOWED);
     }
 
 
@@ -77,23 +77,24 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = AccessDeniedException.class)
     public CommonResult<?> accessDeniedExceptionHandler(HttpServletRequest req, AccessDeniedException ex) {
         log.error("[accessDeniedExceptionHandler][userId({}) 无法访问 url({})]", WebFrameworkUtils.getLoginUserId(req), req.getRequestURL(), ex);
-        return CommonResult.error(GlobalErrorCodeEnum.SMALL_AUTHORITY);
+        return CommonResult.error(ErrorCodeEnum.SMALL_AUTHORITY);
     }
 
     /**
      * 处理业务异常 ServiceException
-     * <p>
-     * 例如说，商品库存不足，用户手机号已存在。
      */
     @ExceptionHandler(value = ServiceException.class)
     public CommonResult<?> serviceExceptionHandler(ServiceException ex) {
-        log.info("[serviceExceptionHandler]", ex);
-        return CommonResult.error(ex.getCode(), ex.getMessage());
+        log.error("[serviceExceptionHandler]", ex);
+        return CommonResult.error(ex.getErrorCodeEnum());
     }
 
+    /**
+     * 处理token过滤器异常
+     */
     public CommonResult<?> tokenFilterExceptionHandler(Throwable ex) {
         log.error("token解析失败", ex);
-        return CommonResult.error(GlobalErrorCodeEnum.SERVICE_ERROR);
+        return CommonResult.error(ErrorCodeEnum.TOKEN_ERR);
     }
 
     /**
@@ -102,7 +103,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = IOException.class)
     public CommonResult<?> IOExceptionHandler(IOException ex) {
         log.error("[IOException]", ex);
-        return CommonResult.error(GlobalErrorCodeEnum.IO_ERR);
+        return CommonResult.error(ErrorCodeEnum.IO_ERR);
     }
 
     /**
@@ -112,7 +113,7 @@ public class GlobalExceptionHandler {
     public CommonResult<?> defaultExceptionHandler(Throwable ex) {
         log.error("[Exception]", ex);
         //TODO 将未知异常存入数据库或者保存到本地
-        return CommonResult.error(GlobalErrorCodeEnum.UNKNOWN);
+        return CommonResult.error(ErrorCodeEnum.UNKNOWN);
     }
 
 }

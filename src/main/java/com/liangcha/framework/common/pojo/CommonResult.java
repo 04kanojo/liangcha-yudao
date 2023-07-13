@@ -1,6 +1,6 @@
 package com.liangcha.framework.common.pojo;
 
-import com.liangcha.framework.common.exception.GlobalErrorCodeEnum;
+import com.liangcha.framework.common.exception.ErrorCodeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -37,10 +37,10 @@ public class CommonResult<T> implements Serializable {
     }
 
     public static <T> CommonResult<T> success(T data) {
-        return new CommonResult<>(GlobalErrorCodeEnum.SUCCESS.getCode(), data, GlobalErrorCodeEnum.SUCCESS.getMsg());
+        return new CommonResult<>(ErrorCodeEnum.SUCCESS.getCode(), data, ErrorCodeEnum.SUCCESS.getMsg());
     }
 
-    public static <T> CommonResult<T> error(GlobalErrorCodeEnum enumType) {
+    public static <T> CommonResult<T> error(ErrorCodeEnum enumType) {
         return new CommonResult<>(enumType.getCode(), enumType.getMsg());
     }
 

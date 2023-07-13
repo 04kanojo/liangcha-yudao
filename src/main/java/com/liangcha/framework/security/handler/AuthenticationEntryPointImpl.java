@@ -2,7 +2,7 @@ package com.liangcha.framework.security.handler;
 
 import cn.hutool.extra.servlet.ServletUtil;
 import cn.hutool.json.JSONUtil;
-import com.liangcha.framework.common.exception.GlobalErrorCodeEnum;
+import com.liangcha.framework.common.exception.ErrorCodeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
@@ -24,6 +24,6 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) {
         log.error("[访问 URL({}) 时，没有登录]", request.getRequestURI(), e);
-        ServletUtil.write(response, JSONUtil.toJsonStr(GlobalErrorCodeEnum.NO_LOGIN), MediaType.APPLICATION_JSON_UTF8_VALUE);
+        ServletUtil.write(response, JSONUtil.toJsonStr(ErrorCodeEnum.NO_LOGIN), MediaType.APPLICATION_JSON_UTF8_VALUE);
     }
 }

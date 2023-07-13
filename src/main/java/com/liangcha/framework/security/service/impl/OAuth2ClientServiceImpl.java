@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.liangcha.convert.auth.OAuth2ClientConvert;
 import com.liangcha.dao.auth.OAuth2ClientMapper;
 import com.liangcha.framework.common.enums.CommonStatusEnum;
-import com.liangcha.framework.common.enums.ErrorCodeConstants;
+import com.liangcha.framework.common.exception.ErrorCodeEnum;
 import com.liangcha.framework.common.exception.ServiceException;
 import com.liangcha.framework.security.mq.OAuth2ClientProducer;
 import com.liangcha.framework.security.pojo.domain.OAuth2ClientDO;
@@ -34,17 +34,15 @@ import java.util.Map;
 @Validated
 public class OAuth2ClientServiceImpl implements OAuth2ClientService {
 
-    @Resource
-    private OAuth2ClientMapper oauth2ClientMapper;
-
-    @Resource
-    private OAuth2ClientProducer oauth2ClientProducer;
-
     /**
      * 本地缓存
      * 使用redis缓存有问题(redis缓存的类还未加载就调用报错)
      */
     private static Map<String, OAuth2ClientDO> clientCache = new HashMap<>();
+    @Resource
+    private OAuth2ClientMapper oauth2ClientMapper;
+    @Resource
+    private OAuth2ClientProducer oauth2ClientProducer;
 
     /**
      * 给定字符串是否以任何一个字符串开始
@@ -68,6 +66,7 @@ public class OAuth2ClientServiceImpl implements OAuth2ClientService {
 
     /**
      * 初始化缓存
+     * TODO 不一定要初始化缓存,可以在第一次查询的时候初始化缓存
      */
     @Override
     @PostConstruct
@@ -119,7 +118,7 @@ public class OAuth2ClientServiceImpl implements OAuth2ClientService {
 
     private void validateOAuth2ClientExists(Long id) {
         if (oauth2ClientMapper.selectById(id) == null) {
-            throw new ServiceException(ErrorCodeConstants.OAUTH2_CLIENT_NOT_EXISTS.getCode(), ErrorCodeConstants.OAUTH2_CLIENT_NOT_EXISTS.getMessage());
+            throw new ServiceException(ErrorCodeEnum.OAUTH2_CLIENT_NOT_EXISTS);
         }
     }
 
@@ -132,10 +131,10 @@ public class OAuth2ClientServiceImpl implements OAuth2ClientService {
         }
         // 如果 id 为空，说明不用比较是否为相同 id 的客户端
         if (id == null) {
-            throw new ServiceException(ErrorCodeConstants.OAUTH2_CLIENT_EXISTS.getCode(), ErrorCodeConstants.OAUTH2_CLIENT_EXISTS.getMessage());
+            throw new ServiceException(ErrorCodeEnum.OAUTH2_CLIENT_EXISTS);
         }
         if (!client.getId().equals(id)) {
-            throw new ServiceException(ErrorCodeConstants.OAUTH2_CLIENT_EXISTS.getCode(), ErrorCodeConstants.OAUTH2_CLIENT_EXISTS.getMessage());
+            throw new ServiceException(ErrorCodeEnum.OAUTH2_CLIENT_EXISTS);
         }
     }
 
@@ -149,31 +148,31 @@ public class OAuth2ClientServiceImpl implements OAuth2ClientService {
         // 校验客户端存在、且开启
         OAuth2ClientDO client = clientCache.get(clientId);
         if (client == null) {
-            throw new ServiceException(ErrorCodeConstants.OAUTH2_CLIENT_NOT_EXISTS.getCode(), ErrorCodeConstants.OAUTH2_CLIENT_NOT_EXISTS.getMessage());
+            throw new ServiceException(ErrorCodeEnum.OAUTH2_CLIENT_NOT_EXISTS);
 
         }
         if (ObjectUtil.notEqual(client.getStatus(), CommonStatusEnum.ENABLE.getStatus())) {
-            throw new ServiceException(ErrorCodeConstants.OAUTH2_CLIENT_DISABLE.getCode(), ErrorCodeConstants.OAUTH2_CLIENT_DISABLE.getMessage());
+            throw new ServiceException(ErrorCodeEnum.OAUTH2_CLIENT_DISABLE);
 
         }
 
         // 校验客户端密钥
         if (StrUtil.isNotEmpty(clientSecret) && ObjectUtil.notEqual(client.getSecret(), clientSecret)) {
-            throw new ServiceException(ErrorCodeConstants.OAUTH2_CLIENT_CLIENT_SECRET_ERROR.getCode(), ErrorCodeConstants.OAUTH2_CLIENT_CLIENT_SECRET_ERROR.getMessage());
+            throw new ServiceException(ErrorCodeEnum.OAUTH2_CLIENT_CLIENT_SECRET_ERROR);
 
         }
         // 校验授权方式
         if (StrUtil.isNotEmpty(authorizedGrantType) && !CollUtil.contains(client.getAuthorizedGrantTypes(), authorizedGrantType)) {
-            throw new ServiceException(ErrorCodeConstants.OAUTH2_CLIENT_AUTHORIZED_GRANT_TYPE_NOT_EXISTS.getCode(), ErrorCodeConstants.OAUTH2_CLIENT_AUTHORIZED_GRANT_TYPE_NOT_EXISTS.getMessage());
+            throw new ServiceException(ErrorCodeEnum.OAUTH2_CLIENT_AUTHORIZED_GRANT_TYPE_NOT_EXISTS);
 
         }
         // 校验授权范围
         if (CollUtil.isNotEmpty(scopes) && !CollUtil.containsAll(client.getScopes(), scopes)) {
-            throw new ServiceException(ErrorCodeConstants.OAUTH2_CLIENT_SCOPE_OVER.getCode(), ErrorCodeConstants.OAUTH2_CLIENT_SCOPE_OVER.getMessage());
+            throw new ServiceException(ErrorCodeEnum.OAUTH2_CLIENT_SCOPE_OVER);
         }
         // 校验回调地址
         if (StrUtil.isNotEmpty(redirectUri) && !startWithAny(redirectUri, client.getRedirectUris())) {
-            throw new ServiceException(ErrorCodeConstants.OAUTH2_CLIENT_REDIRECT_URI_NOT_MATCH.getCode(), ErrorCodeConstants.OAUTH2_CLIENT_REDIRECT_URI_NOT_MATCH.getMessage());
+            throw new ServiceException(ErrorCodeEnum.OAUTH2_CLIENT_REDIRECT_URI_NOT_MATCH);
         }
         return client;
     }

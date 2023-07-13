@@ -8,8 +8,8 @@ import com.liangcha.convert.auth.AuthConvert;
 import com.liangcha.domain.auth.AdminUserDO;
 import com.liangcha.framework.common.captcha.CaptchaProperties;
 import com.liangcha.framework.common.enums.CommonStatusEnum;
-import com.liangcha.framework.common.enums.ErrorCodeConstants;
 import com.liangcha.framework.common.enums.UserTypeEnum;
+import com.liangcha.framework.common.exception.ErrorCodeEnum;
 import com.liangcha.framework.common.exception.ServiceException;
 import com.liangcha.framework.security.pojo.domain.OAuth2AccessTokenDO;
 import com.liangcha.framework.security.pojo.dto.OAuth2AccessTokenCreateReqDTO;
@@ -40,14 +40,14 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         // 校验账号是否存在
         AdminUserDO user = userService.getUserByUsername(username);
         if (user == null) {
-            throw new ServiceException(ErrorCodeConstants.AUTH_LOGIN_BAD_CREDENTIALS.getCode(), ErrorCodeConstants.AUTH_LOGIN_BAD_CREDENTIALS.getMessage());
+            throw new ServiceException(ErrorCodeEnum.AUTH_LOGIN_BAD_CREDENTIALS);
         }
         if (!userService.isPasswordMatch(password, user.getPassword())) {
-            throw new ServiceException(ErrorCodeConstants.AUTH_LOGIN_BAD_CREDENTIALS.getCode(), ErrorCodeConstants.AUTH_LOGIN_BAD_CREDENTIALS.getMessage());
+            throw new ServiceException(ErrorCodeEnum.AUTH_LOGIN_BAD_CREDENTIALS);
         }
         // 校验是否禁用
         if (ObjectUtil.notEqual(user.getStatus(), CommonStatusEnum.ENABLE.getStatus())) {
-            throw new ServiceException(ErrorCodeConstants.AUTH_LOGIN_USER_DISABLED.getCode(), ErrorCodeConstants.AUTH_LOGIN_USER_DISABLED.getMessage());
+            throw new ServiceException(ErrorCodeEnum.AUTH_LOGIN_USER_DISABLED);
         }
         return user;
     }
@@ -59,10 +59,10 @@ public class AdminAuthServiceImpl implements AdminAuthService {
             String userInput = reqVO.getCaptchaVerification();
             String captcha = (String) request.getSession().getAttribute("captcha");
             if (StrUtil.isEmpty(captcha)) {
-                throw new ServiceException("验证码失效，请重新获取");
+                throw new ServiceException(ErrorCodeEnum.CAPTCHA_EXPIRED);
             }
             if (!userInput.equals(captcha)) {
-                throw new ServiceException("验证码错误");
+                throw new ServiceException(ErrorCodeEnum.CAPTCHA_ERR);
             }
         }
 
