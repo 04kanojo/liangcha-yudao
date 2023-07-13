@@ -32,7 +32,9 @@ public enum GlobalErrorCodeEnum {
 
     NOT_FOUND(404, "请求未找到"),
 
-    METHOD_NOT_ALLOWED(405, "请求方法错误");
+    METHOD_NOT_ALLOWED(405, "请求方法错误"),
+
+    IO_ERR(123, "io流异常");
 
     private final Integer code;
     private final String msg;

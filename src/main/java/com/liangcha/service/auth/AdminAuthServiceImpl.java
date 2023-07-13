@@ -1,10 +1,12 @@
 package com.liangcha.service.auth;
 
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.liangcha.controller.auth.vo.AuthLoginReqVO;
 import com.liangcha.controller.auth.vo.AuthLoginRespVO;
 import com.liangcha.convert.auth.AuthConvert;
 import com.liangcha.domain.auth.AdminUserDO;
+import com.liangcha.framework.common.captcha.CaptchaProperties;
 import com.liangcha.framework.common.enums.CommonStatusEnum;
 import com.liangcha.framework.common.enums.ErrorCodeConstants;
 import com.liangcha.framework.common.enums.UserTypeEnum;
@@ -16,6 +18,7 @@ import com.liangcha.service.user.AdminUserService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 @Service
 public class AdminAuthServiceImpl implements AdminAuthService {
@@ -25,6 +28,9 @@ public class AdminAuthServiceImpl implements AdminAuthService {
 
     @Resource
     private AdminUserService userService;
+
+    @Resource
+    private CaptchaProperties captchaProperties;
 
     @Override
     public AdminUserDO authenticate(String username, String password) {
@@ -44,7 +50,19 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     }
 
     @Override
-    public AuthLoginRespVO login(AuthLoginReqVO reqVO) {
+    public AuthLoginRespVO login(HttpServletRequest request, AuthLoginReqVO reqVO) {
+        // 开启验证码执行
+        if (captchaProperties.getCaptcha()) {
+            String userInput = reqVO.getCaptchaVerification();
+            String captcha = (String) request.getSession().getAttribute("captcha");
+            if (StrUtil.isEmpty(captcha)) {
+                throw new ServiceException("验证码失效，请重新获取");
+            }
+            if (!userInput.equals(captcha)) {
+                throw new ServiceException("验证码错误");
+            }
+        }
+
         // 使用账号密码，进行登录
         AdminUserDO user = authenticate(reqVO.getUsername(), reqVO.getPassword());
 

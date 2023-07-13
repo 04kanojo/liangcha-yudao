@@ -16,6 +16,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 /**
  * 全局异常处理器
@@ -93,6 +94,15 @@ public class GlobalExceptionHandler {
     public CommonResult<?> tokenFilterExceptionHandler(Throwable ex) {
         log.error("token解析失败", ex);
         return CommonResult.error(GlobalErrorCodeEnum.SERVICE_ERROR);
+    }
+
+    /**
+     * 处理系统异常，兜底处理所有的一切
+     */
+    @ExceptionHandler(value = IOException.class)
+    public CommonResult<?> IOExceptionHandler(IOException ex) {
+        log.error("[IOException]", ex);
+        return CommonResult.error(GlobalErrorCodeEnum.IO_ERR);
     }
 
     /**

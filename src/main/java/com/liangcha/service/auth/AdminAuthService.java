@@ -4,6 +4,7 @@ import com.liangcha.controller.auth.vo.AuthLoginReqVO;
 import com.liangcha.controller.auth.vo.AuthLoginRespVO;
 import com.liangcha.domain.auth.AdminUserDO;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 public interface AdminAuthService {
@@ -22,5 +23,5 @@ public interface AdminAuthService {
      * @param reqVO 登录信息
      * @return 登录结果
      */
-    AuthLoginRespVO login(@Valid AuthLoginReqVO reqVO);
+    AuthLoginRespVO login(HttpServletRequest request, @Valid AuthLoginReqVO reqVO);
 }

@@ -1,4 +1,4 @@
-package com.liangcha.framework.common.redis;
+package com.liangcha.framework.common.redisCache;
 
 import com.alicp.jetcache.Cache;
 import com.alicp.jetcache.CacheManager;
@@ -7,7 +7,7 @@ import com.alicp.jetcache.template.QuickConfig;
 import com.liangcha.framework.security.pojo.domain.OAuth2AccessTokenDO;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.time.Duration;
@@ -18,11 +18,17 @@ import java.time.Duration;
  * @author 凉茶
  */
 @Data
-@Component
+@Service
 public class CacheService {
     /**
+     * 用户缓存的前缀
+     */
+    public final static String PRE_TOKEN_CACHE = "tokenCache_";
+
+
+    /**
      * 用户缓存
-     * key：tokenCache_ + 用户id
+     * key: tokenCache_ + token
      */
     public static Cache<String, OAuth2AccessTokenDO> tokenCache;
 
@@ -39,18 +45,10 @@ public class CacheService {
     public void init() {
         QuickConfig tokenQc = QuickConfig.newBuilder("tokenCache")
                 .expire(Duration.ofSeconds(100))
-                .cacheType(CacheType.LOCAL)
+                .cacheType(CacheType.REMOTE)
                 .localLimit(50)
                 .syncLocal(true)
                 .build();
         tokenCache = cacheManager.getOrCreateCache(tokenQc);
-
-//        QuickConfig clientQc = QuickConfig.newBuilder("clientCache")
-//                .expire(Duration.ofSeconds(100))
-//                .cacheType(CacheType.LOCAL)
-//                .localLimit(50)
-//                .syncLocal(true)
-//                .build();
-//        clientCache = cacheManager.getOrCreateCache(clientQc);
     }
 }

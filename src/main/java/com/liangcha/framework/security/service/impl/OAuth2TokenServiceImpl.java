@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.liangcha.dao.auth.OAuth2AccessTokenMapper;
 import com.liangcha.dao.auth.OAuth2RefreshTokenMapper;
 import com.liangcha.framework.common.exception.ServiceException;
-import com.liangcha.framework.common.redis.CacheService;
 import com.liangcha.framework.security.pojo.domain.OAuth2AccessTokenDO;
 import com.liangcha.framework.security.pojo.domain.OAuth2ClientDO;
 import com.liangcha.framework.security.pojo.domain.OAuth2RefreshTokenDO;
@@ -22,8 +21,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.liangcha.framework.common.redisCache.CacheService.PRE_TOKEN_CACHE;
+import static com.liangcha.framework.common.redisCache.CacheService.tokenCache;
+
 /**
- * OAuth2.0 Token API 实现类
+ * OAuth2.0 Token Service 实现类
  *
  * @author 凉茶
  */
@@ -74,7 +76,7 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
             return null;
         }
         oauth2AccessTokenMapper.deleteById(accessTokenDO.getId());
-        CacheService.tokenCache.remove("tokenCache_" + accessTokenDO.getUserId());
+        tokenCache.remove(PRE_TOKEN_CACHE + accessTokenDO.getAccessToken());
 
         // 删除刷新令牌
         LambdaQueryWrapper<OAuth2RefreshTokenDO> refreshTokenLqw = new LambdaQueryWrapper<>();
@@ -120,14 +122,12 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
         }
 
         // 创建访问令牌
-        OAuth2AccessTokenDO accessTokenDO = createOAuth2AccessToken(refreshTokenDO, clientDO);
-
-        return accessTokenDO;
+        return createOAuth2AccessToken(refreshTokenDO, clientDO);
     }
 
     public OAuth2AccessTokenDO getAccessToken(String accessToken) {
         // 优先从 Redis 中获取
-        OAuth2AccessTokenDO accessTokenDO = CacheService.tokenCache.get(accessToken);
+        OAuth2AccessTokenDO accessTokenDO = tokenCache.get(PRE_TOKEN_CACHE + accessToken);
         if (accessTokenDO != null) {
             return accessTokenDO;
         }
@@ -138,7 +138,7 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
         accessTokenDO = oauth2AccessTokenMapper.selectOne(lqw);
         // 如果在 MySQL 存在，则往 Redis 中写入
         if (accessTokenDO != null && !LocalDateTime.now().isAfter(accessTokenDO.getExpiresTime())) {
-            CacheService.tokenCache.put("tokenCache_" + accessTokenDO.getUserId(), accessTokenDO);
+            tokenCache.put(PRE_TOKEN_CACHE + accessTokenDO.getAccessToken(), accessTokenDO);
         }
         return accessTokenDO;
     }
@@ -157,7 +157,7 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
         accessTokenDO.setTenantId(TenantContextHolder.getTenantId());
         oauth2AccessTokenMapper.insert(accessTokenDO);
         // 记录到 Redis 中
-        CacheService.tokenCache.put("tokenCache_" + accessTokenDO.getUserId(), accessTokenDO);
+        tokenCache.put(PRE_TOKEN_CACHE + accessTokenDO.getUserId(), accessTokenDO);
         return accessTokenDO;
     }
 

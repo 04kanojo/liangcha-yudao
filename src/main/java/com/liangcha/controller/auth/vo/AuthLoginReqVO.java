@@ -1,6 +1,5 @@
 package com.liangcha.controller.auth.vo;
 
-import cn.hutool.core.util.StrUtil;
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
@@ -30,31 +29,18 @@ public class AuthLoginReqVO {
 
     // ========== 图片验证码相关 ==========
 
-    @NotEmpty(message = "验证码不能为空", groups = CodeEnableGroup.class)
+    @NotBlank(message = "验证码不能为空")
     private String captchaVerification;
+
 
     // ========== 绑定社交登录时，需要传递如下参数 ==========
 
     private Integer socialType;
 
+    @NotEmpty(message = "授权码不能为空")
     private String socialCode;
 
+    @NotEmpty(message = "授权 state 不能为空")
     private String socialState;
-
-    @AssertTrue(message = "授权码不能为空")
-    public boolean isSocialCodeValid() {
-        return socialType == null || StrUtil.isNotEmpty(socialCode);
-    }
-
-    @AssertTrue(message = "授权 state 不能为空")
-    public boolean isSocialState() {
-        return socialType == null || StrUtil.isNotEmpty(socialState);
-    }
-
-    /**
-     * 开启验证码的 Group
-     */
-    public interface CodeEnableGroup {
-    }
 
 }

@@ -1,4 +1,4 @@
-package com.liangcha.controller.user;
+package com.liangcha.controller.user.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
