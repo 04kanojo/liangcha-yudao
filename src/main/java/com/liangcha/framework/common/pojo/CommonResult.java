@@ -1,6 +1,6 @@
 package com.liangcha.framework.common.pojo;
 
-import com.liangcha.framework.common.exception.ErrorCodeEnum;
+import com.liangcha.framework.common.enums.ErrorCodeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

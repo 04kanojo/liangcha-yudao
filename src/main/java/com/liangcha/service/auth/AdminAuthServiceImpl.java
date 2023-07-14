@@ -4,12 +4,13 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.liangcha.controller.auth.vo.AuthLoginReqVO;
 import com.liangcha.controller.auth.vo.AuthLoginRespVO;
+import com.liangcha.controller.auth.vo.AuthSocialLoginReqVO;
 import com.liangcha.convert.auth.AuthConvert;
 import com.liangcha.domain.auth.AdminUserDO;
 import com.liangcha.framework.common.captcha.CaptchaProperties;
 import com.liangcha.framework.common.enums.CommonStatusEnum;
+import com.liangcha.framework.common.enums.ErrorCodeEnum;
 import com.liangcha.framework.common.enums.UserTypeEnum;
-import com.liangcha.framework.common.exception.ErrorCodeEnum;
 import com.liangcha.framework.common.exception.ServiceException;
 import com.liangcha.framework.security.pojo.domain.OAuth2AccessTokenDO;
 import com.liangcha.framework.security.pojo.dto.OAuth2AccessTokenCreateReqDTO;
@@ -34,23 +35,6 @@ public class AdminAuthServiceImpl implements AdminAuthService {
 
     @Resource
     private CaptchaProperties captchaProperties;
-
-    @Override
-    public AdminUserDO authenticate(String username, String password) {
-        // 校验账号是否存在
-        AdminUserDO user = userService.getUserByUsername(username);
-        if (user == null) {
-            throw new ServiceException(ErrorCodeEnum.AUTH_LOGIN_BAD_CREDENTIALS);
-        }
-        if (!userService.isPasswordMatch(password, user.getPassword())) {
-            throw new ServiceException(ErrorCodeEnum.AUTH_LOGIN_BAD_CREDENTIALS);
-        }
-        // 校验是否禁用
-        if (ObjectUtil.notEqual(user.getStatus(), CommonStatusEnum.ENABLE.getStatus())) {
-            throw new ServiceException(ErrorCodeEnum.AUTH_LOGIN_USER_DISABLED);
-        }
-        return user;
-    }
 
     @Override
     public AuthLoginRespVO login(HttpServletRequest request, AuthLoginReqVO reqVO) {
@@ -78,10 +62,39 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         return createTokenAfterLoginSuccess(user.getId());
     }
 
+    @Override
+    public AuthLoginRespVO socialLogin(AuthSocialLoginReqVO reqVO) {
+        return null;
+    }
+
+    /**
+     * 验证账号 + 密码。如果通过，则返回用户
+     *
+     * @param username 账号
+     * @param password 密码
+     * @return 用户
+     */
+    public AdminUserDO authenticate(String username, String password) {
+        // 校验账号是否存在
+        AdminUserDO user = userService.getUserByUsername(username);
+        if (user == null) {
+            throw new ServiceException(ErrorCodeEnum.AUTH_LOGIN_BAD_CREDENTIALS);
+        }
+        if (!userService.isPasswordMatch(password, user.getPassword())) {
+            throw new ServiceException(ErrorCodeEnum.AUTH_LOGIN_BAD_CREDENTIALS);
+        }
+        // 校验是否禁用
+        if (ObjectUtil.notEqual(user.getStatus(), CommonStatusEnum.ENABLE.getStatus())) {
+            throw new ServiceException(ErrorCodeEnum.AUTH_LOGIN_USER_DISABLED);
+        }
+        return user;
+    }
+
     private AuthLoginRespVO createTokenAfterLoginSuccess(Long userId) {
         // 创建访问令牌
         OAuth2AccessTokenCreateReqDTO oAuth2AccessTokenCreateReqDTO = OAuth2AccessTokenCreateReqDTO.builder().userId(userId).userType(UserTypeEnum.ADMIN.getCode()).clientId("default").build();
         OAuth2AccessTokenDO accessTokenDO = oauth2TokenService.createAccessToken(oAuth2AccessTokenCreateReqDTO);
         return AuthConvert.INSTANCE.convert(accessTokenDO);
     }
+
 }

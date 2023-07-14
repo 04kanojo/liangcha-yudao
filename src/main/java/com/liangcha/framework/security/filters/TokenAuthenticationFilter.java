@@ -76,7 +76,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
                 throw new AccessDeniedException("错误的用户类型");
             }
             // 构建登录用户
-            return LoginUser.builder().id(accessToken.getUserId()).userType(accessToken.getUserType()).tenantId(accessToken.getTenantId()).scopes(accessToken.getScopes()).build();
+            return LoginUser.builder().id(accessToken.getUserId()).userType(accessToken.getUserType()).scopes(accessToken.getScopes()).build();
         } catch (ServiceException serviceException) {
             return null;
         }
@@ -102,7 +102,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         }
         // 构建模拟用户
         Long userId = Long.valueOf(token.substring(securityProperties.getMockSecret().length()));
-        return LoginUser.builder().id(userId).userType(userType).tenantId(WebFrameworkUtils.getTenantId(request)).build();
+        return LoginUser.builder().id(userId).userType(userType).build();
     }
 
 }

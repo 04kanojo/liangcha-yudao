@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.liangcha.convert.auth.OAuth2ClientConvert;
 import com.liangcha.dao.auth.OAuth2ClientMapper;
 import com.liangcha.framework.common.enums.CommonStatusEnum;
-import com.liangcha.framework.common.exception.ErrorCodeEnum;
+import com.liangcha.framework.common.enums.ErrorCodeEnum;
 import com.liangcha.framework.common.exception.ServiceException;
 import com.liangcha.framework.security.mq.OAuth2ClientProducer;
 import com.liangcha.framework.security.pojo.domain.OAuth2ClientDO;

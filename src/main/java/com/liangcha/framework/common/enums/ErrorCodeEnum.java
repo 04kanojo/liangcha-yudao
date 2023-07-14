@@ -1,4 +1,4 @@
-package com.liangcha.framework.common.exception;
+package com.liangcha.framework.common.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -204,7 +204,8 @@ public enum ErrorCodeEnum {
     NOTIFY_TEMPLATE_CODE_DUPLICATE(1002026001, "已经存在编码为【{}】的站内信模板"),
 
     //  站内信发送 1002028000
-    NOTIFY_SEND_TEMPLATE_PARAM_MISS(1002025000, "模板参数({})缺失");
+    NOTIFY_SEND_TEMPLATE_PARAM_MISS(1002025000, "模板参数({})缺失"),
+    ;
 
     private final Integer code;
     private final String msg;

@@ -1,6 +1,6 @@
 package com.liangcha.framework.common.handler;
 
-import com.liangcha.framework.common.exception.ErrorCodeEnum;
+import com.liangcha.framework.common.enums.ErrorCodeEnum;
 import com.liangcha.framework.common.exception.ServiceException;
 import com.liangcha.framework.common.pojo.CommonResult;
 import com.liangcha.framework.common.util.WebFrameworkUtils;
@@ -53,7 +53,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(NoHandlerFoundException.class)
     public CommonResult<?> noHandlerFoundExceptionHandler(NoHandlerFoundException ex) {
-        log.error("[noHandlerFoundExceptionHandler]", ex);
+        log.error("[noHandlerFoundExceptionHandler]:{}", ex.getMessage());
         return CommonResult.error(ErrorCodeEnum.NOT_FOUND);
     }
 
@@ -64,7 +64,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public CommonResult<?> httpRequestMethodNotSupportedExceptionHandler(HttpRequestMethodNotSupportedException ex) {
-        log.error("[httpRequestMethodNotSupportedExceptionHandler]", ex);
+        log.error("[httpRequestMethodNotSupportedExceptionHandler]:{}", ex.getMessage());
         return CommonResult.error(ErrorCodeEnum.METHOD_NOT_ALLOWED);
     }
 
@@ -85,7 +85,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = ServiceException.class)
     public CommonResult<?> serviceExceptionHandler(ServiceException ex) {
-        log.error("[serviceExceptionHandler]", ex);
+        log.error("[serviceExceptionHandler]:{}", ex.getMessage());
         return CommonResult.error(ex.getErrorCodeEnum());
     }
 
@@ -102,7 +102,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = IOException.class)
     public CommonResult<?> IOExceptionHandler(IOException ex) {
-        log.error("[IOException]", ex);
+        log.error("[IOException]:{}", ex.getMessage());
         return CommonResult.error(ErrorCodeEnum.IO_ERR);
     }
 
@@ -111,7 +111,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = Exception.class)
     public CommonResult<?> defaultExceptionHandler(Throwable ex) {
-        log.error("[Exception]", ex);
+        log.error("[Exception]:{}", ex.getMessage());
         //TODO 将未知异常存入数据库或者保存到本地
         return CommonResult.error(ErrorCodeEnum.UNKNOWN);
     }

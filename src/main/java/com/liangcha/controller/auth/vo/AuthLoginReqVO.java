@@ -1,5 +1,7 @@
 package com.liangcha.controller.auth.vo;
 
+import com.liangcha.framework.common.enums.SocialTypeEnum;
+import com.liangcha.framework.common.validation.InEnum;
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,7 +9,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
@@ -32,12 +33,13 @@ public class AuthLoginReqVO {
 
     // ========== 图片验证码相关 ==========
 
-    @NotBlank(message = "验证码不能为空")
+    @NotEmpty(message = "验证码不能为空")
     private String captchaVerification;
 
 
     // ========== 绑定社交登录时，需要传递如下参数 ==========
 
+    @InEnum(value = SocialTypeEnum.class)
     private Integer socialType;
 
     @NotEmpty(message = "授权码不能为空")

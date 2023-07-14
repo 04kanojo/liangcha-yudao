@@ -1,5 +1,6 @@
 package com.liangcha.framework.common.exception;
 
+import com.liangcha.framework.common.enums.ErrorCodeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

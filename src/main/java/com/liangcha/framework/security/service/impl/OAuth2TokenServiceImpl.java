@@ -6,7 +6,7 @@ import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.liangcha.dao.auth.OAuth2AccessTokenMapper;
 import com.liangcha.dao.auth.OAuth2RefreshTokenMapper;
-import com.liangcha.framework.common.exception.ErrorCodeEnum;
+import com.liangcha.framework.common.enums.ErrorCodeEnum;
 import com.liangcha.framework.common.exception.ServiceException;
 import com.liangcha.framework.security.pojo.domain.OAuth2AccessTokenDO;
 import com.liangcha.framework.security.pojo.domain.OAuth2ClientDO;

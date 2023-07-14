@@ -22,10 +22,7 @@ public class LoginUser {
      * 用户类型
      */
     private Integer userType;
-    /**
-     * 租户编号
-     */
-    private Long tenantId;
+
     /**
      * 授权范围
      */

@@ -31,5 +31,4 @@ public class AuthController {
     public CommonResult<AuthLoginRespVO> login(HttpServletRequest request, @RequestBody @Valid AuthLoginReqVO authLoginReqVO) {
         return CommonResult.success(adminAuthService.login(request, authLoginReqVO));
     }
-
 }
