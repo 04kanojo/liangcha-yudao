@@ -2,9 +2,7 @@ package com.liangcha.domain.permission;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.liangcha.framework.tenant.pojo.TenantBaseDO;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * 角色和菜单关联
@@ -13,8 +11,7 @@ import lombok.EqualsAndHashCode;
  */
 @TableName("system_role_menu")
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class RoleMenuDO extends TenantBaseDO {
+public class RoleMenuDO {
 
     /**
      * 自增主键

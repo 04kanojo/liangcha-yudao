@@ -14,7 +14,6 @@ import com.liangcha.framework.security.pojo.domain.OAuth2RefreshTokenDO;
 import com.liangcha.framework.security.pojo.dto.OAuth2AccessTokenCreateReqDTO;
 import com.liangcha.framework.security.service.OAuth2ClientService;
 import com.liangcha.framework.security.service.OAuth2TokenService;
-import com.liangcha.framework.tenant.TenantContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -154,8 +153,6 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
                 .refreshToken(refreshTokenDO.getRefreshToken())
                 .expiresTime(LocalDateTime.now().plusSeconds(clientDO.getAccessTokenValiditySeconds()))
                 .build();
-        //手动设置,因为这个属性是继承的
-        accessTokenDO.setTenantId(TenantContextHolder.getTenantId());
         oauth2AccessTokenMapper.insert(accessTokenDO);
         // 记录到 Redis 中
         tokenCache.put(PRE_TOKEN_CACHE + accessTokenDO.getUserId(), accessTokenDO);

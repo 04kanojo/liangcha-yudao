@@ -4,9 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
-import com.liangcha.framework.tenant.pojo.TenantBaseDO;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.util.Set;
 
@@ -16,9 +14,8 @@ import java.util.Set;
  * @author 凉茶
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
 @TableName(value = "system_role", autoResultMap = true)
-public class RoleDO extends TenantBaseDO {
+public class RoleDO {
 
     /**
      * 角色ID

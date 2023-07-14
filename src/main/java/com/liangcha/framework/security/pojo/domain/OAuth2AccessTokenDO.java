@@ -4,10 +4,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
-import com.liangcha.framework.tenant.pojo.TenantBaseDO;
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,10 +16,9 @@ import java.util.List;
  * @author 凉茶
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
 @Builder
 @TableName(value = "system_oauth2_access_token")
-public class OAuth2AccessTokenDO extends TenantBaseDO {
+public class OAuth2AccessTokenDO {
 
     /**
      * 编号
