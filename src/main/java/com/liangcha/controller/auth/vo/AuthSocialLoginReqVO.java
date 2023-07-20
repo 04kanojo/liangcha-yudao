@@ -1,5 +1,7 @@
 package com.liangcha.controller.auth.vo;
 
+import com.liangcha.framework.common.enums.SocialTypeEnum;
+import com.liangcha.framework.common.validation.InEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -21,6 +23,7 @@ import javax.validation.constraints.NotNull;
 public class AuthSocialLoginReqVO {
 
     @ApiModelProperty("社交平台的类型")
+    @InEnum(SocialTypeEnum.class)
     @NotNull(message = "社交平台的类型不能为空")
     private Integer type;
 

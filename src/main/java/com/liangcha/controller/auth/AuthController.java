@@ -2,6 +2,7 @@ package com.liangcha.controller.auth;
 
 import com.liangcha.controller.auth.vo.AuthLoginReqVO;
 import com.liangcha.controller.auth.vo.AuthLoginRespVO;
+import com.liangcha.controller.auth.vo.AuthSocialLoginReqVO;
 import com.liangcha.framework.common.pojo.CommonResult;
 import com.liangcha.service.auth.AdminAuthService;
 import io.swagger.annotations.Api;
@@ -15,6 +16,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import static com.liangcha.framework.common.pojo.CommonResult.success;
+
 /**
  * @author 凉茶
  */
@@ -24,11 +27,17 @@ import javax.validation.Valid;
 public class AuthController {
 
     @Resource
-    private AdminAuthService adminAuthService;
+    private AdminAuthService authService;
 
     @PostMapping("/login")
     @ApiOperation("管理员登录")
     public CommonResult<AuthLoginRespVO> login(HttpServletRequest request, @RequestBody @Valid AuthLoginReqVO authLoginReqVO) {
-        return CommonResult.success(adminAuthService.login(request, authLoginReqVO));
+        return success(authService.login(request, authLoginReqVO));
+    }
+
+    @PostMapping("/social-login")
+    @ApiOperation("社交快捷登录，使用 code 授权码")
+    public CommonResult<AuthLoginRespVO> socialQuickLogin(@RequestBody @Valid AuthSocialLoginReqVO reqVO) {
+        return success(authService.socialLogin(reqVO));
     }
 }

@@ -64,7 +64,21 @@ public class AdminAuthServiceImpl implements AdminAuthService {
 
     @Override
     public AuthLoginRespVO socialLogin(AuthSocialLoginReqVO reqVO) {
-        return null;
+        // 使用 code 授权码，进行登录。然后，获得到绑定的用户编号
+        Long userId = socialUserService.getBindUserId(UserTypeEnum.ADMIN.getValue(), reqVO.getType(),
+                reqVO.getCode(), reqVO.getState());
+        if (userId == null) {
+            throw exception(AUTH_THIRD_LOGIN_NOT_BIND);
+        }
+
+        // 获得用户
+        AdminUserDO user = userService.getUser(userId);
+        if (user == null) {
+            throw exception(USER_NOT_EXISTS);
+        }
+
+        // 创建 Token 令牌，记录登录日志
+        return createTokenAfterLoginSuccess(user.getId(), user.getUsername(), LoginLogTypeEnum.LOGIN_SOCIAL);
     }
 
     /**
