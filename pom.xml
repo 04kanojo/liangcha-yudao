@@ -164,6 +164,13 @@
             <artifactId>hutool-captcha</artifactId>
             <version>5.8.18</version>
         </dependency>
+
+        <!--与第三发方登录进行整合-->
+        <dependency>
+            <groupId>me.zhyd.oauth</groupId>
+            <artifactId>JustAuth</artifactId>
+            <version>1.16.5</version>
+        </dependency>
     </dependencies>
 
     <build>

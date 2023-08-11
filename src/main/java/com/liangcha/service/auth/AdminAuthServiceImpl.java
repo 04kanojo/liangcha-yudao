@@ -15,11 +15,15 @@ import com.liangcha.framework.common.exception.ServiceException;
 import com.liangcha.framework.security.pojo.domain.OAuth2AccessTokenDO;
 import com.liangcha.framework.security.pojo.dto.OAuth2AccessTokenCreateReqDTO;
 import com.liangcha.framework.security.service.OAuth2TokenService;
+import com.liangcha.service.social.SocialUserService;
 import com.liangcha.service.user.AdminUserService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
+import static com.liangcha.framework.common.enums.ErrorCodeEnum.AUTH_THIRD_LOGIN_NOT_BIND;
+import static com.liangcha.framework.common.enums.ErrorCodeEnum.USER_NOT_EXISTS;
 
 /**
  * 凉茶
@@ -35,6 +39,9 @@ public class AdminAuthServiceImpl implements AdminAuthService {
 
     @Resource
     private CaptchaProperties captchaProperties;
+
+    @Resource
+    private SocialUserService socialUserService;
 
     @Override
     public AuthLoginRespVO login(HttpServletRequest request, AuthLoginReqVO reqVO) {
@@ -64,21 +71,22 @@ public class AdminAuthServiceImpl implements AdminAuthService {
 
     @Override
     public AuthLoginRespVO socialLogin(AuthSocialLoginReqVO reqVO) {
-        // 使用 code 授权码，进行登录。然后，获得到绑定的用户编号
-        Long userId = socialUserService.getBindUserId(UserTypeEnum.ADMIN.getValue(), reqVO.getType(),
-                reqVO.getCode(), reqVO.getState());
-        if (userId == null) {
-            throw exception(AUTH_THIRD_LOGIN_NOT_BIND);
-        }
-
-        // 获得用户
-        AdminUserDO user = userService.getUser(userId);
-        if (user == null) {
-            throw exception(USER_NOT_EXISTS);
-        }
-
-        // 创建 Token 令牌，记录登录日志
-        return createTokenAfterLoginSuccess(user.getId(), user.getUsername(), LoginLogTypeEnum.LOGIN_SOCIAL);
+//        // 使用 code 授权码，进行登录。然后，获得到绑定的用户编号
+//        Long userId = socialUserService.getBindUserId(UserTypeEnum.ADMIN.getCode(),
+//                reqVO.getType(), reqVO.getCode(), reqVO.getState());
+//        if (userId == null) {
+//            throw new ServiceException(AUTH_THIRD_LOGIN_NOT_BIND);
+//        }
+//
+//        // 获得用户
+//        AdminUserDO user = userService.getUser(userId);
+//        if (user == null) {
+//            throw new ServiceException(USER_NOT_EXISTS);
+//        }
+//
+//        // 创建 Token 令牌，记录登录日志
+//        return createTokenAfterLoginSuccess(user.getId());
+        return null;
     }
 
     /**

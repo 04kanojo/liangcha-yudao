@@ -164,6 +164,8 @@ public enum ErrorCodeEnum {
     SOCIAL_USER_UNBIND_NOT_SELF(1002018001, "社交解绑失败，非当前用户绑定"),
     SOCIAL_USER_NOT_FOUND(1002018002, "社交授权失败，找不到对应的用户"),
 
+    SOCIAL_TYPE_ERR(1002018003, "社交类型错误"),
+
     //  系统敏感词 1002019000
     SENSITIVE_WORD_NOT_EXISTS(1002019000, "系统敏感词在所有标签中都不存在"),
     SENSITIVE_WORD_EXISTS(1002019001, "系统敏感词已在标签中存在"),

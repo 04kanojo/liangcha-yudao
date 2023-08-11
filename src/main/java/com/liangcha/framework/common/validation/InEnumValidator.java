@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
  */
 public class InEnumValidator implements ConstraintValidator<InEnum, Integer> {
 
+    //获取枚举的code码
     private List<Integer> values;
 
     /**

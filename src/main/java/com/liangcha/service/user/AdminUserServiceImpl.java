@@ -170,12 +170,10 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @Override
     public AdminUserDO getUserByUsername(String username) {
-        LambdaQueryWrapper<AdminUserDO> lqw = new LambdaQueryWrapper<>();
-        lqw.eq(AdminUserDO::getUsername, username);
-        return userMapper.selectOne(lqw);
+        return userMapper.selectUserByUsername(username);
     }
 
-//    @Override
+    //    @Override
 //    public AdminUserDO getUserByMobile(String mobile) {
 //        return userMapper.selectByMobile(mobile);
 //    }
@@ -185,10 +183,10 @@ public class AdminUserServiceImpl implements AdminUserService {
 //        return userMapper.selectPage(reqVO, getDeptCondition(reqVO.getDeptId()));
 //    }
 //
-//    @Override
-//    public AdminUserDO getUser(Long id) {
-//        return userMapper.selectById(id);
-//    }
+    @Override
+    public AdminUserDO getUser(Long id) {
+        return userMapper.selectById(id);
+    }
 //
 //    @Override
 //    public List<AdminUserDO> getUserListByDeptIds(Collection<Long> deptIds) {

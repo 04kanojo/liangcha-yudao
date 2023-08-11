@@ -104,13 +104,14 @@ public interface AdminUserService {
 //     */
 //    PageResult<AdminUserDO> getUserPage(UserPageReqVO reqVO);
 //
-//    /**
-//     * 通过用户 ID 查询用户
-//     *
-//     * @param id 用户ID
-//     * @return 用户对象信息
-//     */
-//    AdminUserDO getUser(Long id);
+
+    /**
+     * 通过用户 ID 查询用户
+     *
+     * @param id 用户ID
+     * @return 用户对象信息
+     */
+    AdminUserDO getUser(Long id);
 //
 //    /**
 //     * 获得指定部门的用户数组

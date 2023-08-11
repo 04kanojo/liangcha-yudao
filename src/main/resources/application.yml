@@ -22,7 +22,7 @@ mybatis-plus:
 
 --- #################### 自定义相关配置 ####################
 liangcha:
-  captcha: true #验证码开关
+  captcha: false #验证码开关
   security:
     authorizationBearer: Bearer
     permit-all_urls:
