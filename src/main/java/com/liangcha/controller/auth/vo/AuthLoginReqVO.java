@@ -1,7 +1,5 @@
 package com.liangcha.controller.auth.vo;
 
-import com.liangcha.framework.common.enums.SocialTypeEnum;
-import com.liangcha.framework.common.validation.InEnum;
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,13 +37,13 @@ public class AuthLoginReqVO {
 
     // ========== 绑定社交登录时，需要传递如下参数 ==========
 
-    @InEnum(value = SocialTypeEnum.class)
-    private Integer socialType;
-
-    @NotEmpty(message = "授权码不能为空")
-    private String socialCode;
-
-    @NotEmpty(message = "授权 state 不能为空")
-    private String socialState;
+//    @InEnum(value = SocialTypeEnum.class)
+//    private Integer socialType;
+//
+//    @NotEmpty(message = "授权码不能为空")
+//    private String socialCode;
+//
+//    @NotEmpty(message = "授权 state 不能为空")
+//    private String socialState;
 
 }

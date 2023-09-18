@@ -22,9 +22,6 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import static com.liangcha.framework.common.enums.ErrorCodeEnum.AUTH_THIRD_LOGIN_NOT_BIND;
-import static com.liangcha.framework.common.enums.ErrorCodeEnum.USER_NOT_EXISTS;
-
 /**
  * 凉茶
  */
@@ -114,7 +111,12 @@ public class AdminAuthServiceImpl implements AdminAuthService {
 
     private AuthLoginRespVO createTokenAfterLoginSuccess(Long userId) {
         // 创建访问令牌
-        OAuth2AccessTokenCreateReqDTO oAuth2AccessTokenCreateReqDTO = OAuth2AccessTokenCreateReqDTO.builder().userId(userId).userType(UserTypeEnum.ADMIN.getCode()).clientId("default").build();
+        OAuth2AccessTokenCreateReqDTO oAuth2AccessTokenCreateReqDTO = OAuth2AccessTokenCreateReqDTO
+                .builder()
+                .userId(userId)
+                .userType(UserTypeEnum.ADMIN.getCode())
+                .clientId("default")
+                .build();
         OAuth2AccessTokenDO accessTokenDO = oauth2TokenService.createAccessToken(oAuth2AccessTokenCreateReqDTO);
         return AuthConvert.INSTANCE.convert(accessTokenDO);
     }

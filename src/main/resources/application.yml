@@ -20,6 +20,20 @@ mybatis-plus:
     # 开启驼峰和下划线对应
     map-underscore-to-camel-case: true
 
+--- #################### 接口文档相关配置 ####################
+knife4j:
+  enable: true
+  openapi:
+    title: 凉茶后台接口文档
+    description: "**根据yudao源码进行修改(学习用)**"
+    email: G2494552478@hotmail.com
+    concat: 凉茶
+    url: /
+    version: v1.0
+    license: Apache 2.0
+    license-url: /
+    terms-of-service-url: /
+
 --- #################### 自定义相关配置 ####################
 liangcha:
   captcha: false #验证码开关
@@ -35,17 +49,3 @@ liangcha:
       - /favicon.ico
       - /swagger-resources
       - /v2/api-docs
-
---- #################### 接口文档相关配置 ####################
-knife4j:
-  enable: true
-  openapi:
-    title: 凉茶后台接口文档
-    description: "**根据yudao源码进行修改(学习用)**"
-    email: G2494552478@hotmail.com
-    concat: 凉茶
-    url: /
-    version: v1.0
-    license: Apache 2.0
-    license-url: /
-    terms-of-service-url: /

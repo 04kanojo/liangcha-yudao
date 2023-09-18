@@ -2,10 +2,7 @@ package com.liangcha.framework.security.service;
 
 
 import com.liangcha.framework.security.pojo.domain.OAuth2ClientDO;
-import com.liangcha.framework.security.pojo.vo.OAuth2ClientCreateReqVO;
-import com.liangcha.framework.security.pojo.vo.OAuth2ClientUpdateReqVO;
 
-import javax.validation.Valid;
 import java.util.Collection;
 
 /**
@@ -16,43 +13,6 @@ import java.util.Collection;
  * @author 凉茶
  */
 public interface OAuth2ClientService {
-
-    /**
-     * 初始化 OAuth2Client 的本地缓存
-     */
-    void initLocalCache();
-
-    /**
-     * 创建 OAuth2 客户端
-     *
-     * @param createReqVO 创建信息
-     * @return 编号
-     */
-    Long createOAuth2Client(@Valid OAuth2ClientCreateReqVO createReqVO);
-
-    /**
-     * 更新 OAuth2 客户端
-     *
-     * @param updateReqVO 更新信息
-     */
-    void updateOAuth2Client(@Valid OAuth2ClientUpdateReqVO updateReqVO);
-
-    /**
-     * 删除 OAuth2 客户端
-     *
-     * @param id 编号
-     */
-    void deleteOAuth2Client(Long id);
-
-    /**
-     * 获得 OAuth2 客户端
-     *
-     * @param id 编号
-     * @return OAuth2 客户端
-     */
-    OAuth2ClientDO getOAuth2Client(Long id);
-
-
     /**
      * 从缓存中，校验客户端是否合法
      * <p>
