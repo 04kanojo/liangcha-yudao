@@ -1,7 +1,9 @@
 package com.liangcha.framework.security.config;
 
+import com.liangcha.framework.permission.service.PermissionService;
 import com.liangcha.framework.security.filters.TokenAuthenticationFilter;
-import org.springframework.context.ApplicationContext;
+import com.liangcha.framework.security.service.SecurityFrameworkService;
+import com.liangcha.framework.security.service.impl.SecurityFrameworkServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -49,9 +51,6 @@ public class LiangChaWebSecurityConfigurerAdapter {
     @Resource
     private TokenAuthenticationFilter authenticationTokenFilter;
 
-    @Resource
-    private ApplicationContext applicationContext;
-
     /**
      * 由于 Spring Security 创建 AuthenticationManager 对象时，没声明 @Bean 注解，导致无法被注入
      * 通过覆写父类的该方法，添加 @Bean 注解，解决该问题
@@ -83,9 +82,7 @@ public class LiangChaWebSecurityConfigurerAdapter {
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry = httpSecurity.authorizeRequests();
         //从配置文件获取免登录的url
         List<String> permitAllUrls = securityProperties.getPermitAllUrls();
-        permitAllUrls.forEach((url) -> {
-            registry.antMatchers(url).permitAll();
-        });
+        permitAllUrls.forEach((url) -> registry.antMatchers(url).permitAll());
 
         registry
                 //静态资源，可匿名访问
@@ -109,6 +106,11 @@ public class LiangChaWebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean("ss") // 使用 Spring Security 的缩写，方便使用
+    public SecurityFrameworkService securityFrameworkService(PermissionService permissionService) {
+        return new SecurityFrameworkServiceImpl(permissionService);
     }
 
 }

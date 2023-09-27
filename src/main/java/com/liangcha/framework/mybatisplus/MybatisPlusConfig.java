@@ -2,7 +2,7 @@ package com.liangcha.framework.mybatisplus;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.liangcha.framework.common.pojo.BaseDO;
-import com.liangcha.framework.common.util.WebFrameworkUtils;
+import com.liangcha.framework.common.utils.WebFrameworkUtils;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.stereotype.Component;
 

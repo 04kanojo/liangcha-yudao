@@ -7,12 +7,12 @@ import cn.hutool.json.JSONUtil;
 import com.liangcha.framework.common.exception.ServiceException;
 import com.liangcha.framework.common.handler.GlobalExceptionHandler;
 import com.liangcha.framework.common.pojo.CommonResult;
-import com.liangcha.framework.common.util.WebFrameworkUtils;
+import com.liangcha.framework.common.utils.SecurityFrameworkUtils;
+import com.liangcha.framework.common.utils.WebFrameworkUtils;
 import com.liangcha.framework.security.config.SecurityProperties;
 import com.liangcha.framework.security.pojo.LoginUser;
 import com.liangcha.framework.security.pojo.domain.OAuth2AccessTokenDO;
 import com.liangcha.framework.security.service.OAuth2TokenService;
-import com.liangcha.framework.security.util.SecurityFrameworkUtils;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
@@ -48,9 +48,9 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
                 // 1.1 基于 token 构建登录用户
                 LoginUser loginUser = buildLoginUserByToken(token, userType);
                 // 1.2 模拟 Login 功能，方便日常开发调试
-//                if (loginUser == null) {
-//                    loginUser = mockLoginUser(request, token, userType);
-//                }
+                if (loginUser == null) {
+                    loginUser = mockLoginUser(request, token, userType);
+                }
                 // 2. 设置当前用户
                 if (loginUser != null) {
                     SecurityFrameworkUtils.setLoginUser(loginUser, request);

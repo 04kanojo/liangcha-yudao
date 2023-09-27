@@ -3,7 +3,7 @@ package com.liangcha.framework.security.handler;
 import cn.hutool.extra.servlet.ServletUtil;
 import cn.hutool.json.JSONUtil;
 import com.liangcha.framework.common.enums.ErrorCodeEnum;
-import com.liangcha.framework.security.util.SecurityFrameworkUtils;
+import com.liangcha.framework.common.utils.SecurityFrameworkUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;

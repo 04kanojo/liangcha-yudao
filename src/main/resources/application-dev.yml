@@ -19,22 +19,3 @@ spring:
           username: root
           password: woshidashuaibi
           type: com.alibaba.druid.pool.DruidDataSource
-
---- #################### 阿里缓存操作框架相关配置 ####################
-jetcache:
-  areaInCacheName: false #设置不把areaName作为Key前缀
-  local: # 本地缓存
-    default:
-      type: linkedhashmap
-      keyConvertor: fastjson  # 使用json工具技术
-
-  remote: # 远程缓存
-    default: # 默认
-      type: redis
-      port: 6379
-      host: 127.0.0.1
-      valueEncoder: java
-      valueDecoder: java
-      keyConvertor: fastjson
-      poolConfig:
-        maxTotal: 50 #最大连接数

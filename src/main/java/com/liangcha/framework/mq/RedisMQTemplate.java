@@ -1,6 +1,6 @@
 package com.liangcha.framework.mq;
 
-import com.liangcha.framework.common.util.JsonUtils;
+import com.liangcha.framework.common.utils.JsonUtils;
 import com.liangcha.framework.mq.interceptor.RedisMessageInterceptor;
 import com.liangcha.framework.mq.message.AbstractRedisMessage;
 import com.liangcha.framework.mq.pubsub.AbstractChannelMessage;
