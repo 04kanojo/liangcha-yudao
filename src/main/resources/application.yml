@@ -49,3 +49,5 @@ liangcha:
       - /favicon.ico
       - /swagger-resources
       - /v2/api-docs
+      #其余
+      - /test

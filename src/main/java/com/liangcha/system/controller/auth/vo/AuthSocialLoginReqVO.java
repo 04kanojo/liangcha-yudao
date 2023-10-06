@@ -1,6 +1,6 @@
 package com.liangcha.system.controller.auth.vo;
 
-import com.liangcha.framework.enums.user.SocialTypeEnum;
+import com.liangcha.framework.common.enums.SocialTypeEnum;
 import com.liangcha.framework.validation.InEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

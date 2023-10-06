@@ -2,8 +2,8 @@ package com.liangcha.system.domain.social;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.liangcha.framework.common.enums.SocialTypeEnum;
 import com.liangcha.framework.common.pojo.BaseDO;
-import com.liangcha.framework.enums.user.SocialTypeEnum;
 import lombok.*;
 
 /**

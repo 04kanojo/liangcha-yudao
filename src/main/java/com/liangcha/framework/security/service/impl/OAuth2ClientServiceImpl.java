@@ -5,15 +5,15 @@ import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
+import com.alicp.jetcache.anno.Cached;
 import com.liangcha.framework.common.enums.CommonStatusEnum;
 import com.liangcha.framework.common.enums.ErrorCodeEnum;
+import com.liangcha.framework.common.enums.RedisKeyConstants;
 import com.liangcha.framework.common.exception.ServiceException;
-import com.liangcha.framework.redis.RedisKeyConstants;
 import com.liangcha.framework.security.mq.OAuth2ClientProducer;
 import com.liangcha.framework.security.pojo.domain.OAuth2ClientDO;
 import com.liangcha.framework.security.service.OAuth2ClientService;
 import com.liangcha.system.dao.auth.OAuth2ClientMapper;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
@@ -87,8 +87,7 @@ public class OAuth2ClientServiceImpl implements OAuth2ClientService {
         return client;
     }
 
-    @Cacheable(cacheNames = RedisKeyConstants.OAUTH_CLIENT, key = "#clientId",
-            unless = "#result == null")
+    @Cached(name = RedisKeyConstants.OAUTH_CLIENT, key = "#clientId")
     public OAuth2ClientDO getOAuth2ClientFromCache(String clientId) {
         return oauth2ClientMapper.selectByClientId(clientId);
     }

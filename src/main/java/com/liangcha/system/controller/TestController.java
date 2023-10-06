@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/test")
 public class TestController {
 
-    @PreAuthorize("@ss.hasPermission('system:user:test')")
+    @PreAuthorize("@ss.hasAnyPermissions('')")
     @GetMapping
     @ApiOperation("管理员登录")
     public String login() {

@@ -3,10 +3,12 @@ package com.liangcha.framework.security.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.extra.spring.SpringUtil;
+import com.alicp.jetcache.anno.Cached;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.liangcha.framework.common.enums.ErrorCodeEnum;
+import com.liangcha.framework.common.enums.RedisKeyConstants;
 import com.liangcha.framework.common.exception.ServiceException;
-import com.liangcha.framework.redis.OAuth2AccessTokenRedisDAO;
 import com.liangcha.framework.security.pojo.domain.OAuth2AccessTokenDO;
 import com.liangcha.framework.security.pojo.domain.OAuth2ClientDO;
 import com.liangcha.framework.security.pojo.domain.OAuth2RefreshTokenDO;
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -35,8 +38,6 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
     @Resource
     private OAuth2ClientService oauth2ClientService;
 
-    @Resource
-    private OAuth2AccessTokenRedisDAO oauth2AccessTokenRedisDAO;
 
     @Resource
     private OAuth2RefreshTokenMapper oauth2RefreshTokenMapper;
@@ -107,21 +108,7 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
     }
 
     public OAuth2AccessTokenDO getAccessToken(String accessToken) {
-        // 优先从 Redis 中获取
-        OAuth2AccessTokenDO accessTokenDO = oauth2AccessTokenRedisDAO.get(accessToken);
-        if (accessTokenDO != null) {
-            return accessTokenDO;
-        }
-
-        // 获取不到，从 MySQL 中获取
-        LambdaQueryWrapper<OAuth2AccessTokenDO> lqw = new LambdaQueryWrapper<>();
-        lqw.eq(OAuth2AccessTokenDO::getAccessToken, accessToken);
-        accessTokenDO = oauth2AccessTokenMapper.selectOne(lqw);
-        // 如果在 MySQL 存在，则往 Redis 中写入
-        if (accessTokenDO != null && !LocalDateTime.now().isAfter(accessTokenDO.getExpiresTime())) {
-            oauth2AccessTokenRedisDAO.set(accessTokenDO);
-        }
-        return accessTokenDO;
+        return getSelf().getAccessTokenDOFromCache(accessToken);
     }
 
     private OAuth2AccessTokenDO createOAuth2AccessToken(OAuth2RefreshTokenDO refreshTokenDO, OAuth2ClientDO clientDO) {
@@ -136,7 +123,7 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
                 .build();
         oauth2AccessTokenMapper.insert(accessTokenDO);
         // 记录到 Redis 中
-        oauth2AccessTokenRedisDAO.set(accessTokenDO);
+        getSelf().setTokenInRedis(accessTokenDO);
         return accessTokenDO;
     }
 
@@ -151,6 +138,25 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
                 .build();
         oauth2RefreshTokenMapper.insert(refreshToken);
         return refreshToken;
+    }
+
+    @Cached(name = RedisKeyConstants.OAUTH2_ACCESS_TOKEN, key = "#accessToken", expire = 3, timeUnit = TimeUnit.MINUTES)
+    public OAuth2AccessTokenDO getAccessTokenDOFromCache(String accessToken) {
+        return oauth2AccessTokenMapper.selectByAccessToken(accessToken);
+    }
+
+    @Cached(name = RedisKeyConstants.OAUTH2_ACCESS_TOKEN, key = "#accessTokenDO.accessToken", expire = 3, timeUnit = TimeUnit.MINUTES)
+    public OAuth2AccessTokenDO setTokenInRedis(OAuth2AccessTokenDO accessTokenDO) {
+        return accessTokenDO;
+    }
+
+    /**
+     * 获得自身的代理对象，解决 AOP 生效问题
+     *
+     * @return 自己
+     */
+    private OAuth2TokenServiceImpl getSelf() {
+        return SpringUtil.getBean(getClass());
     }
 
 }

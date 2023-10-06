@@ -66,13 +66,6 @@
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
-        <!--阿里的json处理技术-->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>2.0.32</version>
-        </dependency>
-
         <!--google工具类-->
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -148,11 +141,34 @@
         </dependency>
 
         <!--与第三发方登录进行整合-->
+        <!--        <dependency>-->
+        <!--            <groupId>me.zhyd.oauth</groupId>-->
+        <!--            <artifactId>JustAuth</artifactId>-->
+        <!--            <version>1.16.5</version>-->
+        <!--            <exclusions>-->
+        <!--                <exclusion>-->
+        <!--                    <artifactId>fastjson</artifactId>-->
+        <!--                    <groupId>com.alibaba</groupId>-->
+        <!--                </exclusion>-->
+        <!--            </exclusions>-->
+        <!--        </dependency>-->
+
+        <!--阿里的缓存操作工具-->
         <dependency>
-            <groupId>me.zhyd.oauth</groupId>
-            <artifactId>JustAuth</artifactId>
-            <version>1.16.5</version>
+            <groupId>com.alicp.jetcache</groupId>
+            <artifactId>jetcache-starter-redis</artifactId>
+            <version>2.6.7</version>
         </dependency>
+
+
+        <!--阿里的json处理技术-->
+        <dependency>
+            <groupId>com.alibaba.fastjson2</groupId>
+            <artifactId>fastjson2</artifactId>
+            <version>2.0.33</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>

@@ -1,17 +1,17 @@
 package com.liangcha.framework.security.handler;
 
-import cn.hutool.extra.servlet.ServletUtil;
-import cn.hutool.json.JSONUtil;
-import com.liangcha.framework.common.enums.ErrorCodeEnum;
+import com.liangcha.framework.common.pojo.CommonResult;
 import com.liangcha.framework.common.utils.SecurityFrameworkUtils;
+import com.liangcha.framework.common.utils.ServletUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import static com.liangcha.framework.common.enums.ErrorCodeEnum.SMALL_AUTHORITY;
 
 
 /**
@@ -25,7 +25,7 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e) {
         log.error("[用户({}) 访问 URL({}) 时，权限不够]", SecurityFrameworkUtils.getLoginUserId(), request.getRequestURI(), e);
-        ServletUtil.write(response, JSONUtil.toJsonStr(ErrorCodeEnum.SMALL_AUTHORITY), MediaType.APPLICATION_JSON_UTF8_VALUE);
+        ServletUtils.writeJSON(response, CommonResult.error(SMALL_AUTHORITY));
     }
 
 }

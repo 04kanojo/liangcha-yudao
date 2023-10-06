@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -24,7 +25,7 @@ import java.util.List;
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
 @TableName(value = "system_oauth2_access_token")
-public class OAuth2AccessTokenDO extends BaseDO {
+public class OAuth2AccessTokenDO extends BaseDO implements Serializable {
 
     /**
      * 编号

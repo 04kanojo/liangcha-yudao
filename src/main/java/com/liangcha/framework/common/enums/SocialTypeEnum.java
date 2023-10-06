@@ -1,4 +1,4 @@
-package com.liangcha.framework.enums.user;
+package com.liangcha.framework.common.enums;
 
 import com.liangcha.framework.common.interfaces.IntArr;
 import lombok.AllArgsConstructor;

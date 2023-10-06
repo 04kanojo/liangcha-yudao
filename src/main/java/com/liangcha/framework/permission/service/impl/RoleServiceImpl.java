@@ -8,13 +8,13 @@ import cn.hutool.extra.spring.SpringUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.google.common.annotations.VisibleForTesting;
 import com.liangcha.framework.common.enums.CommonStatusEnum;
+import com.liangcha.framework.common.enums.RedisKeyConstants;
 import com.liangcha.framework.common.exception.ServiceException;
 import com.liangcha.framework.convert.permission.RoleConvert;
-import com.liangcha.framework.enums.permission.DataScopeEnum;
-import com.liangcha.framework.enums.permission.RoleCodeEnum;
-import com.liangcha.framework.enums.permission.RoleTypeEnum;
+import com.liangcha.framework.permission.enums.DataScopeEnum;
+import com.liangcha.framework.permission.enums.RoleCodeEnum;
+import com.liangcha.framework.permission.enums.RoleTypeEnum;
 import com.liangcha.framework.permission.service.RoleService;
-import com.liangcha.framework.redis.RedisKeyConstants;
 import com.liangcha.system.controller.role.vo.RoleCreateReqVO;
 import com.liangcha.system.controller.role.vo.RoleExportReqVO;
 import com.liangcha.system.controller.role.vo.RolePageReqVO;
@@ -160,10 +160,6 @@ public class RoleServiceImpl implements RoleService {
         }
     }
 
-    @Override
-    public RoleDO getRole(Long id) {
-        return roleMapper.selectById(id);
-    }
 
     @Override
     @Cacheable(value = RedisKeyConstants.ROLE, key = "#id",
@@ -212,15 +208,18 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public boolean hasAnySuperAdmin(Collection<Long> ids) {
+    public boolean hasAnySuperAdmin(Set<Long> ids) {
         if (CollectionUtil.isEmpty(ids)) {
             return false;
         }
         RoleServiceImpl self = getSelf();
-        return ids.stream().anyMatch(id -> {
+        for (Long id : ids) {
             RoleDO role = self.getRoleFromCache(id);
-            return role != null && RoleCodeEnum.isSuperAdmin(role.getCode());
-        });
+            if (role != null && RoleCodeEnum.isSuperAdmin(role.getCode())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

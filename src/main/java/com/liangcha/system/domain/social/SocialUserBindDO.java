@@ -3,8 +3,8 @@ package com.liangcha.system.domain.social;
 import com.baomidou.mybatisplus.annotation.KeySequence;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.liangcha.framework.common.enums.UserTypeEnum;
 import com.liangcha.framework.common.pojo.BaseDO;
-import com.liangcha.framework.enums.user.UserTypeEnum;
 import lombok.*;
 
 /**

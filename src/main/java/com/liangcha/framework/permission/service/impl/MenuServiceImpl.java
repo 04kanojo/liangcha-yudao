@@ -2,11 +2,11 @@ package com.liangcha.framework.permission.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.google.common.annotations.VisibleForTesting;
+import com.liangcha.framework.common.enums.RedisKeyConstants;
 import com.liangcha.framework.common.exception.ServiceException;
 import com.liangcha.framework.convert.permission.MenuConvert;
-import com.liangcha.framework.enums.permission.MenuTypeEnum;
+import com.liangcha.framework.permission.enums.MenuTypeEnum;
 import com.liangcha.framework.permission.service.MenuService;
-import com.liangcha.framework.redis.RedisKeyConstants;
 import com.liangcha.system.controller.promission.vo.MenuCreateReqVO;
 import com.liangcha.system.controller.promission.vo.MenuListReqVO;
 import com.liangcha.system.controller.promission.vo.MenuUpdateReqVO;

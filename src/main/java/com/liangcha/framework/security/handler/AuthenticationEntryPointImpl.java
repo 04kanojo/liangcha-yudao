@@ -1,16 +1,16 @@
 package com.liangcha.framework.security.handler;
 
-import cn.hutool.extra.servlet.ServletUtil;
-import cn.hutool.json.JSONUtil;
-import com.liangcha.framework.common.enums.ErrorCodeEnum;
+import com.liangcha.framework.common.pojo.CommonResult;
+import com.liangcha.framework.common.utils.ServletUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import static com.liangcha.framework.common.enums.ErrorCodeEnum.NO_LOGIN;
 
 /**
  * 访问一个需要认证的 URL 资源，但是此时自己尚未认证（登录）的情况
@@ -24,6 +24,6 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) {
         log.error("[访问 URL({}) 时，没有登录]", request.getRequestURI(), e);
-        ServletUtil.write(response, JSONUtil.toJsonStr(ErrorCodeEnum.NO_LOGIN), MediaType.APPLICATION_JSON_UTF8_VALUE);
+        ServletUtils.writeJSON(response, CommonResult.error(NO_LOGIN));
     }
 }

@@ -1,4 +1,4 @@
-package com.liangcha.framework.enums.permission;
+package com.liangcha.framework.permission.enums;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import lombok.AllArgsConstructor;

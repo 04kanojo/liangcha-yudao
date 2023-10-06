@@ -1,7 +1,6 @@
 package com.liangcha.framework.common.utils;
 
 import cn.hutool.core.util.StrUtil;
-import com.liangcha.framework.security.config.SecurityProperties;
 import com.liangcha.framework.security.pojo.LoginUser;
 import org.springframework.lang.Nullable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,10 +18,6 @@ import java.util.Collections;
  * @author 凉茶
  */
 public class SecurityFrameworkUtils {
-    public static SecurityProperties properties;
-
-    private SecurityFrameworkUtils() {
-    }
 
     /**
      * 从请求中，获得认证 Token
@@ -31,13 +26,13 @@ public class SecurityFrameworkUtils {
      * @param header  认证 Token 对应的 Header 名字
      * @return 认证 Token
      */
-    public static String getToken(HttpServletRequest request, String header) {
+    public static String getToken(HttpServletRequest request, String header, String bearer) {
         String authorization = request.getHeader(header);
         //判断token是否不合法（为空或者为空字符串）
         if (StrUtil.isBlank(authorization)) {
             return null;
         }
-        String tokenPrefix = properties.getAuthorizationBearer() + " ";
+        String tokenPrefix = bearer + " ";
         int index = authorization.indexOf(tokenPrefix);
         // 未找到
         if (index == -1) {

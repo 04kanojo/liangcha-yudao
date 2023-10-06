@@ -60,13 +60,6 @@ public interface RoleService {
      */
     void updateRoleDataScope(Long id, Integer dataScope, Set<Long> dataScopeDeptIds);
 
-    /**
-     * 获得角色
-     *
-     * @param id 角色编号
-     * @return 角色
-     */
-    RoleDO getRole(Long id);
 
     /**
      * 获得角色，从缓存中
@@ -129,7 +122,7 @@ public interface RoleService {
      * @param ids 角色编号数组
      * @return 是否有管理员
      */
-    boolean hasAnySuperAdmin(Collection<Long> ids);
+    boolean hasAnySuperAdmin(Set<Long> ids);
 
     /**
      * 校验角色们是否有效。如下情况，视为无效：

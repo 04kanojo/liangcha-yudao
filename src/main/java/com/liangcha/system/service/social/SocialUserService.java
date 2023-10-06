@@ -1,8 +1,8 @@
 package com.liangcha.system.service.social;
 
 
+import com.liangcha.framework.common.enums.SocialTypeEnum;
 import com.liangcha.framework.common.exception.ServiceException;
-import com.liangcha.framework.enums.user.SocialTypeEnum;
 
 /**
  * 社交用户 Service 接口，例如说社交平台的授权登录

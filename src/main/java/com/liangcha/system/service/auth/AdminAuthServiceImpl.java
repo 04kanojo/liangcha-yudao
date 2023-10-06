@@ -5,16 +5,15 @@ import cn.hutool.core.util.StrUtil;
 import com.liangcha.framework.captcha.CaptchaProperties;
 import com.liangcha.framework.common.enums.CommonStatusEnum;
 import com.liangcha.framework.common.enums.ErrorCodeEnum;
+import com.liangcha.framework.common.enums.UserTypeEnum;
 import com.liangcha.framework.common.exception.ServiceException;
 import com.liangcha.framework.convert.auth.AuthConvert;
-import com.liangcha.framework.enums.user.UserTypeEnum;
 import com.liangcha.framework.security.pojo.domain.OAuth2AccessTokenDO;
 import com.liangcha.framework.security.pojo.dto.OAuth2AccessTokenCreateReqDTO;
 import com.liangcha.framework.security.service.OAuth2TokenService;
 import com.liangcha.system.controller.auth.vo.AuthLoginReqVO;
 import com.liangcha.system.controller.auth.vo.AuthLoginRespVO;
 import com.liangcha.system.domain.auth.AdminUserDO;
-import com.liangcha.system.service.social.SocialUserService;
 import com.liangcha.system.service.user.AdminUserService;
 import org.springframework.stereotype.Service;
 
@@ -36,8 +35,6 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     @Resource
     private CaptchaProperties captchaProperties;
 
-    @Resource
-    private SocialUserService socialUserService;
 
     @Override
     public AuthLoginRespVO login(HttpServletRequest request, AuthLoginReqVO reqVO) {
@@ -56,11 +53,6 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         // 使用账号密码，进行登录
         AdminUserDO user = authenticate(reqVO.getUsername(), reqVO.getPassword());
 
-        // 如果 socialType 非空，说明需要绑定社交用户
-//        if (reqVO.getSocialType() != null) {
-//            socialUserService.bindSocialUser(new SocialUserBindReqDTO(user.getId(), getUserType().getValue(),
-//                    reqVO.getSocialType(), reqVO.getSocialCode(), reqVO.getSocialState()));
-//        }
         // 创建 Token 令牌
         return createTokenAfterLoginSuccess(user.getId());
     }
@@ -109,13 +101,13 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     }
 
     private AuthLoginRespVO createTokenAfterLoginSuccess(Long userId) {
-        // 创建访问令牌
         OAuth2AccessTokenCreateReqDTO oAuth2AccessTokenCreateReqDTO = OAuth2AccessTokenCreateReqDTO
                 .builder()
                 .userId(userId)
                 .userType(UserTypeEnum.ADMIN.getCode())
                 .clientId("default")
                 .build();
+        // 创建访问令牌
         OAuth2AccessTokenDO accessTokenDO = oauth2TokenService.createAccessToken(oAuth2AccessTokenCreateReqDTO);
         return AuthConvert.INSTANCE.convert(accessTokenDO);
     }

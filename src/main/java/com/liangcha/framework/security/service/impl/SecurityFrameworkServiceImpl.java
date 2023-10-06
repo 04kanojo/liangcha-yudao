@@ -1,13 +1,8 @@
 package com.liangcha.framework.security.service.impl;
 
-import cn.hutool.core.collection.CollUtil;
-import com.liangcha.framework.common.utils.SecurityFrameworkUtils;
 import com.liangcha.framework.permission.service.PermissionService;
-import com.liangcha.framework.security.pojo.LoginUser;
 import com.liangcha.framework.security.service.SecurityFrameworkService;
 import lombok.AllArgsConstructor;
-
-import java.util.Arrays;
 
 import static com.liangcha.framework.common.utils.SecurityFrameworkUtils.getLoginUserId;
 
@@ -39,20 +34,6 @@ public class SecurityFrameworkServiceImpl implements SecurityFrameworkService {
     @Override
     public boolean hasAnyRoles(String... roles) {
         return permissionService.hasAnyRoles(getLoginUserId(), roles);
-    }
-
-    @Override
-    public boolean hasScope(String scope) {
-        return hasAnyScopes(scope);
-    }
-
-    @Override
-    public boolean hasAnyScopes(String... scope) {
-        LoginUser user = SecurityFrameworkUtils.getLoginUser();
-        if (user == null) {
-            return false;
-        }
-        return CollUtil.containsAny(user.getScopes(), Arrays.asList(scope));
     }
 
 }
