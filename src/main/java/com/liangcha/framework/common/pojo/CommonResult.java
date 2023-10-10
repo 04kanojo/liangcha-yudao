@@ -44,7 +44,4 @@ public class CommonResult<T> implements Serializable {
         return new CommonResult<>(enumType.getCode(), enumType.getMsg());
     }
 
-    public static <T> CommonResult<T> error(Integer code, String msg) {
-        return new CommonResult<>(code, msg);
-    }
 }

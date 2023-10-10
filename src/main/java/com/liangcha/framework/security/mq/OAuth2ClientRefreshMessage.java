@@ -1,6 +1,6 @@
 package com.liangcha.framework.security.mq;
 
-import com.liangcha.framework.mq.pubsub.AbstractChannelMessage;
+import com.liangcha.framework.common.mq.pubsub.AbstractChannelMessage;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

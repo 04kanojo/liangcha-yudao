@@ -1,6 +1,7 @@
 package com.liangcha.framework.validation;
 
-import com.liangcha.framework.common.interfaces.IntArr;
+
+import com.liangcha.framework.validation.interfaces.IntArr;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

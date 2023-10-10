@@ -1,6 +1,9 @@
 package com.liangcha.system.controller.auth;
 
+import cn.hutool.core.util.StrUtil;
 import com.liangcha.framework.common.pojo.CommonResult;
+import com.liangcha.framework.security.config.SecurityProperties;
+import com.liangcha.framework.security.utils.SecurityFrameworkUtils;
 import com.liangcha.system.controller.auth.vo.AuthLoginReqVO;
 import com.liangcha.system.controller.auth.vo.AuthLoginRespVO;
 import com.liangcha.system.service.auth.AdminAuthService;
@@ -28,15 +31,23 @@ public class AuthController {
     @Resource
     private AdminAuthService authService;
 
+    @Resource
+    private SecurityProperties securityProperties;
+
     @PostMapping("/login")
     @ApiOperation("管理员登录")
     public CommonResult<AuthLoginRespVO> login(HttpServletRequest request, @RequestBody @Valid AuthLoginReqVO authLoginReqVO) {
         return success(authService.login(request, authLoginReqVO));
     }
 
-//    @PostMapping("/social-login")
-//    @ApiOperation("社交快捷登录，使用 code 授权码")
-//    public CommonResult<AuthLoginRespVO> socialQuickLogin(@RequestBody @Valid AuthSocialLoginReqVO reqVO) {
-//        return success(authService.socialLogin(reqVO));
-//    }
+    @PostMapping("/logout")
+    @ApiOperation("登出系统")
+    public CommonResult<Boolean> logout(HttpServletRequest request) {
+        String token = SecurityFrameworkUtils.getToken(request, securityProperties.getTokenHeader(), securityProperties.getAuthorizationBearer());
+        if (StrUtil.isNotBlank(token)) {
+            authService.logout(token);
+        }
+        return success(true);
+    }
+
 }

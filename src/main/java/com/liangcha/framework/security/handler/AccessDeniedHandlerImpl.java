@@ -1,8 +1,8 @@
 package com.liangcha.framework.security.handler;
 
 import com.liangcha.framework.common.pojo.CommonResult;
-import com.liangcha.framework.common.utils.SecurityFrameworkUtils;
 import com.liangcha.framework.common.utils.ServletUtils;
+import com.liangcha.framework.security.utils.SecurityFrameworkUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;

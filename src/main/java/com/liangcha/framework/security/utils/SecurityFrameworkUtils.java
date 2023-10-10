@@ -1,6 +1,7 @@
-package com.liangcha.framework.common.utils;
+package com.liangcha.framework.security.utils;
 
 import cn.hutool.core.util.StrUtil;
+import com.liangcha.framework.common.utils.WebFrameworkUtils;
 import com.liangcha.framework.security.pojo.LoginUser;
 import org.springframework.lang.Nullable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

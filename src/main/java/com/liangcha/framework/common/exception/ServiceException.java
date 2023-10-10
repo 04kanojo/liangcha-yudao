@@ -1,6 +1,5 @@
 package com.liangcha.framework.common.exception;
 
-import com.liangcha.framework.common.enums.ErrorCodeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,5 +15,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class ServiceException extends RuntimeException {
-    private ErrorCodeEnum errorCodeEnum;
+    /**
+     * 错误码
+     */
+    private Integer code;
+
+    /**
+     * 错误提示
+     */
+    private String msg;
+
 }

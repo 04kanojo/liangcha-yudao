@@ -1,7 +1,5 @@
 package com.liangcha.framework.common.utils;
 
-import cn.hutool.core.date.LocalDateTimeUtil;
-
 import java.time.*;
 import java.util.Calendar;
 import java.util.Date;
@@ -9,7 +7,7 @@ import java.util.Date;
 /**
  * 时间工具类
  *
- * @author 芋道源码
+ * @author 凉茶
  */
 public class DateUtils {
 
@@ -165,16 +163,6 @@ public class DateUtils {
         }
         c.add(field, amount);
         return c.getTime();
-    }
-
-    /**
-     * 是否今天
-     *
-     * @param date 日期
-     * @return 是否
-     */
-    public static boolean isToday(LocalDateTime date) {
-        return LocalDateTimeUtil.isSameDay(date, LocalDateTime.now());
     }
 
 }

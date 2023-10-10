@@ -19,11 +19,11 @@ public interface AdminAuthService {
      */
     AuthLoginRespVO login(HttpServletRequest request, @Valid AuthLoginReqVO reqVO);
 
-//    /**
-//     * 社交快捷登录，使用 code 授权码
-//     *
-//     * @param reqVO 登录信息
-//     * @return 登录结果
-//     */
-//    AuthLoginRespVO socialLogin(@Valid AuthSocialLoginReqVO reqVO);
+    /**
+     * 基于 token 退出登录
+     *
+     * @param token token
+     */
+    void logout(String token);
+
 }

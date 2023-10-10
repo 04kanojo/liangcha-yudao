@@ -3,6 +3,15 @@ spring:
     host: 127.0.0.1
     port: 6379
 
+  rabbitmq:
+    host: 124.223.63.101  #rabbitmq的ip地址
+    port: 5672      #端口
+    username: admin
+    password: 123456
+    virtual-host: / # 虚拟主机
+    listener:
+      direct:
+        prefetch: 1  #每次只能获取一条消息，处理完成才能获取下一个消息,不让消息堆积给消费者(让消费者按照能力消费)
 
   datasource: #数据库基本配置
     dynamic: #使用@DS切换数据源

@@ -1,6 +1,6 @@
 package com.liangcha.framework.common.enums;
 
-import com.liangcha.framework.common.interfaces.IntArr;
+import com.liangcha.framework.validation.interfaces.IntArr;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

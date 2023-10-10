@@ -91,14 +91,6 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 处理token过滤器异常
-     */
-    public CommonResult<?> tokenFilterExceptionHandler(Throwable ex) {
-        log.error("token解析失败", ex);
-        return CommonResult.error(TOKEN_ERR);
-    }
-
-    /**
      * 处理系统异常，兜底处理所有的一切
      */
     @ExceptionHandler(value = IOException.class)

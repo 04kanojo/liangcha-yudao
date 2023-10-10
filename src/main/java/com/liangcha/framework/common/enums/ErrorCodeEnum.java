@@ -133,6 +133,8 @@ public enum ErrorCodeEnum {
     SMS_SEND_MOBILE_TEMPLATE_PARAM_MISS(1002013001, "模板参数({})缺失"),
     SMS_SEND_TEMPLATE_NOT_EXISTS(1002013002, "短信模板不存在"),
 
+    SMS_SEND_SCENE_NOT_EXISTS(1002013003, "发送短信场景不存在"),
+
     //  短信验证码 1002014000
     SMS_CODE_NOT_FOUND(1002014000, "验证码不存在"),
     SMS_CODE_EXPIRED(1002014001, "验证码已过期"),

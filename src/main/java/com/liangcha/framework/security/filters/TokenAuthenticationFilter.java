@@ -2,11 +2,11 @@ package com.liangcha.framework.security.filters;
 
 import cn.hutool.core.util.StrUtil;
 import com.liangcha.framework.common.exception.ServiceException;
-import com.liangcha.framework.common.utils.SecurityFrameworkUtils;
 import com.liangcha.framework.security.config.SecurityProperties;
 import com.liangcha.framework.security.pojo.LoginUser;
 import com.liangcha.framework.security.pojo.domain.OAuth2AccessTokenDO;
 import com.liangcha.framework.security.service.OAuth2TokenService;
+import com.liangcha.framework.security.utils.SecurityFrameworkUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 

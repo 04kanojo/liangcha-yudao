@@ -4,7 +4,7 @@ import com.liangcha.framework.permission.service.PermissionService;
 import com.liangcha.framework.security.service.SecurityFrameworkService;
 import lombok.AllArgsConstructor;
 
-import static com.liangcha.framework.common.utils.SecurityFrameworkUtils.getLoginUserId;
+import static com.liangcha.framework.security.utils.SecurityFrameworkUtils.getLoginUserId;
 
 /**
  * 默认的 {@link SecurityFrameworkService} 实现类

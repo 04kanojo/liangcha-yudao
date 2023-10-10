@@ -1,4 +1,4 @@
-package com.liangcha.framework.common.interfaces;
+package com.liangcha.framework.validation.interfaces;
 
 /**
  * 返回int类型的数组(因为stream流处理数组只能转为int类型)

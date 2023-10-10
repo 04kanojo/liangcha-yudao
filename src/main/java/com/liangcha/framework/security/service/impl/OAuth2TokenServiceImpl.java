@@ -1,11 +1,9 @@
 package com.liangcha.framework.security.service.impl;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.IdUtil;
-import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.extra.spring.SpringUtil;
+import com.alicp.jetcache.anno.CacheInvalidate;
 import com.alicp.jetcache.anno.Cached;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.liangcha.framework.common.enums.ErrorCodeEnum;
 import com.liangcha.framework.common.enums.RedisKeyConstants;
 import com.liangcha.framework.common.exception.ServiceException;
@@ -23,7 +21,6 @@ import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 /**
  * OAuth2.0 Token Service 实现类
@@ -58,7 +55,7 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
 
     @Override
     public OAuth2AccessTokenDO checkAccessToken(String accessToken) {
-        OAuth2AccessTokenDO accessTokenDO = getAccessToken(accessToken);
+        OAuth2AccessTokenDO accessTokenDO = getAccessTokenDO(accessToken);
         if (accessTokenDO == null) {
             throw new ServiceException(ErrorCodeEnum.ACCESS_TOKEN_NOT_EXIST);
         }
@@ -69,45 +66,21 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
     }
 
     @Override
-    public OAuth2AccessTokenDO refreshAccessToken(String refreshToken, String clientId) {
-
-        // 查询访问令牌
-        LambdaQueryWrapper<OAuth2RefreshTokenDO> lqw = new LambdaQueryWrapper<>();
-        lqw.eq(OAuth2RefreshTokenDO::getRefreshToken, refreshToken);
-        OAuth2RefreshTokenDO refreshTokenDO = oauth2RefreshTokenMapper.selectOne(lqw);
-
-        if (refreshTokenDO == null) {
-            throw new ServiceException(ErrorCodeEnum.FLUSH_TOKEN_INVALID);
+    public void removeAccessToken(String accessToken) {
+        OAuth2AccessTokenDO accessTokenDO = oauth2AccessTokenMapper.selectByAccessToken(accessToken);
+        // 令牌不存在直接结束
+        if (accessTokenDO == null) {
+            return;
         }
-
-        // 校验 Client 匹配
-        OAuth2ClientDO clientDO = oauth2ClientService.validOAuthClientFromCache(clientId, null, null, null, null);
-        if (ObjectUtil.notEqual(clientId, refreshTokenDO.getClientId())) {
-            throw new ServiceException(ErrorCodeEnum.FLUSH_TOKEN_CLIENT_ERR);
-        }
-
-        // 移除相关的访问令牌
-        LambdaQueryWrapper<OAuth2AccessTokenDO> lqw1 = new LambdaQueryWrapper<>();
-        lqw1.eq(OAuth2AccessTokenDO::getRefreshToken, refreshToken);
-        List<OAuth2AccessTokenDO> accessTokenDOs = oauth2AccessTokenMapper.selectList(lqw1);
-
-        if (CollUtil.isNotEmpty(accessTokenDOs)) {
-            List<Long> ids = accessTokenDOs.stream().map(OAuth2AccessTokenDO::getId).collect(Collectors.toList());
-            oauth2AccessTokenMapper.deleteBatchIds(ids);
-//            oauth2AccessTokenRedisDAO.deleteList(convertSet(accessTokenDOs, OAuth2AccessTokenDO::getAccessToken));
-        }
-
-        // 已过期的情况下，删除刷新令牌
-        if (LocalDateTime.now().isAfter(refreshTokenDO.getExpiresTime())) {
-            oauth2RefreshTokenMapper.deleteById(refreshTokenDO.getId());
-            throw new ServiceException(ErrorCodeEnum.FLUSH_TOKEN_EXPIRED);
-        }
-
-        // 创建访问令牌
-        return createOAuth2AccessToken(refreshTokenDO, clientDO);
+        // 删除令牌
+        oauth2AccessTokenMapper.deleteById(accessTokenDO.getId());
+        getSelf().deleteTokenInRedis(accessToken);
+        // 删除刷新令牌
+        oauth2RefreshTokenMapper.deleteByRefreshToken(accessTokenDO.getRefreshToken());
     }
 
-    public OAuth2AccessTokenDO getAccessToken(String accessToken) {
+
+    public OAuth2AccessTokenDO getAccessTokenDO(String accessToken) {
         return getSelf().getAccessTokenDOFromCache(accessToken);
     }
 
@@ -148,6 +121,11 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
     @Cached(name = RedisKeyConstants.OAUTH2_ACCESS_TOKEN, key = "#accessTokenDO.accessToken", expire = 3, timeUnit = TimeUnit.MINUTES)
     public OAuth2AccessTokenDO setTokenInRedis(OAuth2AccessTokenDO accessTokenDO) {
         return accessTokenDO;
+    }
+
+    @CacheInvalidate(name = RedisKeyConstants.OAUTH2_ACCESS_TOKEN, key = "#accessToken")
+    public void deleteTokenInRedis(String accessToken) {
+
     }
 
     /**

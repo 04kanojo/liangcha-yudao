@@ -40,14 +40,13 @@ liangcha:
   security:
     authorizationBearer: Bearer
     permit-all_urls:
+      # 接口
       - /auth/login
       - /captcha/get
-      - /captcha/check
-      - /websocket/message
-      #swagger需要不登录访问的路径
+      # swagger需要不登录访问的路径
       - /doc.html
       - /favicon.ico
       - /swagger-resources
       - /v2/api-docs
-      #其余
-      - /test
+      # 其余
+      - /websocket/message

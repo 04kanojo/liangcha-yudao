@@ -1,6 +1,6 @@
 package com.liangcha.framework.security.mq;
 
-import com.liangcha.framework.mq.RedisMQTemplate;
+import com.liangcha.framework.common.mq.RedisMQTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;

@@ -13,4 +13,8 @@ public interface AdminUserMapper extends BaseMapper<AdminUserDO> {
     default AdminUserDO selectUserByUsername(String username) {
         return selectOne(new LambdaQueryWrapper<AdminUserDO>().eq(AdminUserDO::getUsername, username));
     }
+
+    default AdminUserDO selectByMobile(String mobile) {
+        return selectOne(new LambdaQueryWrapper<AdminUserDO>().eq(AdminUserDO::getMobile, mobile));
+    }
 }

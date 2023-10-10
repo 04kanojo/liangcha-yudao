@@ -31,11 +31,10 @@ public interface OAuth2TokenService {
     OAuth2AccessTokenDO checkAccessToken(String accessToken);
 
     /**
-     * 刷新访问令牌
+     * 移除访问令牌
      *
-     * @param refreshToken 刷新令牌
-     * @param clientId     客户端编号
-     * @return 访问令牌的信息
+     * @param accessToken 访问令牌
      */
-    OAuth2AccessTokenDO refreshAccessToken(String refreshToken, String clientId);
+    void removeAccessToken(String accessToken);
+
 }
