@@ -30,7 +30,7 @@ import java.util.List;
  */
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
-public class LiangChaWebSecurityConfigurerAdapter {
+public class SecurityConfig {
 
     @Resource
     private SecurityProperties securityProperties;

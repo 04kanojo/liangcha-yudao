@@ -43,6 +43,7 @@ liangcha:
       # 接口
       - /auth/login
       - /captcha/get
+      - /sms/send-sms-code
       # swagger需要不登录访问的路径
       - /doc.html
       - /favicon.ico
@@ -50,3 +51,10 @@ liangcha:
       - /v2/api-docs
       # 其余
       - /websocket/message
+
+  sms-code: # 短信验证码相关的配置项
+    expire-times: 10m
+    send-frequency: 1m
+    send-maximum-quantity-per-day: 10
+    begin-code: 9999 # 这里配置 9999 的原因是，测试方便。
+    end-code: 9999 # 这里配置 9999 的原因是，测试方便。

@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ServiceExceptionUtil {
     public static ServiceException exception(ErrorCodeEnum codeEnum) {
-        log.error(codeEnum.getMsg());
         throw new ServiceException(codeEnum.getCode(), codeEnum.getMsg());
     }
 

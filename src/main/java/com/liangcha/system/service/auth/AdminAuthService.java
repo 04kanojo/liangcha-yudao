@@ -1,5 +1,6 @@
 package com.liangcha.system.service.auth;
 
+import com.liangcha.framework.security.pojo.domain.OAuth2AccessTokenDO;
 import com.liangcha.system.controller.auth.vo.AuthLoginReqVO;
 import com.liangcha.system.controller.auth.vo.AuthLoginRespVO;
 
@@ -26,4 +27,12 @@ public interface AdminAuthService {
      */
     void logout(String token);
 
+    /**
+     * 刷新访问令牌
+     * <p>
+     *
+     * @param refreshToken 刷新令牌
+     * @return 访问令牌的信息
+     */
+    OAuth2AccessTokenDO refreshToken(String refreshToken);
 }

@@ -12,7 +12,6 @@ import com.liangcha.framework.security.service.OAuth2TokenService;
 import com.liangcha.system.controller.auth.vo.AuthLoginReqVO;
 import com.liangcha.system.controller.auth.vo.AuthLoginRespVO;
 import com.liangcha.system.domain.auth.AdminUserDO;
-import com.liangcha.system.service.sms.SmsCodeService;
 import com.liangcha.system.service.user.AdminUserService;
 import org.springframework.stereotype.Service;
 
@@ -36,10 +35,6 @@ public class AdminAuthServiceImpl implements AdminAuthService {
 
     @Resource
     private CaptchaProperties captchaProperties;
-
-    @Resource
-    private SmsCodeService smsCodeService;
-
 
     @Override
     public AuthLoginRespVO login(HttpServletRequest request, AuthLoginReqVO reqVO) {
@@ -68,6 +63,11 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         oauth2TokenService.removeAccessToken(token);
     }
 
+    @Override
+    public OAuth2AccessTokenDO refreshToken(String refreshToken) {
+        return oauth2TokenService.refreshToken(refreshToken);
+    }
+
     //======================================== 功能方法(非重写) ========================================
 
     /**
@@ -94,7 +94,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     }
 
     private AuthLoginRespVO createTokenAfterLoginSuccess(Long userId) {
-        OAuth2AccessTokenCreateReqDTO oAuth2AccessTokenCreateReqDTO = OAuth2AccessTokenCreateReqDTO.builder().userId(userId).userType(UserTypeEnum.ADMIN.getCode()).clientId("default").build();
+        OAuth2AccessTokenCreateReqDTO oAuth2AccessTokenCreateReqDTO = OAuth2AccessTokenCreateReqDTO.builder().userId(userId).userType(UserTypeEnum.ADMIN.getCode()).build();
         // 创建访问令牌
         OAuth2AccessTokenDO accessTokenDO = oauth2TokenService.createAccessToken(oAuth2AccessTokenCreateReqDTO);
         return AuthConvert.INSTANCE.convert(accessTokenDO);

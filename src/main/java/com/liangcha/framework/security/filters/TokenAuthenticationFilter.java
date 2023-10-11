@@ -1,7 +1,6 @@
 package com.liangcha.framework.security.filters;
 
 import cn.hutool.core.util.StrUtil;
-import com.liangcha.framework.common.exception.ServiceException;
 import com.liangcha.framework.security.config.SecurityProperties;
 import com.liangcha.framework.security.pojo.LoginUser;
 import com.liangcha.framework.security.pojo.domain.OAuth2AccessTokenDO;
@@ -45,19 +44,14 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private LoginUser buildLoginUserByToken(String token) {
-        try {
-            OAuth2AccessTokenDO accessToken = oauth2TokenService.checkAccessToken(token);
-            if (accessToken == null) {
-                return null;
-            }
-            // 构建登录用户
-            return LoginUser.builder()
-                    .id(accessToken.getUserId())
-                    .userType(accessToken.getUserType())
-                    .scopes(accessToken.getScopes())
-                    .build();
-        } catch (ServiceException serviceException) {
+        OAuth2AccessTokenDO accessToken = oauth2TokenService.checkAccessToken(token);
+        if (accessToken == null) {
             return null;
         }
+        // 构建登录用户
+        return LoginUser.builder()
+                .id(accessToken.getUserId())
+                .userType(accessToken.getUserType())
+                .build();
     }
 }

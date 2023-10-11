@@ -9,7 +9,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.google.common.annotations.VisibleForTesting;
 import com.liangcha.framework.common.enums.CommonStatusEnum;
 import com.liangcha.framework.common.enums.RedisKeyConstants;
-import com.liangcha.framework.common.exception.ServiceException;
 import com.liangcha.framework.convert.permission.RoleConvert;
 import com.liangcha.framework.permission.enums.DataScopeEnum;
 import com.liangcha.framework.permission.enums.RoleCodeEnum;
@@ -34,6 +33,7 @@ import java.util.*;
 import static com.liangcha.framework.common.enums.ErrorCodeEnum.*;
 import static com.liangcha.framework.common.utils.CollectionUtils.convertList;
 import static com.liangcha.framework.common.utils.CollectionUtils.convertMap;
+import static com.liangcha.framework.common.utils.ServiceExceptionUtil.exception;
 
 /**
  * 角色 Service 实现类
@@ -125,12 +125,12 @@ public class RoleServiceImpl implements RoleService {
     void validateRoleDuplicate(String name, String code, Long id) {
         // 0. 超级管理员，不允许创建
         if (RoleCodeEnum.isSuperAdmin(code)) {
-            throw new ServiceException(ROLE_ADMIN_CODE_ERROR);
+            throw exception(ROLE_ADMIN_CODE_ERROR);
         }
         // 1. 该 name 名字被其它角色所使用
         RoleDO role = roleMapper.selectByName(name);
         if (role != null && !role.getId().equals(id)) {
-            throw new ServiceException(ROLE_NAME_DUPLICATE);
+            throw exception(ROLE_NAME_DUPLICATE);
         }
         // 2. 是否存在相同编码的角色
         if (!StringUtils.hasText(code)) {
@@ -139,7 +139,7 @@ public class RoleServiceImpl implements RoleService {
         // 该 code 编码被其它角色所使用
         role = roleMapper.selectByCode(code);
         if (role != null && !role.getId().equals(id)) {
-            throw new ServiceException(ROLE_CODE_DUPLICATE);
+            throw exception(ROLE_CODE_DUPLICATE);
         }
     }
 
@@ -152,11 +152,11 @@ public class RoleServiceImpl implements RoleService {
     void validateRoleForUpdate(Long id) {
         RoleDO roleDO = roleMapper.selectById(id);
         if (roleDO == null) {
-            throw new ServiceException(ROLE_NOT_EXISTS);
+            throw exception(ROLE_NOT_EXISTS);
         }
         // 内置角色，不允许删除
         if (RoleTypeEnum.SYSTEM.getType().equals(roleDO.getType())) {
-            throw new ServiceException(ROLE_CAN_NOT_UPDATE_SYSTEM_TYPE_ROLE);
+            throw exception(ROLE_CAN_NOT_UPDATE_SYSTEM_TYPE_ROLE);
         }
     }
 
@@ -234,10 +234,10 @@ public class RoleServiceImpl implements RoleService {
         ids.forEach(id -> {
             RoleDO role = roleMap.get(id);
             if (role == null) {
-                throw new ServiceException(ROLE_NOT_EXISTS);
+                throw exception(ROLE_NOT_EXISTS);
             }
             if (!CommonStatusEnum.ENABLE.getStatus().equals(role.getStatus())) {
-                throw new ServiceException(ROLE_IS_DISABLE);
+                throw exception(ROLE_IS_DISABLE);
             }
         });
     }

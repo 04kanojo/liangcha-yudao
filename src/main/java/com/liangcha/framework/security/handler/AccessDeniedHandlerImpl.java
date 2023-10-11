@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 import static com.liangcha.framework.common.enums.ErrorCodeEnum.SMALL_AUTHORITY;
 
@@ -23,7 +24,7 @@ import static com.liangcha.framework.common.enums.ErrorCodeEnum.SMALL_AUTHORITY;
 @Component
 public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
     @Override
-    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e) {
+    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e) throws IOException {
         log.error("[用户({}) 访问 URL({}) 时，权限不够]", SecurityFrameworkUtils.getLoginUserId(), request.getRequestURI(), e);
         ServletUtils.writeJSON(response, CommonResult.error(SMALL_AUTHORITY));
     }

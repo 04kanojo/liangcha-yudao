@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 import static com.liangcha.framework.common.enums.ErrorCodeEnum.NO_LOGIN;
 
@@ -22,7 +23,7 @@ import static com.liangcha.framework.common.enums.ErrorCodeEnum.NO_LOGIN;
 public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) {
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException {
         log.error("[访问 URL({}) 时，没有登录]", request.getRequestURI(), e);
         ServletUtils.writeJSON(response, CommonResult.error(NO_LOGIN));
     }

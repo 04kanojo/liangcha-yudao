@@ -7,10 +7,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.alicp.jetcache.anno.Cached;
 import com.liangcha.framework.common.enums.CommonStatusEnum;
-import com.liangcha.framework.common.enums.ErrorCodeEnum;
 import com.liangcha.framework.common.enums.RedisKeyConstants;
-import com.liangcha.framework.common.exception.ServiceException;
-import com.liangcha.framework.security.mq.OAuth2ClientProducer;
 import com.liangcha.framework.security.pojo.domain.OAuth2ClientDO;
 import com.liangcha.framework.security.service.OAuth2ClientService;
 import com.liangcha.system.dao.auth.OAuth2ClientMapper;
@@ -19,6 +16,9 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.annotation.Resource;
 import java.util.Collection;
+
+import static com.liangcha.framework.common.enums.ErrorCodeEnum.*;
+import static com.liangcha.framework.common.utils.ServiceExceptionUtil.exception;
 
 /**
  * OAuth2.0 Client Service 实现类
@@ -31,8 +31,6 @@ public class OAuth2ClientServiceImpl implements OAuth2ClientService {
 
     @Resource
     private OAuth2ClientMapper oauth2ClientMapper;
-    @Resource
-    private OAuth2ClientProducer oauth2ClientProducer;
 
     /**
      * 给定字符串是否以任何一个字符串开始
@@ -59,30 +57,30 @@ public class OAuth2ClientServiceImpl implements OAuth2ClientService {
         // 校验客户端是否存在
         OAuth2ClientDO client = getSelf().getOAuth2ClientFromCache(clientId);
         if (client == null) {
-            throw new ServiceException(ErrorCodeEnum.OAUTH2_CLIENT_NOT_EXISTS);
+            throw exception(OAUTH2_CLIENT_NOT_EXISTS);
 
         }
         if (ObjectUtil.notEqual(client.getStatus(), CommonStatusEnum.ENABLE.getStatus())) {
-            throw new ServiceException(ErrorCodeEnum.OAUTH2_CLIENT_DISABLE);
+            throw exception(OAUTH2_CLIENT_DISABLE);
         }
 
         // 校验客户端密钥
         if (StrUtil.isNotEmpty(clientSecret) && ObjectUtil.notEqual(client.getSecret(), clientSecret)) {
-            throw new ServiceException(ErrorCodeEnum.OAUTH2_CLIENT_CLIENT_SECRET_ERROR);
+            throw exception(OAUTH2_CLIENT_CLIENT_SECRET_ERROR);
 
         }
         // 校验授权方式
         if (StrUtil.isNotEmpty(authorizedGrantType) && !CollUtil.contains(client.getAuthorizedGrantTypes(), authorizedGrantType)) {
-            throw new ServiceException(ErrorCodeEnum.OAUTH2_CLIENT_AUTHORIZED_GRANT_TYPE_NOT_EXISTS);
+            throw exception(OAUTH2_CLIENT_AUTHORIZED_GRANT_TYPE_NOT_EXISTS);
 
         }
         // 校验授权范围
         if (CollUtil.isNotEmpty(scopes) && !CollUtil.containsAll(client.getScopes(), scopes)) {
-            throw new ServiceException(ErrorCodeEnum.OAUTH2_CLIENT_SCOPE_OVER);
+            throw exception(OAUTH2_CLIENT_SCOPE_OVER);
         }
         // 校验回调地址
         if (StrUtil.isNotEmpty(redirectUri) && !startWithAny(redirectUri, client.getRedirectUris())) {
-            throw new ServiceException(ErrorCodeEnum.OAUTH2_CLIENT_REDIRECT_URI_NOT_MATCH);
+            throw exception(OAUTH2_CLIENT_REDIRECT_URI_NOT_MATCH);
         }
         return client;
     }

@@ -1,7 +1,6 @@
 package com.liangcha.framework.common.exception;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
@@ -10,7 +9,6 @@ import lombok.NoArgsConstructor;
  *
  * @author 凉茶
  */
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
@@ -24,5 +22,13 @@ public class ServiceException extends RuntimeException {
      * 错误提示
      */
     private String msg;
+
+    public Integer getCode() {
+        return code;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
 
 }

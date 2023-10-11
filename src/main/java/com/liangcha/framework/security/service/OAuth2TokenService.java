@@ -37,4 +37,12 @@ public interface OAuth2TokenService {
      */
     void removeAccessToken(String accessToken);
 
+    /**
+     * 刷新访问令牌
+     *
+     * @param refreshToken 刷新令牌
+     * @return 访问令牌的信息
+     */
+    OAuth2AccessTokenDO refreshToken(String refreshToken);
+
 }

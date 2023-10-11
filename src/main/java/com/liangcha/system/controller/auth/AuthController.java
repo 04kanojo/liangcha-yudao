@@ -3,6 +3,7 @@ package com.liangcha.system.controller.auth;
 import cn.hutool.core.util.StrUtil;
 import com.liangcha.framework.common.pojo.CommonResult;
 import com.liangcha.framework.security.config.SecurityProperties;
+import com.liangcha.framework.security.pojo.domain.OAuth2AccessTokenDO;
 import com.liangcha.framework.security.utils.SecurityFrameworkUtils;
 import com.liangcha.system.controller.auth.vo.AuthLoginReqVO;
 import com.liangcha.system.controller.auth.vo.AuthLoginRespVO;
@@ -50,4 +51,9 @@ public class AuthController {
         return success(true);
     }
 
+    @PostMapping("/refresh-token")
+    @ApiOperation("刷新令牌")
+    public CommonResult<OAuth2AccessTokenDO> refreshToken(String refreshToken) {
+        return success(authService.refreshToken(refreshToken));
+    }
 }

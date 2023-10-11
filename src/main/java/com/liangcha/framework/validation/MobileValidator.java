@@ -10,6 +10,7 @@ public class MobileValidator implements ConstraintValidator<Mobile, String> {
 
     @Override
     public void initialize(Mobile annotation) {
+        System.out.println("f");
     }
 
     @Override

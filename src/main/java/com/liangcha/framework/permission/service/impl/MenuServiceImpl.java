@@ -3,7 +3,6 @@ package com.liangcha.framework.permission.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.google.common.annotations.VisibleForTesting;
 import com.liangcha.framework.common.enums.RedisKeyConstants;
-import com.liangcha.framework.common.exception.ServiceException;
 import com.liangcha.framework.convert.permission.MenuConvert;
 import com.liangcha.framework.permission.enums.MenuTypeEnum;
 import com.liangcha.framework.permission.service.MenuService;
@@ -23,6 +22,7 @@ import java.util.List;
 
 import static com.liangcha.framework.common.enums.ErrorCodeEnum.*;
 import static com.liangcha.framework.common.utils.CollectionUtils.convertList;
+import static com.liangcha.framework.common.utils.ServiceExceptionUtil.exception;
 import static com.liangcha.system.domain.permission.MenuDO.ID_ROOT;
 
 
@@ -61,7 +61,7 @@ public class MenuServiceImpl implements MenuService {
     public void updateMenu(MenuUpdateReqVO reqVO) {
         // 校验更新的菜单是否存在
         if (menuMapper.selectById(reqVO.getId()) == null) {
-            throw new ServiceException(MENU_NOT_EXISTS);
+            throw exception(MENU_NOT_EXISTS);
         }
         // 校验父菜单存在
         validateParentMenu(reqVO.getParentId(), reqVO.getId());
@@ -81,11 +81,11 @@ public class MenuServiceImpl implements MenuService {
 //    public void deleteMenu(Long id) {
 //        // 校验是否还有子菜单
 //        if (menuMapper.selectCountByParentId(id) > 0) {
-//            throw new ServiceException(MENU_EXISTS_CHILDREN);
+//            throw exception()(MENU_EXISTS_CHILDREN);
 //        }
 //        // 校验删除的菜单是否存在
 //        if (menuMapper.selectById(id) == null) {
-//            throw new ServiceException(MENU_NOT_EXISTS);
+//            throw exception()(MENU_NOT_EXISTS);
 //        }
 //        // 标记删除
 //        menuMapper.deleteById(id);
@@ -143,17 +143,17 @@ public class MenuServiceImpl implements MenuService {
         }
         // 不能设置自己为父菜单
         if (parentId.equals(childId)) {
-            throw new ServiceException(MENU_PARENT_ERROR);
+            throw exception(MENU_PARENT_ERROR);
         }
         MenuDO menu = menuMapper.selectById(parentId);
         // 父菜单不存在
         if (menu == null) {
-            throw new ServiceException(MENU_PARENT_NOT_EXISTS);
+            throw exception(MENU_PARENT_NOT_EXISTS);
         }
         // 父菜单必须是目录或者菜单类型
         if (!MenuTypeEnum.DIR.getType().equals(menu.getType())
                 && !MenuTypeEnum.MENU.getType().equals(menu.getType())) {
-            throw new ServiceException(MENU_PARENT_NOT_DIR_OR_MENU);
+            throw exception(MENU_PARENT_NOT_DIR_OR_MENU);
         }
     }
 
@@ -174,10 +174,10 @@ public class MenuServiceImpl implements MenuService {
         }
         // 如果 id 为空，说明不用比较是否为相同 id 的菜单
         if (id == null) {
-            throw new ServiceException(MENU_NAME_DUPLICATE);
+            throw exception(MENU_NAME_DUPLICATE);
         }
         if (!menu.getId().equals(id)) {
-            throw new ServiceException(MENU_NAME_DUPLICATE);
+            throw exception(MENU_NAME_DUPLICATE);
         }
     }
 

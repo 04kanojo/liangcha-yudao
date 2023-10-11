@@ -29,12 +29,6 @@ public class OAuth2AccessTokenCreateReqDTO implements Serializable {
     private Integer userType;
 
     /**
-     * 客户端编号
-     */
-    @NotNull(message = "客户端编号不能为空")
-    private String clientId;
-
-    /**
      * 授权范围
      */
     private List<String> scopes;
