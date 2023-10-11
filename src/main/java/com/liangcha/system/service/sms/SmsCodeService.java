@@ -20,7 +20,6 @@ public interface SmsCodeService {
 
     /**
      * 执行真正的短信发送
-     * 注意，该方法仅仅提供给 MQ Consumer 使用
      *
      * @param message 短信
      */

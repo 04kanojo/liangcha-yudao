@@ -76,15 +76,7 @@ public class SmsCodeServiceImpl implements SmsCodeService {
 
     @Override
     public void doSendSms(SmsSendMessage message) {
-//        // 获得渠道对应的 SmsClient 客户端
-//        SmsClient smsClient = smsChannelService.getSmsClient(message.getChannelId());
-//        Assert.notNull(smsClient, "短信客户端({}) 不存在", message.getChannelId());
-//        // 发送短信
-//        SmsCommonResult<SmsSendRespDTO> sendResult = smsClient.sendSms(message.getLogId(), message.getMobile(),
-//                message.getApiTemplateId(), message.getTemplateParams());
-//        smsLogService.updateSmsSendResult(message.getLogId(), sendResult.getCode(), sendResult.getMsg(),
-//                sendResult.getApiCode(), sendResult.getApiMsg(), sendResult.getApiRequestId(),
-//                sendResult.getData() != null ? sendResult.getData().getSerialNo() : null);
+        //TODO 申请完短信继续编码
     }
 
     public void sendSingleSms(String mobile, String templateCode, String code) {

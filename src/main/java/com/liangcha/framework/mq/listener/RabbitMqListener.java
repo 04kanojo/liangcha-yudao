@@ -22,7 +22,7 @@ public class RabbitMqListener {
 
     @RabbitListener(queues = "sms")
     public void listenSmsQueue(SmsSendMessage message) {
-        log.info("[onMessage][消息内容({})]", message);
+        log.info("[Message][消息内容({})]", message);
         smsSendService.doSendSms(message);
     }
 
