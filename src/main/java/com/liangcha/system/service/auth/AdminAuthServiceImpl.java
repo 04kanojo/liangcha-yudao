@@ -94,7 +94,9 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     }
 
     private AuthLoginRespVO createTokenAfterLoginSuccess(Long userId) {
-        OAuth2AccessTokenCreateReqDTO oAuth2AccessTokenCreateReqDTO = OAuth2AccessTokenCreateReqDTO.builder().userId(userId).userType(UserTypeEnum.ADMIN.getCode()).build();
+        OAuth2AccessTokenCreateReqDTO oAuth2AccessTokenCreateReqDTO = new OAuth2AccessTokenCreateReqDTO()
+                .setUserId(userId)
+                .setUserType(UserTypeEnum.ADMIN.getCode());
         // 创建访问令牌
         OAuth2AccessTokenDO accessTokenDO = oauth2TokenService.createAccessToken(oAuth2AccessTokenCreateReqDTO);
         return AuthConvert.INSTANCE.convert(accessTokenDO);

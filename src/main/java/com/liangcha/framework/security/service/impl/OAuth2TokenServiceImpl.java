@@ -58,7 +58,8 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
 
     @Override
     public OAuth2AccessTokenDO refreshToken(String refreshToken) {
-        return null;
+        OAuth2RefreshTokenDO refreshTokenDO = refreshTokenCache.get(refreshToken);
+        return createOAuth2AccessToken(refreshTokenDO);
     }
 
     //======================================== 功能方法(非重写) ========================================
@@ -73,7 +74,6 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
                 .refreshToken(refreshTokenDO.getRefreshToken())
 //                .expiresTime(LocalDateTime.now())
                 .build();
-//        oauth2AccessTokenMapper.insert(accessTokenDO);
 
         // 记录到 Redis 中
         tokenCache.put(accessTokenDO.getAccessToken(), accessTokenDO);

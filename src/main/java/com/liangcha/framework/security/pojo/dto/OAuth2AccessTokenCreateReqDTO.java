@@ -1,7 +1,9 @@
 package com.liangcha.framework.security.pojo.dto;
 
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -13,7 +15,9 @@ import java.util.List;
  * @author 凉茶
  */
 @Data
-@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Accessors(chain = true)
 public class OAuth2AccessTokenCreateReqDTO implements Serializable {
 
     /**
