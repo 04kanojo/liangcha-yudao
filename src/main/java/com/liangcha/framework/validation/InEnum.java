@@ -23,6 +23,7 @@ import java.lang.annotation.*;
 })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
+//定义规则
 @Constraint(
         validatedBy = InEnumValidator.class
 )

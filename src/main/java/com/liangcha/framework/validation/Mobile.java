@@ -14,6 +14,7 @@ import java.lang.annotation.*;
 })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
+//定义规则
 @Constraint(
         validatedBy = MobileValidator.class
 )
@@ -21,6 +22,9 @@ public @interface Mobile {
 
     String message() default "手机号格式不正确";
 
+    /**
+     * 下面两个都是实现自定义校验规则必须写的
+     */
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};

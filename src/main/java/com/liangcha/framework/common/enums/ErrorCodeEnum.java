@@ -46,13 +46,16 @@ public enum ErrorCodeEnum {
     CAPTCHA_ERR(410, "验证码错误"),
 
     // ========== 请求校验 ==========
-    ERR_REQUEST(403, "请求参数不正确"),
+    ERR_REQUEST(411, "请求参数不正确"),
 
-    NOT_FOUND(404, "请求未找到"),
+    NOT_FOUND(412, "请求未找到"),
 
-    METHOD_NOT_ALLOWED(405, "请求方法错误"),
+    METHOD_NOT_ALLOWED(413, "请求方法错误"),
 
-    IO_ERR(123, "io流异常"),
+    IO_ERR(414, "io流异常"),
+
+    // ========== 客户端错误段 ==========
+    TOO_MANY_REQUESTS(415, "请求过于频繁，请稍后重试"),
 
     //  AUTH 模块 1002000000
     AUTH_LOGIN_BAD_CREDENTIALS(1002000000, "登录失败，账号密码不正确"),

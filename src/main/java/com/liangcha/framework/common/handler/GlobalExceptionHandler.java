@@ -19,8 +19,6 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import javax.validation.ValidationException;
-import java.io.IOException;
 
 import static com.liangcha.framework.common.enums.ErrorCodeEnum.*;
 
@@ -89,17 +87,6 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 处理 Dubbo Consumer 本地参数校验时，抛出的 ValidationException 异常
-     */
-    @ExceptionHandler(value = ValidationException.class)
-    public CommonResult<?> validationException(ValidationException ex) {
-        log.warn("[constraintViolationExceptionHandler]", ex);
-        // 无法拼接明细的错误信息，因为 Dubbo Consumer 抛出 ValidationException 异常时，是直接的字符串信息，且人类不可读
-        return CommonResult.error(ERR_REQUEST);
-    }
-
-
-    /**
      * 处理 SpringMVC 请求地址不存在
      * <p>
      * 注意，它需要设置如下两个配置项：
@@ -122,7 +109,6 @@ public class GlobalExceptionHandler {
         log.error("[httpRequestMethodNotSupportedExceptionHandler]:{}", ex.getMessage());
         return CommonResult.error(METHOD_NOT_ALLOWED);
     }
-
 
     /**
      * 处理 Spring Security 权限不足的异常
@@ -148,16 +134,7 @@ public class GlobalExceptionHandler {
     /**
      * 处理系统异常，兜底处理所有的一切
      */
-    @ExceptionHandler(value = IOException.class)
-    public CommonResult<?> IOExceptionHandler(IOException ex) {
-        log.error("[IOException]:{}", ex.getMessage());
-        return CommonResult.error(IO_ERR);
-    }
-
-    /**
-     * 处理系统异常，兜底处理所有的一切
-     */
-    @ExceptionHandler(value = Throwable.class)
+    @ExceptionHandler(value = Exception.class)
     public CommonResult<?> defaultExceptionHandler(Throwable ex) {
         log.error("[Exception]:{}", ex.getMessage());
         //TODO 将未知异常存入数据库或者保存到本地
