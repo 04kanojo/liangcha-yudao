@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
+import static com.liangcha.framework.common.enums.ErrorCodeEnum.FLUSH_TOKEN_EXPIRED;
+import static com.liangcha.framework.common.utils.ServiceExceptionUtil.exception;
+
 /**
  * OAuth2.0 Token Service 实现类
  *
@@ -59,39 +62,37 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
     @Override
     public OAuth2AccessTokenDO refreshToken(String refreshToken) {
         OAuth2RefreshTokenDO refreshTokenDO = refreshTokenCache.get(refreshToken);
+        if (refreshTokenDO == null) {
+            throw exception(FLUSH_TOKEN_EXPIRED);
+        }
         return createOAuth2AccessToken(refreshTokenDO);
     }
 
-    //======================================== 功能方法(非重写) ========================================
+    @Override
+    public OAuth2RefreshTokenDO createOAuth2RefreshToken(Long userId, Integer userType) {
+        OAuth2RefreshTokenDO refreshToken = OAuth2RefreshTokenDO.builder()
+                .refreshToken(generateToken())
+                .userId(userId)
+                .userType(userType)
+                .build();
+        // 记录到 Redis 中
+        refreshTokenCache.put(refreshToken.getRefreshToken(), refreshToken);
+        return refreshToken;
+    }
 
-    private OAuth2AccessTokenDO createOAuth2AccessToken(OAuth2RefreshTokenDO refreshTokenDO) {
+    @Override
+    public OAuth2AccessTokenDO createOAuth2AccessToken(OAuth2RefreshTokenDO refreshTokenDO) {
         OAuth2AccessTokenDO accessTokenDO = OAuth2AccessTokenDO.builder()
                 .accessToken(generateToken())
                 .userId(refreshTokenDO.getUserId())
                 .userType(refreshTokenDO.getUserType())
-//                .clientId(clientDO.getClientId())
                 .scopes(refreshTokenDO.getScopes())
                 .refreshToken(refreshTokenDO.getRefreshToken())
-//                .expiresTime(LocalDateTime.now())
                 .build();
 
         // 记录到 Redis 中
         tokenCache.put(accessTokenDO.getAccessToken(), accessTokenDO);
         return accessTokenDO;
-    }
-
-    private OAuth2RefreshTokenDO createOAuth2RefreshToken(Long userId, Integer userType) {
-        OAuth2RefreshTokenDO refreshToken = OAuth2RefreshTokenDO.builder()
-                .refreshToken(generateToken())
-                .userId(userId)
-                .userType(userType)
-//                .clientId(clientDO.getClientId())
-//                .scopes(scopes)
-//                .expiresTime(LocalDateTime.now().plusSeconds(clientDO.getRefreshTokenValiditySeconds()))
-                .build();
-        // 记录到 Redis 中
-        refreshTokenCache.put(refreshToken.getRefreshToken(), refreshToken);
-        return refreshToken;
     }
 
 }

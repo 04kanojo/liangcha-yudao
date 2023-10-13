@@ -48,6 +48,12 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         if (accessToken == null) {
             return null;
         }
+
+        //token未过期但是刷新过期,重新创建刷新令牌
+        if (accessToken.getRefreshToken() == null) {
+            oauth2TokenService.createOAuth2RefreshToken(accessToken.getUserId(), accessToken.getUserType());
+        }
+
         // 构建登录用户
         return LoginUser.builder()
                 .id(accessToken.getUserId())

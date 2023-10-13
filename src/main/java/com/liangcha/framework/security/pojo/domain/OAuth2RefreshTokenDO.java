@@ -8,7 +8,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -52,10 +51,5 @@ public class OAuth2RefreshTokenDO extends BaseDO {
      */
     @TableField(typeHandler = JacksonTypeHandler.class)
     private List<String> scopes;
-
-    /**
-     * 过期时间
-     */
-    private LocalDateTime expiresTime;
 
 }

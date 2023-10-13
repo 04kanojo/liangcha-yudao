@@ -64,8 +64,9 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     }
 
     @Override
-    public OAuth2AccessTokenDO refreshToken(String refreshToken) {
-        return oauth2TokenService.refreshToken(refreshToken);
+    public AuthLoginRespVO refreshToken(String refreshToken) {
+        OAuth2AccessTokenDO accessTokenDO = oauth2TokenService.refreshToken(refreshToken);
+        return AuthConvert.INSTANCE.convert(accessTokenDO);
     }
 
     //======================================== 功能方法(非重写) ========================================
