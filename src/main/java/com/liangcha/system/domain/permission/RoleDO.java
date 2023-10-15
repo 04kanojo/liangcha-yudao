@@ -24,26 +24,32 @@ public class RoleDO {
      */
     @TableId
     private Long id;
+
     /**
      * 角色名称
      */
     private String name;
+
     /**
      * 角色标识
      */
     private String code;
+
     /**
      * 角色排序
      */
     private Integer sort;
+
     /**
      * 角色状态
      */
     private Integer status;
+
     /**
      * 角色类型
      */
     private Integer type;
+
     /**
      * 备注
      */
@@ -53,6 +59,7 @@ public class RoleDO {
      * 数据范围
      */
     private Integer dataScope;
+
     /**
      * 数据范围(指定部门数组)
      */

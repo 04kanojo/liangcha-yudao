@@ -1,5 +1,8 @@
 package com.liangcha.framework.permission.service;
 
+import com.liangcha.system.domain.permission.RoleDO;
+
+import java.util.List;
 import java.util.Set;
 
 
@@ -29,22 +32,29 @@ public interface PermissionService {
      */
     boolean hasAnyRoles(Long userId, String... roles);
 
+    /**
+     * 获得用户的启用角色集合
+     *
+     * @param userId 用户id
+     * @return 角色集合
+     */
+    List<RoleDO> getEnableUserRoleListByUserId(Long userId);
 
     /**
-     * 获得拥有指定菜单的角色编号数组，从缓存中获取
+     * 获得拥有指定菜单的角色编号数组
      *
      * @param menuId 菜单编号
      * @return 角色编号数组
      */
-    Set<Long> getMenuRoleIdListByMenuIdFromCache(Long menuId);
+    Set<Long> getMenuRoleIdListByMenuId(Long menuId);
 
 
     /**
-     * 获得用户拥有的角色编号集合，从缓存中获取
+     * 获得用户拥有的角色编号集合
      *
      * @param userId 用户编号
      * @return 角色编号集合
      */
-    Set<Long> getUserRoleIdListByUserIdFromCache(Long userId);
+    Set<Long> getUserRoleIdListByUserId(Long userId);
 
 }

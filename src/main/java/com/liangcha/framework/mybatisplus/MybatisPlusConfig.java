@@ -1,10 +1,18 @@
 package com.liangcha.framework.mybatisplus;
 
+import cn.hutool.core.net.NetUtil;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import com.baomidou.mybatisplus.core.incrementer.DefaultIdentifierGenerator;
+import com.baomidou.mybatisplus.core.incrementer.IdentifierGenerator;
+import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.liangcha.framework.common.pojo.BaseDO;
 import com.liangcha.framework.common.utils.WebFrameworkUtils;
+import com.liangcha.framework.dataPermission.PlusDataPermissionInterceptor;
 import org.apache.ibatis.reflection.MetaObject;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -16,7 +24,7 @@ import java.util.Objects;
  *
  * @author 凉茶
  */
-@Component
+@Configuration
 public class MybatisPlusConfig implements MetaObjectHandler {
 
     @Override
@@ -60,5 +68,29 @@ public class MybatisPlusConfig implements MetaObjectHandler {
         if (Objects.nonNull(userId) && Objects.isNull(modifier)) {
             setFieldValByName("updater", userId.toString(), metaObject);
         }
+    }
+
+    @Bean
+    public MybatisPlusInterceptor mybatisPlusInterceptor() {
+        MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
+        //TODO 如果报错试着调整顺序
+        // 乐观锁
+        interceptor.addInnerInterceptor(new OptimisticLockerInnerInterceptor());
+
+        // 数据权限插件
+        interceptor.addInnerInterceptor(new PlusDataPermissionInterceptor());
+
+        // 分页
+        interceptor.addInnerInterceptor(new PaginationInnerInterceptor());
+        return interceptor;
+    }
+
+    /**
+     * 使用网卡信息绑定雪花生成器
+     * 防止集群雪花ID重复
+     */
+    @Bean
+    public IdentifierGenerator idGenerator() {
+        return new DefaultIdentifierGenerator(NetUtil.getLocalhost());
     }
 }

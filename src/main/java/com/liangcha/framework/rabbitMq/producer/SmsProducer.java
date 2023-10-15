@@ -1,6 +1,6 @@
-package com.liangcha.framework.mq.producer;
+package com.liangcha.framework.rabbitMq.producer;
 
-import com.liangcha.framework.mq.message.SmsSendMessage;
+import com.liangcha.framework.rabbitMq.message.SmsSendMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;

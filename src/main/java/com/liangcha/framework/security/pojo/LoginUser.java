@@ -1,7 +1,10 @@
 package com.liangcha.framework.security.pojo;
 
-import lombok.Builder;
+import com.liangcha.system.domain.permission.RoleDO;
 import lombok.Data;
+import lombok.experimental.Accessors;
+
+import java.util.List;
 
 /**
  * 登录用户信息
@@ -9,7 +12,7 @@ import lombok.Data;
  * @author 凉茶
  */
 @Data
-@Builder
+@Accessors(chain = true)
 public class LoginUser {
 
     /**
@@ -21,5 +24,15 @@ public class LoginUser {
      * 用户类型
      */
     private Integer userType;
+
+    /**
+     * 登录用户的角色集合
+     */
+    private List<RoleDO> roles;
+
+    /**
+     * 部门 ID
+     */
+    private Long deptId;
 
 }

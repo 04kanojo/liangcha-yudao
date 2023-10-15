@@ -1,4 +1,4 @@
-package com.liangcha.framework.mq.message;
+package com.liangcha.framework.rabbitMq.message;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

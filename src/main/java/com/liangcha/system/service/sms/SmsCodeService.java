@@ -1,6 +1,6 @@
 package com.liangcha.system.service.sms;
 
-import com.liangcha.framework.mq.message.SmsSendMessage;
+import com.liangcha.framework.rabbitMq.message.SmsSendMessage;
 import com.liangcha.system.controller.auth.vo.AuthSmsSendReqVO;
 
 import javax.servlet.http.HttpServletRequest;

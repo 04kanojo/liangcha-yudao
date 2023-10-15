@@ -57,6 +57,11 @@ public enum ErrorCodeEnum {
     // ========== 客户端错误段 ==========
     TOO_MANY_REQUESTS(415, "请求过于频繁，请稍后重试"),
 
+    // ========== 数据权限 ==========
+    DATA_SCOPE_NOT_EXISTS(416, "数据范围不存在"),
+
+    DATA_SCOPE_KEY_VALUE_ERR(417, "数据范围key与value长度不匹配"),
+
     //  AUTH 模块 1002000000
     AUTH_LOGIN_BAD_CREDENTIALS(1002000000, "登录失败，账号密码不正确"),
     AUTH_LOGIN_USER_DISABLED(1002000001, "登录失败，账号被禁用"),

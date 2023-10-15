@@ -14,7 +14,6 @@ import com.liangcha.system.dao.permission.UserRoleMapper;
 import com.liangcha.system.domain.permission.RoleDO;
 import com.liangcha.system.domain.permission.RoleMenuDO;
 import com.liangcha.system.domain.permission.UserRoleDO;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -28,28 +27,30 @@ import static com.liangcha.framework.common.utils.CollectionUtils.convertSet;
 /**
  * 权限 Service 实现类
  *
- * @author 芋道源码
+ * @author 凉茶
  */
 @Service
-@Slf4j
 public class PermissionServiceImpl implements PermissionService {
 
     @Resource
     private RoleMenuMapper roleMenuMapper;
+
     @Resource
     private UserRoleMapper userRoleMapper;
 
     @Resource
     private RoleService roleService;
+
     @Resource
     private MenuService menuService;
 
 
     @Override
     public boolean hasAnyPermissions(Long userId, String... permissions) {
-        // 获得当前登录的角色
+        // 获得当前登录的角色集合
         List<RoleDO> roles = getEnableUserRoleListByUserId(userId);
-        //如果为空，说明没有权限
+
+        // 如果为空，说明没有权限
         if (CollUtil.isEmpty(roles)) {
             return false;
         }
@@ -62,7 +63,7 @@ public class PermissionServiceImpl implements PermissionService {
         }
 
         // 情况二：如果是超管，也说明有权限
-        return roleService.hasAnySuperAdmin(convertSet(roles, RoleDO::getId));
+        return roleService.isSuperAdmin(convertSet(roles, RoleDO::getId));
     }
 
     /**
@@ -75,6 +76,7 @@ public class PermissionServiceImpl implements PermissionService {
     private boolean hasAnyPermission(List<RoleDO> roles, String permission) {
         //登录用户的角色id集合
         Set<Long> roleIds = convertSet(roles, RoleDO::getId);
+
         //接口应有权限的菜单id集合
         List<Long> menuIds = menuService.getMenuIdListByPermissionFromCache(permission);
 
@@ -86,7 +88,7 @@ public class PermissionServiceImpl implements PermissionService {
         // 判断是否有权限
         for (Long menuId : menuIds) {
             // 获得拥有该菜单的角色编号集合
-            Set<Long> menuRoleIds = getSelf().getMenuRoleIdListByMenuIdFromCache(menuId);
+            Set<Long> menuRoleIds = getSelf().getMenuRoleIdListByMenuId(menuId);
             // 如果有交集，说明有权限
             if (CollUtil.containsAny(menuRoleIds, roleIds)) {
                 return true;
@@ -109,35 +111,34 @@ public class PermissionServiceImpl implements PermissionService {
         return CollUtil.containsAny(userRoles, Sets.newHashSet(roles));
     }
 
-    @Override
-    @Cached(name = RedisKeyConstants.MENU_ROLE_ID_LIST, key = "#menuId", expire = 60, timeUnit = TimeUnit.MINUTES)
-    public Set<Long> getMenuRoleIdListByMenuIdFromCache(Long menuId) {
-        return convertSet(roleMenuMapper.selectListByMenuId(menuId), RoleMenuDO::getRoleId);
-    }
-
-
-    @Override
-    @Cached(name = USER_ROLE_ID_LIST, key = "#userId", expire = 60, timeUnit = TimeUnit.MINUTES)
-    public Set<Long> getUserRoleIdListByUserIdFromCache(Long userId) {
-        return convertSet(userRoleMapper.selectListByUserId(userId), UserRoleDO::getRoleId);
-    }
-
-
     /**
      * 获得用户拥有的角色，并且这些角色是开启状态的
      *
      * @param userId 用户编号
      * @return 用户拥有的角色
      */
-    List<RoleDO> getEnableUserRoleListByUserId(Long userId) {
+    @Override
+    public List<RoleDO> getEnableUserRoleListByUserId(Long userId) {
         // 获得用户拥有的角色编号
-        Set<Long> roleIds = getSelf().getUserRoleIdListByUserIdFromCache(userId);
+        Set<Long> roleIds = getSelf().getUserRoleIdListByUserId(userId);
         // 获得角色数组，并移除被禁用的
-        List<RoleDO> roles = roleService.getRoleListFromCache(roleIds);
+        List<RoleDO> roles = roleService.getRoleListByIds(roleIds);
         roles.removeIf(role -> !CommonStatusEnum.ENABLE.getStatus().equals(role.getStatus()));
         return roles;
     }
 
+    @Override
+    @Cached(name = RedisKeyConstants.MENU_ROLE_ID_LIST, key = "#menuId", expire = 1, timeUnit = TimeUnit.HOURS)
+    public Set<Long> getMenuRoleIdListByMenuId(Long menuId) {
+        return convertSet(roleMenuMapper.selectListByMenuId(menuId), RoleMenuDO::getRoleId);
+    }
+
+
+    @Override
+    @Cached(name = USER_ROLE_ID_LIST, key = "#userId", expire = 1, timeUnit = TimeUnit.HOURS)
+    public Set<Long> getUserRoleIdListByUserId(Long userId) {
+        return convertSet(userRoleMapper.selectListByUserId(userId), UserRoleDO::getRoleId);
+    }
 
     /**
      * 获得自身的代理对象，解决 AOP 生效问题

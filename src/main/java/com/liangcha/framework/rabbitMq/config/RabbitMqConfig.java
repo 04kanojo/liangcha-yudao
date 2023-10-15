@@ -1,4 +1,4 @@
-package com.liangcha.framework.mq.config;
+package com.liangcha.framework.rabbitMq.config;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.context.annotation.Bean;
