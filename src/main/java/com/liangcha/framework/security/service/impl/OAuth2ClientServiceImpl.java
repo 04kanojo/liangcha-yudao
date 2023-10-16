@@ -6,19 +6,19 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.alicp.jetcache.anno.Cached;
-import com.liangcha.framework.common.enums.CommonStatusEnum;
-import com.liangcha.framework.common.enums.RedisKeyConstants;
+import com.liangcha.common.enums.CommonStatusEnum;
+import com.liangcha.framework.redis.RedisKeyConstants;
 import com.liangcha.framework.security.pojo.domain.OAuth2ClientDO;
 import com.liangcha.framework.security.service.OAuth2ClientService;
-import com.liangcha.system.dao.auth.OAuth2ClientMapper;
+import com.liangcha.system.auth.dao.OAuth2ClientMapper;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
 import javax.annotation.Resource;
 import java.util.Collection;
 
-import static com.liangcha.framework.common.enums.ErrorCodeEnum.*;
-import static com.liangcha.framework.common.utils.ServiceExceptionUtil.exception;
+import static com.liangcha.common.enums.ErrorCodeEnum.*;
+import static com.liangcha.common.utils.ServiceExceptionUtil.exception;
 
 /**
  * OAuth2.0 Client Service 实现类

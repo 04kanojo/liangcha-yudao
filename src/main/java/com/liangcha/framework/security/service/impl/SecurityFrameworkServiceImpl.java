@@ -1,7 +1,7 @@
 package com.liangcha.framework.security.service.impl;
 
-import com.liangcha.framework.permission.service.PermissionService;
 import com.liangcha.framework.security.service.SecurityFrameworkService;
+import com.liangcha.system.permission.service.PermissionService;
 import lombok.AllArgsConstructor;
 
 import static com.liangcha.framework.security.utils.SecurityFrameworkUtils.getLoginUserId;

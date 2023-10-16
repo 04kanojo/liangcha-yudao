@@ -2,7 +2,7 @@ package com.liangcha.framework.security.pojo.domain;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.liangcha.framework.common.pojo.BaseDO;
+import com.liangcha.common.pojo.BaseDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

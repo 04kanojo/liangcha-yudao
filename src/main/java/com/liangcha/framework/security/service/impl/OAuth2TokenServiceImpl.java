@@ -2,18 +2,18 @@ package com.liangcha.framework.security.service.impl;
 
 import cn.hutool.core.util.IdUtil;
 import com.alicp.jetcache.Cache;
-import com.liangcha.framework.common.enums.UserTypeEnum;
-import com.liangcha.framework.permission.service.PermissionService;
 import com.liangcha.framework.security.pojo.LoginUser;
 import com.liangcha.framework.security.service.OAuth2TokenService;
-import com.liangcha.system.service.user.AdminUserService;
+import com.liangcha.system.permission.service.PermissionService;
+import com.liangcha.system.user.enums.UserTypeEnum;
+import com.liangcha.system.user.service.AdminUserService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
 
-import static com.liangcha.framework.common.enums.ErrorCodeEnum.FLUSH_TOKEN_EXPIRED;
-import static com.liangcha.framework.common.utils.ServiceExceptionUtil.exception;
+import static com.liangcha.common.enums.ErrorCodeEnum.FLUSH_TOKEN_EXPIRED;
+import static com.liangcha.common.utils.ServiceExceptionUtil.exception;
 
 /**
  * OAuth2.0 Token Service 实现类

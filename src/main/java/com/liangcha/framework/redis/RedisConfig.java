@@ -12,8 +12,8 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.time.Duration;
 
-import static com.liangcha.framework.common.enums.RedisKeyConstants.OAUTH2_ACCESS_TOKEN;
-import static com.liangcha.framework.common.enums.RedisKeyConstants.OAUTH2_REFRESH_ACCESS_TOKEN;
+import static com.liangcha.framework.redis.RedisKeyConstants.OAUTH2_ACCESS_TOKEN;
+import static com.liangcha.framework.redis.RedisKeyConstants.OAUTH2_REFRESH_ACCESS_TOKEN;
 
 @Component
 public class RedisConfig {

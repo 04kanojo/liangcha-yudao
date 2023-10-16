@@ -1,7 +1,7 @@
 package com.liangcha;
 
-import com.liangcha.system.dao.user.AdminUserMapper;
-import com.liangcha.system.domain.auth.AdminUserDO;
+import com.liangcha.system.auth.domain.AdminUserDO;
+import com.liangcha.system.user.dao.AdminUserMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

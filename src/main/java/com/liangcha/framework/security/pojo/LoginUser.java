@@ -1,6 +1,6 @@
 package com.liangcha.framework.security.pojo;
 
-import com.liangcha.system.domain.permission.RoleDO;
+import com.liangcha.system.permission.domain.RoleDO;
 import lombok.Data;
 import lombok.experimental.Accessors;
 

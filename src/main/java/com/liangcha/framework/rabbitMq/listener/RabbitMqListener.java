@@ -1,7 +1,7 @@
 package com.liangcha.framework.rabbitMq.listener;
 
 import com.liangcha.framework.rabbitMq.message.SmsSendMessage;
-import com.liangcha.system.service.sms.SmsCodeService;
+import com.liangcha.system.sms.service.SmsCodeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;

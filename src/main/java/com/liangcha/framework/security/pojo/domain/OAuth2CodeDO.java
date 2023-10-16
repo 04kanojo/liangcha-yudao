@@ -3,7 +3,7 @@ package com.liangcha.framework.security.pojo.domain;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
-import com.liangcha.framework.common.pojo.BaseDO;
+import com.liangcha.common.pojo.BaseDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

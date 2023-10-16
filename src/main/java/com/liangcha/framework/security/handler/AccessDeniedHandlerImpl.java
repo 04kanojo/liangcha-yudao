@@ -1,7 +1,7 @@
 package com.liangcha.framework.security.handler;
 
-import com.liangcha.framework.common.pojo.CommonResult;
-import com.liangcha.framework.common.utils.ServletUtils;
+import com.liangcha.common.pojo.CommonResult;
+import com.liangcha.common.utils.ServletUtils;
 import com.liangcha.framework.security.utils.SecurityFrameworkUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static com.liangcha.framework.common.enums.ErrorCodeEnum.SMALL_AUTHORITY;
+import static com.liangcha.common.enums.ErrorCodeEnum.SMALL_AUTHORITY;
 
 
 /**

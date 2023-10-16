@@ -1,9 +1,9 @@
 package com.liangcha.framework.security.config;
 
-import com.liangcha.framework.permission.service.PermissionService;
 import com.liangcha.framework.security.filters.TokenAuthenticationFilter;
 import com.liangcha.framework.security.service.SecurityFrameworkService;
 import com.liangcha.framework.security.service.impl.SecurityFrameworkServiceImpl;
+import com.liangcha.system.permission.service.PermissionService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
