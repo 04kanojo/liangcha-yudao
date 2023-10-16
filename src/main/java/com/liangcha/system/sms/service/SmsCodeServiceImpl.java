@@ -2,7 +2,6 @@ package com.liangcha.system.sms.service;
 
 import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.extra.servlet.ServletUtil;
 import com.liangcha.framework.convert.auth.AuthConvert;
 import com.liangcha.framework.rabbitMq.message.SmsSendMessage;
 import com.liangcha.framework.rabbitMq.producer.SmsProducer;
@@ -13,17 +12,16 @@ import com.liangcha.system.sms.dao.SmsCodeMapper;
 import com.liangcha.system.sms.domain.SmsCodeDO;
 import com.liangcha.system.sms.domain.SmsTemplateDO;
 import com.liangcha.system.sms.enums.SmsSceneEnum;
-import com.liangcha.system.user.service.AdminUserService;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 
 import static cn.hutool.core.util.RandomUtil.randomInt;
 import static com.liangcha.common.enums.ErrorCodeEnum.*;
 import static com.liangcha.common.utils.ServiceExceptionUtil.exception;
+import static com.liangcha.common.utils.ServletUtils.getClientIP;
 
 /**
  * 短信验证码 Service 实现类
@@ -40,26 +38,17 @@ public class SmsCodeServiceImpl implements SmsCodeService {
     @Resource
     private SmsCodeMapper smsCodeMapper;
 
-
-    @Resource
-    private AdminUserService userService;
-
     @Resource
     private SmsTemplateService smsTemplateService;
     @Resource
     private SmsProducer smsProducer;
 
     @Override
-    public void sendSmsCode(AuthSmsSendReqVO reqVO, HttpServletRequest request) {
-        // 登录场景，验证是否存在
-        if (userService.getByMobile(reqVO.getMobile()) == null) {
-            throw exception(AUTH_MOBILE_NOT_EXISTS);
-        }
-
+    public void sendSmsCode(AuthSmsSendReqVO reqVO) {
         //解释vo为dto
         SmsCodeSendReqDTO reqDTO = AuthConvert.INSTANCE
                 .convert(reqVO)
-                .setCreateIp(ServletUtil.getClientIP(request));
+                .setCreateIp(getClientIP());
 
         //根据场景获取枚举类
         SmsSceneEnum sceneEnum = SmsSceneEnum.getByScene(reqDTO.getScene());

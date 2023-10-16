@@ -2,6 +2,7 @@ package com.liangcha.system.auth.service;
 
 import com.liangcha.server.controller.auth.vo.AuthLoginReqVO;
 import com.liangcha.server.controller.auth.vo.AuthLoginRespVO;
+import com.liangcha.server.controller.auth.vo.AuthSmsSendReqVO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -34,4 +35,9 @@ public interface AdminAuthService {
      * @return 访问令牌的信息
      */
     AuthLoginRespVO refreshToken(String refreshToken);
+
+    /**
+     * @param reqVO 请求信息
+     */
+    void sendSmsCode(AuthSmsSendReqVO reqVO);
 }

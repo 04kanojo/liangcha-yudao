@@ -9,7 +9,10 @@ import com.liangcha.framework.security.pojo.LoginUser;
 import com.liangcha.framework.security.service.OAuth2TokenService;
 import com.liangcha.server.controller.auth.vo.AuthLoginReqVO;
 import com.liangcha.server.controller.auth.vo.AuthLoginRespVO;
+import com.liangcha.server.controller.auth.vo.AuthSmsSendReqVO;
 import com.liangcha.system.auth.domain.AdminUserDO;
+import com.liangcha.system.permission.service.PermissionService;
+import com.liangcha.system.sms.service.SmsCodeService;
 import com.liangcha.system.user.service.AdminUserService;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +35,13 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     private AdminUserService userService;
 
     @Resource
+    private PermissionService permissionService;
+
+    @Resource
     private CaptchaProperties captchaProperties;
+
+    @Resource
+    private SmsCodeService smsCodeService;
 
     @Override
     public AuthLoginRespVO login(HttpServletRequest request, AuthLoginReqVO reqVO) {
@@ -71,6 +80,16 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         return AuthConvert.INSTANCE.convert(user);
     }
 
+    @Override
+    public void sendSmsCode(AuthSmsSendReqVO reqVO) {
+        // 登录场景，验证是否存在
+        if (userService.getByMobile(reqVO.getMobile()) == null) {
+            throw exception(AUTH_MOBILE_NOT_EXISTS);
+        }
+
+        smsCodeService.sendSmsCode(reqVO);
+    }
+
     //======================================== 功能方法(非重写) ========================================
 
     /**
@@ -99,6 +118,9 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     private AuthLoginRespVO createTokenAfterLoginSuccess(Long userId) {
         // 创建访问令牌
         LoginUser user = oauth2TokenService.createAccessToken(userId);
+        user
+                .setRoles(permissionService.getEnableUserRoleListByUserId(userId))
+                .setDeptId(userService.getById(userId).getDeptId());
         return AuthConvert.INSTANCE.convert(user);
     }
 

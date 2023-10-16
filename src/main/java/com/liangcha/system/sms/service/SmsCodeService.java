@@ -3,8 +3,6 @@ package com.liangcha.system.sms.service;
 import com.liangcha.framework.rabbitMq.message.SmsSendMessage;
 import com.liangcha.server.controller.auth.vo.AuthSmsSendReqVO;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
  * 短信验证码 Service 接口
  *
@@ -15,7 +13,7 @@ public interface SmsCodeService {
     /**
      * 创建短信验证码，并进行发送
      */
-    void sendSmsCode(AuthSmsSendReqVO reqVO, HttpServletRequest request);
+    void sendSmsCode(AuthSmsSendReqVO reqVO);
 
 
     /**

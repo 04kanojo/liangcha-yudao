@@ -17,8 +17,8 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
  */
 @SpringBootApplication
 @ConfigurationPropertiesScan
-@MapperScan("com.liangcha.system.dao")
-@EnableMethodCache(basePackages = "com.liangcha.framework")
+@MapperScan("com.liangcha.system.*.dao")
+@EnableMethodCache(basePackages = "com.liangcha.framework.redis")
 public class Application {
 
     public static void main(String[] args) {

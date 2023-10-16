@@ -6,6 +6,7 @@ import com.liangcha.framework.security.config.SecurityProperties;
 import com.liangcha.framework.security.utils.SecurityFrameworkUtils;
 import com.liangcha.server.controller.auth.vo.AuthLoginReqVO;
 import com.liangcha.server.controller.auth.vo.AuthLoginRespVO;
+import com.liangcha.server.controller.auth.vo.AuthSmsSendReqVO;
 import com.liangcha.system.auth.service.AdminAuthService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -54,5 +55,12 @@ public class AuthController {
     @ApiOperation("刷新令牌")
     public CommonResult<AuthLoginRespVO> refreshToken(String refreshToken) {
         return success(authService.refreshToken(refreshToken));
+    }
+
+    @PostMapping("/send-sms-code")
+    @ApiOperation("发送手机验证码")
+    public CommonResult<Boolean> sendLoginSmsCode(@RequestBody @Valid AuthSmsSendReqVO reqVO, HttpServletRequest request) {
+        authService.sendSmsCode(reqVO);
+        return success(true);
     }
 }

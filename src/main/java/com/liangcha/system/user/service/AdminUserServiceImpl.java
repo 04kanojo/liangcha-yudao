@@ -2,7 +2,6 @@ package com.liangcha.system.user.service;
 
 import com.liangcha.system.auth.domain.AdminUserDO;
 import com.liangcha.system.user.dao.AdminUserMapper;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +13,7 @@ import javax.annotation.Resource;
  *
  * @author 凉茶
  */
-@Service("adminUserService")
-@Slf4j
+@Service
 public class AdminUserServiceImpl implements AdminUserService {
     @Resource
     private AdminUserMapper userMapper;
@@ -41,18 +39,6 @@ public class AdminUserServiceImpl implements AdminUserService {
     @Override
     public boolean isPasswordMatch(String rawPassword, String encodedPassword) {
         return passwordEncoder.matches(rawPassword, encodedPassword);
-    }
-
-    //======================================== 功能方法(非重写) ========================================
-
-    /**
-     * 对密码进行加密
-     *
-     * @param password 密码
-     * @return 加密后的密码
-     */
-    private String encodePassword(String password) {
-        return passwordEncoder.encode(password);
     }
 
 }

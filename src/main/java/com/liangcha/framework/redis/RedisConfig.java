@@ -28,7 +28,7 @@ public class RedisConfig {
     /**
      * accessToken缓存
      */
-    private Cache<String, LoginUser> refreshTokenCache;
+    private Cache<Long, LoginUser> refreshTokenCache;
 
     @PostConstruct
     public void init() {
@@ -58,7 +58,7 @@ public class RedisConfig {
     }
 
     @Bean
-    public Cache<String, LoginUser> getRefreshToken() {
+    public Cache<Long, LoginUser> getRefreshToken() {
         return refreshTokenCache;
     }
 }

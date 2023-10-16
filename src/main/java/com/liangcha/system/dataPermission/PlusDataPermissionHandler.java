@@ -9,7 +9,6 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.liangcha.framework.security.pojo.LoginUser;
-import com.liangcha.framework.security.utils.SecurityFrameworkUtils;
 import com.liangcha.system.permission.domain.RoleDO;
 import com.liangcha.system.user.enums.UserTypeEnum;
 import net.sf.jsqlparser.expression.Expression;
@@ -83,12 +82,17 @@ public class PlusDataPermissionHandler {
         roles.add(new RoleDO().setDataScope(3));
 //        roles.add(new RoleDO().setDataScope(2));
 
-        loginUser = new LoginUser().setUserType(UserTypeEnum.ADMIN.getCode()).setId(100L).setRoles(roles);
+        loginUser = new LoginUser()
+                .setUserType(UserTypeEnum.ADMIN.getCode())
+                .setId(100L)
+                .setRoles(roles)
+                .setDeptId(1L);
+
         if (loginUser == null) {
             throw exception(NO_LOGIN);
         }
 
-        String dataFilterSql = buildDataFilter(dataColumns, loginUser.getRoles(), isSelect);
+        String dataFilterSql = buildDataFilter(dataColumns, loginUser, isSelect);
         System.out.println(dataFilterSql);
 //        if (StrUtil.isBlank(dataFilterSql)) {
 //            return where;
@@ -112,16 +116,16 @@ public class PlusDataPermissionHandler {
     /**
      * 构造数据过滤sql
      */
-    private String buildDataFilter(DataColumn[] dataColumns, List<RoleDO> roles, boolean isSelect) {
+    private String buildDataFilter(DataColumn[] dataColumns, LoginUser loginUser, boolean isSelect) {
         // 更新或删除需满足所有条件
         String joinStr = isSelect ? " OR " : " AND ";
         StandardEvaluationContext context = new StandardEvaluationContext();
         context.setBeanResolver(beanResolver);
+        context.setVariable("#deptId", loginUser.getDeptId());
 
-        LoginUser user = SecurityFrameworkUtils.getLoginUser();
+
         Set<String> conditions = new HashSet<>();
-
-        for (RoleDO role : roles) {
+        for (RoleDO role : loginUser.getRoles()) {
             // 获取角色权限枚举类
             DataScopeTypeEnum type = DataScopeTypeEnum.findCode(role.getDataScope().toString());
             if (ObjectUtil.isNull(type)) {
@@ -133,7 +137,6 @@ public class PlusDataPermissionHandler {
             }
 
             boolean isSuccess = false;
-
             for (DataColumn dataColumn : dataColumns) {
 
                 String[] keys = dataColumn.key();

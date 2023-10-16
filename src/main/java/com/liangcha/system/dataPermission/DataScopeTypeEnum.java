@@ -33,7 +33,7 @@ public enum DataScopeTypeEnum {
     /**
      * 部门数据权限
      */
-    DEPT("3", " #{#deptName} = #{#user.deptId} ", ""),
+    DEPT("3", " #{#deptName} = #{#deptId} ", ""),
 
     /**
      * 部门及以下数据权限
