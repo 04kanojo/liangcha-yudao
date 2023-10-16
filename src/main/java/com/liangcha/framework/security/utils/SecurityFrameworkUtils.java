@@ -93,7 +93,7 @@ public class SecurityFrameworkUtils {
 
         // 额外设置到 request 中，用于 ApiAccessLogFilter 可以获取到用户编号；
         // 原因是，Spring Security 的 Filter 在 ApiAccessLogFilter 后面，在它记录访问日志时，线上上下文已经没有用户编号等信息
-        //TODO security配置过滤器链顺序应该跨域解决
+        //TODO security配置过滤器链顺序应该跨域解决 不知道为什么在异常那边用的web获取登录对象,留个心眼,后面研究security的上下文范围
         WebFrameworkUtils.setLoginUserId(request, loginUser.getId());
         WebFrameworkUtils.setLoginUserType(request, loginUser.getUserType());
     }

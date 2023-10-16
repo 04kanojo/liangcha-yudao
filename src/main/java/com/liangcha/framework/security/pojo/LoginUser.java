@@ -4,6 +4,7 @@ import com.liangcha.system.domain.permission.RoleDO;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -34,5 +35,27 @@ public class LoginUser {
      * 部门 ID
      */
     private Long deptId;
+
+    /**
+     * 访问令牌
+     */
+    private String accessToken;
+
+    /**
+     * 刷新令牌
+     */
+    private String refreshToken;
+
+    /**
+     * 客户端编号
+     */
+    private String clientId;
+
+    /**
+     * 授权范围
+     */
+    private List<String> scopes;
+
+    private LocalDateTime expiresTime;
 
 }

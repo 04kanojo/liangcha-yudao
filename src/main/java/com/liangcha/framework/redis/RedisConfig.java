@@ -4,8 +4,7 @@ import com.alicp.jetcache.Cache;
 import com.alicp.jetcache.CacheManager;
 import com.alicp.jetcache.anno.CacheType;
 import com.alicp.jetcache.template.QuickConfig;
-import com.liangcha.framework.security.pojo.domain.OAuth2AccessTokenDO;
-import com.liangcha.framework.security.pojo.domain.OAuth2RefreshTokenDO;
+import com.liangcha.framework.security.pojo.LoginUser;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
@@ -24,12 +23,12 @@ public class RedisConfig {
     /**
      * accessToken缓存
      */
-    private Cache<String, OAuth2AccessTokenDO> tokenCache;
+    private Cache<String, LoginUser> tokenCache;
 
     /**
      * accessToken缓存
      */
-    private Cache<String, OAuth2RefreshTokenDO> refreshTokenCache;
+    private Cache<String, LoginUser> refreshTokenCache;
 
     @PostConstruct
     public void init() {
@@ -54,12 +53,12 @@ public class RedisConfig {
     }
 
     @Bean
-    public Cache<String, OAuth2AccessTokenDO> getTokenCache() {
+    public Cache<String, LoginUser> getTokenCache() {
         return tokenCache;
     }
 
     @Bean
-    public Cache<String, OAuth2RefreshTokenDO> getRefreshToken() {
+    public Cache<String, LoginUser> getRefreshToken() {
         return refreshTokenCache;
     }
 }

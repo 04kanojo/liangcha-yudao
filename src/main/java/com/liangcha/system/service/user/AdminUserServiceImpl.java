@@ -24,12 +24,17 @@ public class AdminUserServiceImpl implements AdminUserService {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public AdminUserDO getUserByUsername(String username) {
+    public AdminUserDO getByUsername(String username) {
         return userMapper.selectUserByUsername(username);
     }
 
     @Override
-    public AdminUserDO getUserByMobile(String mobile) {
+    public AdminUserDO getById(Long id) {
+        return userMapper.selectById(id);
+    }
+
+    @Override
+    public AdminUserDO getByMobile(String mobile) {
         return userMapper.selectByMobile(mobile);
     }
 

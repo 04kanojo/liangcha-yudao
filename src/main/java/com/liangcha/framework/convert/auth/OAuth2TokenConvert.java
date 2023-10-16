@@ -1,7 +1,7 @@
 package com.liangcha.framework.convert.auth;
 
 import cn.hutool.db.PageResult;
-import com.liangcha.framework.security.pojo.domain.OAuth2AccessTokenDO;
+import com.liangcha.framework.security.pojo.OAuth2AccessToken;
 import com.liangcha.framework.security.pojo.dto.OAuth2AccessTokenCheckRespDTO;
 import com.liangcha.framework.security.pojo.dto.OAuth2AccessTokenRespDTO;
 import com.liangcha.framework.security.pojo.vo.OAuth2AccessTokenRespVO;
@@ -16,10 +16,10 @@ public interface OAuth2TokenConvert {
 
     OAuth2TokenConvert INSTANCE = Mappers.getMapper(OAuth2TokenConvert.class);
 
-    OAuth2AccessTokenCheckRespDTO convert(OAuth2AccessTokenDO bean);
+    OAuth2AccessTokenCheckRespDTO convert(OAuth2AccessToken bean);
 
-    PageResult<OAuth2AccessTokenRespVO> convert(PageResult<OAuth2AccessTokenDO> page);
+    PageResult<OAuth2AccessTokenRespVO> convert(PageResult<OAuth2AccessToken> page);
 
-    OAuth2AccessTokenRespDTO convert2(OAuth2AccessTokenDO bean);
+    OAuth2AccessTokenRespDTO convert2(OAuth2AccessToken bean);
 
 }

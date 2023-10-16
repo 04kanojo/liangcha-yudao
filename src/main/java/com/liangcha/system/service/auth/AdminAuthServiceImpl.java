@@ -4,10 +4,8 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.liangcha.framework.captcha.CaptchaProperties;
 import com.liangcha.framework.common.enums.CommonStatusEnum;
-import com.liangcha.framework.common.enums.UserTypeEnum;
 import com.liangcha.framework.convert.auth.AuthConvert;
-import com.liangcha.framework.security.pojo.domain.OAuth2AccessTokenDO;
-import com.liangcha.framework.security.pojo.dto.OAuth2AccessTokenCreateReqDTO;
+import com.liangcha.framework.security.pojo.LoginUser;
 import com.liangcha.framework.security.service.OAuth2TokenService;
 import com.liangcha.system.controller.auth.vo.AuthLoginReqVO;
 import com.liangcha.system.controller.auth.vo.AuthLoginRespVO;
@@ -38,7 +36,17 @@ public class AdminAuthServiceImpl implements AdminAuthService {
 
     @Override
     public AuthLoginRespVO login(HttpServletRequest request, AuthLoginReqVO reqVO) {
-        // 开启验证码执行
+        // 判断验证码
+        EnableCaptcha(request, reqVO);
+
+        // 使用账号密码，进行登录
+        AdminUserDO user = authenticate(reqVO.getUsername(), reqVO.getPassword());
+
+        // 创建 Token 令牌
+        return createTokenAfterLoginSuccess(user.getId());
+    }
+
+    private void EnableCaptcha(HttpServletRequest request, AuthLoginReqVO reqVO) {
         if (captchaProperties.getCaptcha()) {
             String userInput = reqVO.getCaptchaVerification();
             String captcha = (String) request.getSession().getAttribute("captcha");
@@ -49,12 +57,6 @@ public class AdminAuthServiceImpl implements AdminAuthService {
                 throw exception(CAPTCHA_ERR);
             }
         }
-
-        // 使用账号密码，进行登录
-        AdminUserDO user = authenticate(reqVO.getUsername(), reqVO.getPassword());
-
-        // 创建 Token 令牌
-        return createTokenAfterLoginSuccess(user.getId());
     }
 
     @Override
@@ -65,8 +67,8 @@ public class AdminAuthServiceImpl implements AdminAuthService {
 
     @Override
     public AuthLoginRespVO refreshToken(String refreshToken) {
-        OAuth2AccessTokenDO accessTokenDO = oauth2TokenService.refreshToken(refreshToken);
-        return AuthConvert.INSTANCE.convert(accessTokenDO);
+        LoginUser user = oauth2TokenService.refreshToken(refreshToken);
+        return AuthConvert.INSTANCE.convert(user);
     }
 
     //======================================== 功能方法(非重写) ========================================
@@ -80,7 +82,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
      */
     public AdminUserDO authenticate(String username, String password) {
         // 校验账号是否存在
-        AdminUserDO user = userService.getUserByUsername(username);
+        AdminUserDO user = userService.getByUsername(username);
         if (user == null) {
             throw exception(AUTH_LOGIN_BAD_CREDENTIALS);
         }
@@ -95,12 +97,9 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     }
 
     private AuthLoginRespVO createTokenAfterLoginSuccess(Long userId) {
-        OAuth2AccessTokenCreateReqDTO oAuth2AccessTokenCreateReqDTO = new OAuth2AccessTokenCreateReqDTO()
-                .setUserId(userId)
-                .setUserType(UserTypeEnum.ADMIN.getCode());
         // 创建访问令牌
-        OAuth2AccessTokenDO accessTokenDO = oauth2TokenService.createAccessToken(oAuth2AccessTokenCreateReqDTO);
-        return AuthConvert.INSTANCE.convert(accessTokenDO);
+        LoginUser user = oauth2TokenService.createAccessToken(userId);
+        return AuthConvert.INSTANCE.convert(user);
     }
 
 }

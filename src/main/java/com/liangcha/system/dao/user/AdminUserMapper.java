@@ -1,9 +1,13 @@
 package com.liangcha.system.dao.user;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.liangcha.framework.dataPermission.DataPermission;
 import com.liangcha.system.domain.auth.AdminUserDO;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * 凉茶
@@ -17,4 +21,8 @@ public interface AdminUserMapper extends BaseMapper<AdminUserDO> {
     default AdminUserDO selectByMobile(String mobile) {
         return selectOne(new LambdaQueryWrapper<AdminUserDO>().eq(AdminUserDO::getMobile, mobile));
     }
+
+    @Override
+    @DataPermission(key = {"deptName"}, value = {"dept_id"})
+    List<AdminUserDO> selectList(Wrapper<AdminUserDO> queryWrapper);
 }

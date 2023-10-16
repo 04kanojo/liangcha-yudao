@@ -1,6 +1,6 @@
 package com.liangcha.framework.convert.auth;
 
-import com.liangcha.framework.security.pojo.domain.OAuth2AccessTokenDO;
+import com.liangcha.framework.security.pojo.LoginUser;
 import com.liangcha.system.controller.auth.vo.AuthLoginRespVO;
 import com.liangcha.system.controller.auth.vo.AuthSmsSendReqVO;
 import com.liangcha.system.controller.sms.dto.SmsCodeSendReqDTO;
@@ -15,7 +15,7 @@ public interface AuthConvert {
 
     AuthConvert INSTANCE = Mappers.getMapper(AuthConvert.class);
 
-    AuthLoginRespVO convert(OAuth2AccessTokenDO bean);
+    AuthLoginRespVO convert(LoginUser user);
 
 
     SmsCodeSendReqDTO convert(AuthSmsSendReqVO reqVO);

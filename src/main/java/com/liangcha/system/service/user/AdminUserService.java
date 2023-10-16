@@ -14,7 +14,15 @@ public interface AdminUserService {
      * @param username 用户名
      * @return 用户对象信息
      */
-    AdminUserDO getUserByUsername(String username);
+    AdminUserDO getByUsername(String username);
+
+    /**
+     * 通过用户id查询用户
+     *
+     * @param id 用户id
+     * @return 用户对象信息
+     */
+    AdminUserDO getById(Long id);
 
     /**
      * 通过手机号查询用户
@@ -22,7 +30,7 @@ public interface AdminUserService {
      * @param mobile 手机号
      * @return 用户对象信息
      */
-    AdminUserDO getUserByMobile(String mobile);
+    AdminUserDO getByMobile(String mobile);
 
 
     /**

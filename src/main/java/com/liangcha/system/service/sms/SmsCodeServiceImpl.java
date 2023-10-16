@@ -52,7 +52,7 @@ public class SmsCodeServiceImpl implements SmsCodeService {
     @Override
     public void sendSmsCode(AuthSmsSendReqVO reqVO, HttpServletRequest request) {
         // 登录场景，验证是否存在
-        if (userService.getUserByMobile(reqVO.getMobile()) == null) {
+        if (userService.getByMobile(reqVO.getMobile()) == null) {
             throw exception(AUTH_MOBILE_NOT_EXISTS);
         }
 

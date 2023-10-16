@@ -1,17 +1,12 @@
-package com.liangcha.framework.security.pojo.domain;
+package com.liangcha.framework.security.pojo;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
-import com.liangcha.framework.common.pojo.BaseDO;
-import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -21,11 +16,8 @@ import java.util.List;
  */
 
 @Data
-@Builder
 @Accessors(chain = true)
-@EqualsAndHashCode(callSuper = true)
-@TableName(value = "system_oauth2_access_token")
-public class OAuth2AccessTokenDO extends BaseDO implements Serializable {
+public class OAuth2AccessToken implements Serializable {
 
     /**
      * 编号
@@ -59,14 +51,14 @@ public class OAuth2AccessTokenDO extends BaseDO implements Serializable {
     private String clientId;
 
     /**
+     * 部门id
+     */
+    private Long deptId;
+
+    /**
      * 授权范围
      */
     @TableField(typeHandler = JacksonTypeHandler.class)
     private List<String> scopes;
-
-    /**
-     * 过期时间
-     */
-    private LocalDateTime expiresTime;
 
 }
