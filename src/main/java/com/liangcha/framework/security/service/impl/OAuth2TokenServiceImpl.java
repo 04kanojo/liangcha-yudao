@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
 
+import static com.liangcha.common.enums.ErrorCodeEnum.FLUSH_TOKEN_EXPIRED;
+import static com.liangcha.common.utils.ServiceExceptionUtil.exception;
+
 /**
  * OAuth2.0 Token Service 实现类
  *
@@ -20,8 +23,8 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
     @Resource
     private Cache<String, LoginUser> tokenCache;
 
-//    @Resource
-//    private Cache<String, LoginUser> refreshTokenCache;
+    @Resource
+    private Cache<String, LoginUser> refreshTokenCache;
 
     private static String generateToken() {
         return IdUtil.fastSimpleUUID();
@@ -46,7 +49,7 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
                 .setExpiresTime(LocalDateTime.now().plusMinutes(20));
 
         tokenCache.put(user.getAccessToken(), user);
-//        refreshTokenCache.put(user.getRefreshToken(), user);
+        refreshTokenCache.put(user.getRefreshToken(), user);
         return user;
     }
 
@@ -58,8 +61,7 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
 
     @Override
     public LoginUser getUserByRefreshAccessToken(String refreshAccessToken) {
-//        return refreshTokenCache.get(refreshAccessToken);
-        return null;
+        return refreshTokenCache.get(refreshAccessToken);
     }
 
     @Override
@@ -71,17 +73,16 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
         }
         // 删除令牌
         tokenCache.remove(accessToken);
-//        refreshTokenCache.remove(user.getRefreshToken());
+        refreshTokenCache.remove(user.getRefreshToken());
     }
 
     @Override
     public LoginUser refreshToken(String refreshToken) {
-        return null;
-//        LoginUser user = refreshTokenCache.get(refreshToken);
-//        if (user == null) {
-//            throw exception(FLUSH_TOKEN_EXPIRED);
-//        }
-//        return createAccessToken(user);
+        LoginUser user = refreshTokenCache.get(refreshToken);
+        if (user == null) {
+            throw exception(FLUSH_TOKEN_EXPIRED);
+        }
+        return createAccessToken(user);
     }
 
 }
