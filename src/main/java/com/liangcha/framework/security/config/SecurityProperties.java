@@ -3,6 +3,7 @@ package com.liangcha.framework.security.config;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.time.Duration;
 import java.util.List;
 
 /**
@@ -31,4 +32,14 @@ public class SecurityProperties {
      * Bearer代表 OAuth2
      */
     private String authorizationBearer = "Bearer";
+
+    /**
+     * token过期时间
+     */
+    private Duration tokenExpireTimes = Duration.ofMinutes(30);
+
+    /**
+     * refreshToken过期时间
+     */
+    private Duration refreshTokenExpireTimes;
 }

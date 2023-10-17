@@ -7,6 +7,8 @@ import com.liangcha.common.pojo.BaseDO;
 import com.liangcha.system.user.enums.UserTypeEnum;
 import lombok.*;
 
+import java.io.Serializable;
+
 /**
  * 社交用户的绑定
  * 即 {@link SocialUserDO} 与 UserDO 的关联表
@@ -20,7 +22,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SocialUserBindDO extends BaseDO {
+public class SocialUserBindDO extends BaseDO implements Serializable {
 
     /**
      * 编号

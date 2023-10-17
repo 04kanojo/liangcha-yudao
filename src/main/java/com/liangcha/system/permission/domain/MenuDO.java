@@ -7,6 +7,8 @@ import com.liangcha.common.pojo.BaseDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.io.Serializable;
+
 /**
  * 菜单 DO
  *
@@ -15,7 +17,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @TableName("system_menu")
 @EqualsAndHashCode(callSuper = true)
-public class MenuDO extends BaseDO {
+public class MenuDO extends BaseDO implements Serializable {
 
     /**
      * 菜单编号 - 根节点

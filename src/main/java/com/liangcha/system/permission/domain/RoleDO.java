@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.Set;
 
 /**
@@ -17,7 +18,7 @@ import java.util.Set;
 @Data
 @Accessors(chain = true)
 @TableName(value = "system_role", autoResultMap = true)
-public class RoleDO {
+public class RoleDO implements Serializable {
 
     /**
      * 角色ID

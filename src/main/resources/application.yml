@@ -36,15 +36,24 @@ knife4j:
 
 --- #################### 自定义相关配置 ####################
 liangcha:
-  captcha: false #验证码开关
+  captcha:
+    #验证码开关
+    enable: false
+    expire-times: 3m
+
   security:
     # 请求头名称
-    tokenHeader: Authorization
+    token-header: Authorization
     # 加密复杂度
-    passwordEncoderLength: 4
+    password-encoder-length: 4
+    # token过期时间
+    token-expire-times: 30m
+    # refreshToken过期时间
+    refresh-token-expire-times: 3d
     # token前缀
-    authorizationBearer: Bearer
-    permit-all_urls:
+    authorization-bearer: Bearer
+    # 允许不登陆访问的路径
+    permit-all-urls:
       # 接口
       - /auth/login
       - /captcha/get

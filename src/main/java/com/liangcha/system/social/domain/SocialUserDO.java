@@ -6,6 +6,8 @@ import com.liangcha.common.pojo.BaseDO;
 import com.liangcha.system.social.enums.SocialTypeEnum;
 import lombok.*;
 
+import java.io.Serializable;
+
 /**
  * 社交（三方）用户
  *
@@ -17,7 +19,7 @@ import lombok.*;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @TableName(value = "system_social_user", autoResultMap = true)
-public class SocialUserDO extends BaseDO {
+public class SocialUserDO extends BaseDO implements Serializable {
 
     /**
      * 自增主键

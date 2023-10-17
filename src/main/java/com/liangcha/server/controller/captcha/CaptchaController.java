@@ -3,12 +3,14 @@ package com.liangcha.server.controller.captcha;
 import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.ShearCaptcha;
 import cn.hutool.captcha.generator.MathGenerator;
+import com.liangcha.framework.captcha.CaptchaProperties;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,6 +24,9 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/captcha")
 public class CaptchaController {
+
+    @Resource
+    private CaptchaProperties captchaProperties;
 
     @ApiOperation("获取验证码")
     @GetMapping("/get")
@@ -67,9 +72,10 @@ public class CaptchaController {
                 break;
             }
         }
-        // 可以使用redis,返回类型不再是图片而是json,多传一个验证用户唯一字段,为了方便少加字段使用session
+        // 使用redis,(key,value)形式,但是前端未登录的情况下,不太好找key值,所以使用session
         // captcha.getImageBase64(); 转为base64传递给前端
-        session.setMaxInactiveInterval(180);
+        long seconds = captchaProperties.getExpireTimes().getSeconds();
+        session.setMaxInactiveInterval(Integer.parseInt(String.valueOf(seconds)));
         session.setAttribute("captcha", Integer.toString(result));
     }
 }

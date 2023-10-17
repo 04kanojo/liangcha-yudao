@@ -52,7 +52,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     }
 
     private void EnableCaptcha(HttpServletRequest request, AuthLoginReqVO reqVO) {
-        if (captchaProperties.getCaptcha()) {
+        if (captchaProperties.getEnable()) {
             String userInput = reqVO.getCaptchaVerification();
             String captcha = (String) request.getSession().getAttribute("captcha");
             if (StrUtil.isEmpty(captcha)) {

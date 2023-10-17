@@ -4,6 +4,7 @@ import com.liangcha.system.permission.domain.RoleDO;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import java.util.List;
  */
 @Data
 @Accessors(chain = true)
-public class LoginUser {
+public class LoginUser implements Serializable {
 
     /**
      * 用户编号

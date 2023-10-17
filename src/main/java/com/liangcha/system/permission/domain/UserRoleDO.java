@@ -6,6 +6,8 @@ import com.liangcha.common.pojo.BaseDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.io.Serializable;
+
 /**
  * 用户和角色关联
  *
@@ -14,7 +16,7 @@ import lombok.EqualsAndHashCode;
 @TableName("system_user_role")
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class UserRoleDO extends BaseDO {
+public class UserRoleDO extends BaseDO implements Serializable {
 
     /**
      * 自增主键

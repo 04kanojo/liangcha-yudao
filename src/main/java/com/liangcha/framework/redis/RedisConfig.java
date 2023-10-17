@@ -4,13 +4,13 @@ import com.alicp.jetcache.Cache;
 import com.alicp.jetcache.CacheManager;
 import com.alicp.jetcache.anno.CacheType;
 import com.alicp.jetcache.template.QuickConfig;
+import com.liangcha.framework.security.config.SecurityProperties;
 import com.liangcha.framework.security.pojo.LoginUser;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import java.time.Duration;
 
 import static com.liangcha.framework.redis.RedisKeyConstants.OAUTH2_ACCESS_TOKEN;
 import static com.liangcha.framework.redis.RedisKeyConstants.OAUTH2_REFRESH_ACCESS_TOKEN;
@@ -19,6 +19,9 @@ import static com.liangcha.framework.redis.RedisKeyConstants.OAUTH2_REFRESH_ACCE
 public class RedisConfig {
     @Resource
     private CacheManager cacheManager;
+
+    @Resource
+    private SecurityProperties properties;
 
     /**
      * accessToken缓存
@@ -33,7 +36,7 @@ public class RedisConfig {
     @PostConstruct
     public void init() {
         QuickConfig tokenQc = QuickConfig.newBuilder(OAUTH2_ACCESS_TOKEN)
-                .expire(Duration.ofMinutes(20))
+                .expire(properties.getTokenExpireTimes())
                 // 二级缓存
                 .cacheType(CacheType.BOTH)
                 // 更新后使所有 JVM 进程中的本地缓存失效
@@ -41,7 +44,7 @@ public class RedisConfig {
                 .build();
 
         QuickConfig refreshTokenQc = QuickConfig.newBuilder(OAUTH2_REFRESH_ACCESS_TOKEN)
-                .expire(Duration.ofMinutes(60))
+                .expire(properties.getRefreshTokenExpireTimes())
                 // 二级缓存
                 .cacheType(CacheType.BOTH)
                 // 更新后使所有 JVM 进程中的本地缓存失效

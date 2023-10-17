@@ -2,18 +2,24 @@ package com.liangcha.framework.captcha;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.validation.annotation.Validated;
+
+import java.time.Duration;
 
 /**
  * @author 凉茶
  */
-@Validated
 @Data
-@ConfigurationProperties(prefix = "liangcha")
+@ConfigurationProperties(prefix = "liangcha.captcha")
 public class CaptchaProperties {
 
     /**
      * 验证码开关
      */
-    private Boolean captcha = true;
+    private Boolean enable = true;
+
+    /**
+     * 验证码过期时间
+     * 默认三分钟
+     */
+    private Duration expireTimes = Duration.ofSeconds(180);
 }

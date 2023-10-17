@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * 角色和菜单关联
  *
@@ -11,7 +13,7 @@ import lombok.Data;
  */
 @TableName("system_role_menu")
 @Data
-public class RoleMenuDO {
+public class RoleMenuDO implements Serializable {
 
     /**
      * 自增主键

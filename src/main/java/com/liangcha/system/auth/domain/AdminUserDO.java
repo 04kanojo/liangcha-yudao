@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -22,7 +23,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName(value = "system_users", autoResultMap = true)
-public class AdminUserDO {
+public class AdminUserDO implements Serializable {
 
     /**
      * 用户ID
