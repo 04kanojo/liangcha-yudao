@@ -1,9 +1,6 @@
 package com.liangcha.framework.security.config;
 
 import com.liangcha.framework.security.filters.TokenAuthenticationFilter;
-import com.liangcha.framework.security.service.SecurityFrameworkService;
-import com.liangcha.framework.security.service.impl.SecurityFrameworkServiceImpl;
-import com.liangcha.system.permission.service.PermissionService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -13,8 +10,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -101,16 +96,6 @@ public class SecurityConfig {
                 .addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
         return httpSecurity.build();
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean("ss") // 使用 Spring Security 的缩写，方便使用
-    public SecurityFrameworkService securityFrameworkService(PermissionService permissionService) {
-        return new SecurityFrameworkServiceImpl(permissionService);
     }
 
 }

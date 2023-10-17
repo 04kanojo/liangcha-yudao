@@ -4,7 +4,9 @@ import cn.hutool.core.util.IdUtil;
 import com.alicp.jetcache.Cache;
 import com.liangcha.framework.security.pojo.LoginUser;
 import com.liangcha.framework.security.service.OAuth2TokenService;
+import com.liangcha.system.permission.service.PermissionService;
 import com.liangcha.system.user.enums.UserTypeEnum;
+import com.liangcha.system.user.service.AdminUserService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -26,6 +28,12 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
     @Resource
     private Cache<String, LoginUser> refreshTokenCache;
 
+    @Resource
+    private PermissionService permissionService;
+
+    @Resource
+    private AdminUserService userService;
+
     private static String generateToken() {
         return IdUtil.fastSimpleUUID();
     }
@@ -34,9 +42,10 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
     public LoginUser createAccessToken(Long userId) {
         // 创建访问令牌
         LoginUser user = new LoginUser()
-                .setId(userId)
-                .setUserType(UserTypeEnum.ADMIN.getCode());
-
+                .setUserId(userId)
+                .setUserType(UserTypeEnum.ADMIN.getCode())
+                .setRoles(permissionService.getEnableUserRoleListByUserId(userId))
+                .setDeptId(userService.getById(userId).getDeptId());
         //降低耦合性
         return createAccessToken(user);
     }

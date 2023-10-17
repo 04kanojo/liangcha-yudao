@@ -38,12 +38,18 @@ knife4j:
 liangcha:
   captcha: false #验证码开关
   security:
+    # 请求头名称
+    tokenHeader: Authorization
+    # 加密复杂度
+    passwordEncoderLength: 4
+    # token前缀
     authorizationBearer: Bearer
     permit-all_urls:
       # 接口
       - /auth/login
       - /captcha/get
       - /sms/send-sms-code
+      - /auth/refresh-token
       # swagger需要不登录访问的路径
       - /doc.html
       - /favicon.ico

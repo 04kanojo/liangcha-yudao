@@ -3,10 +3,10 @@ package com.liangcha.system.user.dao;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.liangcha.system.auth.domain.AdminUserDO;
-import com.liangcha.system.dataPermission.DataColumn;
-import com.liangcha.system.dataPermission.DataPermission;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -23,10 +23,16 @@ public interface AdminUserMapper extends BaseMapper<AdminUserDO> {
         return selectOne(new LambdaQueryWrapper<AdminUserDO>().eq(AdminUserDO::getMobile, mobile));
     }
 
+    /**
+     * 重写方法是因为需要加入数据权限功能，@Param注解复制的BaseMapper,不加这个属性报错
+     *
+     * @param queryWrapper 实体对象封装操作类（可以为 null）
+     * @return AdminUserDO
+     */
     @Override
-    @DataPermission({
-            @DataColumn(key = "deptName", value = "dept_id"),
-            @DataColumn(key = "userName", value = "user_id")
-    })
-    List<AdminUserDO> selectList(Wrapper<AdminUserDO> queryWrapper);
+//    @DataPermission({
+//            @DataColumn(key = "deptName", value = "dept_id"),
+//            @DataColumn(key = "userName", value = "user_id")
+//    })
+    List<AdminUserDO> selectList(@Param(Constants.WRAPPER) Wrapper<AdminUserDO> queryWrapper);
 }

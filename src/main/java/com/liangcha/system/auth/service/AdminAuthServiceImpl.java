@@ -11,7 +11,6 @@ import com.liangcha.server.controller.auth.vo.AuthLoginReqVO;
 import com.liangcha.server.controller.auth.vo.AuthLoginRespVO;
 import com.liangcha.server.controller.auth.vo.AuthSmsSendReqVO;
 import com.liangcha.system.auth.domain.AdminUserDO;
-import com.liangcha.system.permission.service.PermissionService;
 import com.liangcha.system.sms.service.SmsCodeService;
 import com.liangcha.system.user.service.AdminUserService;
 import org.springframework.stereotype.Service;
@@ -33,9 +32,6 @@ public class AdminAuthServiceImpl implements AdminAuthService {
 
     @Resource
     private AdminUserService userService;
-
-    @Resource
-    private PermissionService permissionService;
 
     @Resource
     private CaptchaProperties captchaProperties;
@@ -118,9 +114,6 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     private AuthLoginRespVO createTokenAfterLoginSuccess(Long userId) {
         // 创建访问令牌
         LoginUser user = oauth2TokenService.createAccessToken(userId);
-        user
-                .setRoles(permissionService.getEnableUserRoleListByUserId(userId))
-                .setDeptId(userService.getById(userId).getDeptId());
         return AuthConvert.INSTANCE.convert(user);
     }
 

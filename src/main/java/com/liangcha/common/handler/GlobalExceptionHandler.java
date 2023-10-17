@@ -128,7 +128,7 @@ public class GlobalExceptionHandler {
     public CommonResult<?> serviceExceptionHandler(ServiceException ex) {
         String message = ex.getMsg();
         log.error("[serviceExceptionHandler]:{}", message);
-        return CommonResult.error(ex.getCode(), ex.getMessage());
+        return CommonResult.error(ex.getCode(), message);
     }
 
     /**
@@ -137,6 +137,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     public CommonResult<?> defaultExceptionHandler(Throwable ex) {
         log.error("[Exception]:{}", ex.getMessage());
+        ex.printStackTrace();
         //TODO 将未知异常存入数据库或者保存到本地
         return CommonResult.error(UNKNOWN);
     }

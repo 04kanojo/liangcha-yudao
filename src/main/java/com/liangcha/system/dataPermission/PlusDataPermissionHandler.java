@@ -84,7 +84,7 @@ public class PlusDataPermissionHandler {
 
         loginUser = new LoginUser()
                 .setUserType(UserTypeEnum.ADMIN.getCode())
-                .setId(100L)
+                .setUserId(100L)
                 .setRoles(roles)
                 .setDeptId(1L);
 

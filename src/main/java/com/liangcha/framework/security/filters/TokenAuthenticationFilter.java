@@ -51,7 +51,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
         //token未过期但是刷新过期,重新创建令牌
         if (oauth2TokenService.getUserByRefreshAccessToken(user.getRefreshToken()) != null) {
-            oauth2TokenService.createAccessToken(user.getId());
+            oauth2TokenService.createAccessToken(user.getUserId());
         }
         return user;
     }

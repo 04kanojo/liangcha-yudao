@@ -177,6 +177,10 @@
                     <artifactId>checker-qual</artifactId>
                     <groupId>org.checkerframework</groupId>
                 </exclusion>
+                <exclusion>
+                    <artifactId>jedis</artifactId>
+                    <groupId>redis.clients</groupId>
+                </exclusion>
             </exclusions>
         </dependency>
         <!--jetcache2.7.x版本需要额外添加jedis依赖 因为其他坐标引入，这里就不引入了-->
