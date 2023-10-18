@@ -30,7 +30,7 @@ public class DeptServiceImpl implements DeptService {
 
     @Override
     @Cached(name = DEPT_CHILDREN_ID_LIST, key = "#id", expire = 10, timeUnit = TimeUnit.MINUTES)
-    public String getChildDeptList(Long id) {
+    public String getChildDeptByDeptId(Long id) {
         //LinkedList头尾插入更快,ArrayList查询更快
         List<DeptDO> children = new LinkedList<>();
         Set<Long> parentIds = Collections.singleton(id);
@@ -48,4 +48,5 @@ public class DeptServiceImpl implements DeptService {
         }
         return CollectionUtils.join(children, deptDO -> String.valueOf(deptDO.getId()), ",");
     }
+
 }

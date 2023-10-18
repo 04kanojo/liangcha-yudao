@@ -3,6 +3,7 @@ package com.liangcha.system.permission.service.impl;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.alicp.jetcache.anno.Cached;
+import com.liangcha.common.utils.CollectionUtils;
 import com.liangcha.system.permission.dao.RoleMapper;
 import com.liangcha.system.permission.domain.RoleDO;
 import com.liangcha.system.permission.enums.RoleCodeEnum;
@@ -58,6 +59,12 @@ public class RoleServiceImpl implements RoleService {
             }
         }
         return false;
+    }
+
+    @Override
+    public String getDesignateDeptById(Long id) {
+        RoleDO role = getSelf().getRoleById(id);
+        return CollectionUtils.join(role.getDataScopeDeptIds(), String::valueOf, ",");
     }
 
     /**

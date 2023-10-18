@@ -38,4 +38,11 @@ public interface RoleService {
      */
     boolean isSuperAdmin(Set<Long> ids);
 
+    /**
+     * 获得指定部门的所有子部门
+     *
+     * @param id 角色编号
+     * @return 指定部门字符串
+     */
+    String getDesignateDeptById(Long id);
 }

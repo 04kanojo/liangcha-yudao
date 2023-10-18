@@ -9,8 +9,9 @@ public interface DeptService {
     /**
      * 获得指定部门的所有子部门
      *
-     * @param id 部门编号
-     * @return 子部门列表
+     * @param deptId 部门编号
+     * @return 子部门字符串
      */
-    String getChildDeptList(Long id);
+    String getChildDeptByDeptId(Long deptId);
+
 }

@@ -55,15 +55,24 @@ public class PlusDataPermissionHandler {
      * spel 解析器
      */
     private final ExpressionParser parser = new SpelExpressionParser();
-
     private final ParserContext parserContext = new TemplateParserContext();
 
     /**
      * bean解析器 用于处理 spel 表达式中对 bean 的调用
-     * <p>
-     * 此处用的是hutool,ruoyi用的spring自带,如有报错更改包
      */
     private final BeanResolver beanResolver = new BeanFactoryResolver(SpringUtil.getBeanFactory());
+
+    private static LoginUser test() {
+        ArrayList<RoleDO> roles = new ArrayList<>();
+//        roles.add(new RoleDO().setDataScope(2));
+        roles.add(new RoleDO().setDataScope(4));
+
+        return new LoginUser()
+                .setUserType(UserTypeEnum.ADMIN.getCode())
+                .setUserId(100L)
+                .setRoles(roles)
+                .setDeptId(100L);
+    }
 
     /**
      * @param where             where子句
@@ -81,17 +90,7 @@ public class PlusDataPermissionHandler {
         }
 
         LoginUser loginUser = getLoginUser();
-        //loginUser不可能为空,因为必须先登录了才能进入这里,除非测试(强迫症下面报警告才写)
-        //TODO 是否能被全局异常捕获还不清楚
-        ArrayList<RoleDO> roles = new ArrayList<>();
-//        roles.add(new RoleDO().setDataScope(2));
-        roles.add(new RoleDO().setDataScope(4));
-
-        loginUser = new LoginUser().setUserType(UserTypeEnum.ADMIN.getCode()).setUserId(100L).setRoles(roles).setDeptId(100L);
-
-        if (loginUser == null) {
-            throw exception(NO_LOGIN);
-        }
+        loginUser = test();
 
         String dataFilterSql = buildDataFilter(dataPermission, loginUser, isSelect);
         if (StrUtil.isBlank(dataFilterSql)) {
@@ -119,10 +118,13 @@ public class PlusDataPermissionHandler {
         // 更新或删除需满足所有条件
         String joinStr = isSelect ? " or " : " and ";
         StandardEvaluationContext context = new StandardEvaluationContext();
+        //配置bean解析器
         context.setBeanResolver(beanResolver);
+        //不管是什么模板,都添加上用户id和部门id
+        context.setVariable("deptId", loginUser.getDeptId());
+        context.setVariable("userId", loginUser.getUserId());
 
         Set<String> conditions = new HashSet<>();
-        context.setVariable("deptId", loginUser.getDeptId());
         for (RoleDO role : loginUser.getRoles()) {
             // 获取角色权限枚举类
             DataScopeTypeEnum type = DataScopeTypeEnum.findCode(role.getDataScope().toString());
@@ -132,15 +134,12 @@ public class PlusDataPermissionHandler {
             if (type.equals(DataScopeTypeEnum.ALL)) {
                 return "";
             }
-            if (type.equals(DataScopeTypeEnum.SELF)) {
-                context.setVariable("userId", loginUser.getUserId());
+            //如果是自定义,多添加一个角色id
+            if (type.equals(DataScopeTypeEnum.DEPT_DESIGNATE)) {
+                context.setVariable("roleId", role.getId());
             }
             String[] keys = dataPermission.key();
             String[] values = dataPermission.value();
-            // 不包含 key 变量 则不处理
-            if (!StrUtil.containsAny(type.getSqlTemplate(), Arrays.stream(keys).map(key -> "#" + key).toArray(String[]::new))) {
-                continue;
-            }
             // key和value长度不对等
             if (keys.length != values.length) {
                 throw exception(DATA_SCOPE_KEY_VALUE_ERR);

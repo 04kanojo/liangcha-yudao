@@ -28,12 +28,12 @@ public enum DataScopeTypeEnum {
     /**
      * 指定部门数据权限
      */
-    DEPT_ONLY("3", " #{#deptName} = #{#deptId} "),
+    DEPT_DESIGNATE("3", " #{#deptName} IN ( #{@RoleServiceImpl.getDesignateDeptById( #roleId )} ) "),
 
     /**
      * 部门及以下数据权限
      */
-    DEPT_AND_CHILD("4", " #{#deptName} IN ( #{@deptServiceImpl.getChildDeptList( #deptId )} )"),
+    DEPT_AND_CHILD("4", " #{#deptName} IN ( #{@deptServiceImpl.getChildDeptList( #deptId )} ) "),
 
     /**
      * 仅本人数据权限
