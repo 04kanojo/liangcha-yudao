@@ -1,4 +1,4 @@
-package com.liangcha.system.dataPermission;
+package com.liangcha.system.dataPermission.enums;
 
 import cn.hutool.core.util.StrUtil;
 import lombok.AllArgsConstructor;
@@ -38,7 +38,7 @@ public enum DataScopeTypeEnum {
     /**
      * 仅本人数据权限
      */
-    SELF("5", " #{#userName} = #{#user.userId} ");
+    SELF("5", " #{#userName} = #{#userId} ");
 
     private final String code;
 

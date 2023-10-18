@@ -1,4 +1,4 @@
-package com.liangcha.system.dataPermission;
+package com.liangcha.system.dataPermission.annotation;
 
 import java.lang.annotation.*;
 
