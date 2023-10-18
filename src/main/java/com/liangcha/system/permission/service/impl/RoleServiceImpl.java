@@ -60,6 +60,11 @@ public class RoleServiceImpl implements RoleService {
         return false;
     }
 
+    @Override
+    public String getDeptAndChild(Long deptId) {
+        return "success";
+    }
+
     /**
      * 获得自身的代理对象，解决 AOP 生效问题
      *

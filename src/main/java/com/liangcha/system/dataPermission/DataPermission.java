@@ -2,17 +2,25 @@ package com.liangcha.system.dataPermission;
 
 import java.lang.annotation.*;
 
+
 /**
- * 数据权限组
+ * 数据权限
  *
- * @author Lion Li
- * @version 3.5.0
+ * @author 凉茶
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface DataPermission {
 
-    DataColumn[] value();
+    /**
+     * 占位符关键字
+     */
+    String[] key() default "deptName";
+
+    /**
+     * 占位符替换值
+     */
+    String[] value() default "dept_id";
 
 }

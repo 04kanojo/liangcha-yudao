@@ -62,6 +62,8 @@ public enum ErrorCodeEnum {
 
     DATA_SCOPE_KEY_VALUE_ERR(417, "数据范围key与value长度不匹配"),
 
+    DATA_SCOPE_PARSE_ERR(418, "数据权限解析异常"),
+
     //  AUTH 模块 1002000000
     AUTH_LOGIN_BAD_CREDENTIALS(1002000000, "登录失败，账号密码不正确"),
     AUTH_LOGIN_USER_DISABLED(1002000001, "登录失败，账号被禁用"),

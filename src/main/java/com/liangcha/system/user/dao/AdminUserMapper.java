@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.liangcha.system.auth.domain.AdminUserDO;
+import com.liangcha.system.dataPermission.DataPermission;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -30,9 +31,6 @@ public interface AdminUserMapper extends BaseMapper<AdminUserDO> {
      * @return AdminUserDO
      */
     @Override
-//    @DataPermission({
-//            @DataColumn(key = "deptName", value = "dept_id"),
-//            @DataColumn(key = "userName", value = "user_id")
-//    })
+    @DataPermission
     List<AdminUserDO> selectList(@Param(Constants.WRAPPER) Wrapper<AdminUserDO> queryWrapper);
 }

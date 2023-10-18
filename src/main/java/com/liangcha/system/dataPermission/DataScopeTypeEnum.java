@@ -6,15 +6,9 @@ import lombok.Getter;
 
 /**
  * 数据权限类型
- * <p>
  * 语法支持 spel 模板表达式
- * <p>
- * 内置数据 user 当前用户 内容参考 LoginUser
- * 内置服务 sdss 系统数据权限服务 内容参考 SysDataScopeService
- * 如需扩展更多自定义服务 可以参考 sdss 自行编写
  *
- * @author Lion Li
- * @version 3.5.0
+ * @author 凉茶
  */
 @Getter
 @AllArgsConstructor
@@ -23,27 +17,28 @@ public enum DataScopeTypeEnum {
     /**
      * 全部数据权限
      */
-    ALL("1", "", ""),
+    ALL("1", ""),
 
-    /**
-     * 自定数据权限
-     */
-    CUSTOM("2", " #{#deptName} IN ( #{@sdss.getRoleCustom( #user.roleId )} ) ", ""),
 
     /**
      * 部门数据权限
      */
-    DEPT("3", " #{#deptName} = #{#deptId} ", ""),
+    DEPT("2", " #{#deptName} = #{#deptId} "),
+
+    /**
+     * 指定部门数据权限
+     */
+    DEPT_ONLY("3", " #{#deptName} = #{#deptId} "),
 
     /**
      * 部门及以下数据权限
      */
-    DEPT_AND_CHILD("4", " #{#deptName} IN ( #{@sdss.getDeptAndChild( #user.deptId )} )", ""),
+    DEPT_AND_CHILD("4", " #{#deptName} IN ( #{@roleServiceImpl.getDeptAndChild( #deptId )} )"),
 
     /**
      * 仅本人数据权限
      */
-    SELF("5", " #{#userName} = #{#user.userId} ", " 1 = 0 ");
+    SELF("5", " #{#userName} = #{#user.userId} ");
 
     private final String code;
 
@@ -51,11 +46,6 @@ public enum DataScopeTypeEnum {
      * 语法 采用 spel 模板表达式
      */
     private final String sqlTemplate;
-
-    /**
-     * 不满足 sqlTemplate 则填充
-     */
-    private final String elseSql;
 
     public static DataScopeTypeEnum findCode(String code) {
         if (StrUtil.isBlank(code)) {

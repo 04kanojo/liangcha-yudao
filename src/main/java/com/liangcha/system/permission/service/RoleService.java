@@ -37,4 +37,6 @@ public interface RoleService {
      * @param ids 角色id集合
      */
     boolean isSuperAdmin(Set<Long> ids);
+
+    String getDeptAndChild(Long deptId);
 }

@@ -1,7 +1,6 @@
 package com.liangcha.system.dataPermission;
 
 import cn.hutool.core.annotation.AnnotationUtil;
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.ConcurrentHashSet;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ClassUtil;
@@ -11,7 +10,11 @@ import cn.hutool.extra.spring.SpringUtil;
 import com.liangcha.framework.security.pojo.LoginUser;
 import com.liangcha.system.permission.domain.RoleDO;
 import com.liangcha.system.user.enums.UserTypeEnum;
+import net.sf.jsqlparser.JSQLParserException;
 import net.sf.jsqlparser.expression.Expression;
+import net.sf.jsqlparser.expression.Parenthesis;
+import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
+import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import org.springframework.context.expression.BeanFactoryResolver;
 import org.springframework.expression.BeanResolver;
 import org.springframework.expression.ExpressionParser;
@@ -32,8 +35,7 @@ import static com.liangcha.framework.security.utils.SecurityFrameworkUtils.getLo
 /**
  * 数据权限过滤
  *
- * @author Lion Li
- * @version 3.5.0
+ * @author 凉茶
  */
 public class PlusDataPermissionHandler {
 
@@ -51,6 +53,7 @@ public class PlusDataPermissionHandler {
      * spel 解析器
      */
     private final ExpressionParser parser = new SpelExpressionParser();
+
     private final ParserContext parserContext = new TemplateParserContext();
 
     /**
@@ -68,9 +71,9 @@ public class PlusDataPermissionHandler {
      */
     public Expression getSqlSegment(Expression where, String mappedStatementId, boolean isSelect) {
         //寻找执行sql语句方法上和类上的注解
-        DataColumn[] dataColumns = findAnnotation(mappedStatementId);
+        DataPermission dataPermission = findAnnotation(mappedStatementId);
         //如果无数据权限注解,将其添加入缓存,加快访问速度
-        if (ArrayUtil.isEmpty(dataColumns)) {
+        if (ArrayUtil.isEmpty(dataPermission)) {
             invalidCacheSet.add(mappedStatementId);
             return where;
         }
@@ -79,8 +82,8 @@ public class PlusDataPermissionHandler {
         //loginUser不可能为空,因为必须先登录了才能进入这里,除非测试(强迫症下面报警告才写)
         //TODO 是否能被全局异常捕获还不清楚
         ArrayList<RoleDO> roles = new ArrayList<>();
-        roles.add(new RoleDO().setDataScope(3));
 //        roles.add(new RoleDO().setDataScope(2));
+        roles.add(new RoleDO().setDataScope(4));
 
         loginUser = new LoginUser()
                 .setUserType(UserTypeEnum.ADMIN.getCode())
@@ -92,42 +95,42 @@ public class PlusDataPermissionHandler {
             throw exception(NO_LOGIN);
         }
 
-        String dataFilterSql = buildDataFilter(dataColumns, loginUser, isSelect);
-        System.out.println(dataFilterSql);
-//        if (StrUtil.isBlank(dataFilterSql)) {
-//            return where;
-//        }
-//
-//        try {
-//            Expression expression = CCJSqlParserUtil.parseExpression(dataFilterSql);
-//            // 数据权限使用单独的括号 防止与其他条件冲突
-//            Parenthesis parenthesis = new Parenthesis(expression);
-//            if (ObjectUtil.isNotNull(where)) {
-//                return new AndExpression(where, parenthesis);
-//            } else {
-//                return parenthesis;
-//            }
-//        } catch (JSQLParserException e) {
-//            throw new ServiceException("数据权限解析异常 => " + e.getMessage());
-//        }
-        return null;
+        String dataFilterSql = buildDataFilter(dataPermission, loginUser, isSelect);
+        if (StrUtil.isBlank(dataFilterSql)) {
+            return where;
+        }
+
+        try {
+            Expression expression = CCJSqlParserUtil.parseExpression(dataFilterSql);
+            // 数据权限使用单独的括号 防止与其他条件冲突
+            Parenthesis parenthesis = new Parenthesis(expression);
+            if (ObjectUtil.isNotNull(where)) {
+                return new AndExpression(where, parenthesis);
+            } else {
+                return parenthesis;
+            }
+        } catch (JSQLParserException e) {
+            throw exception(DATA_SCOPE_PARSE_ERR);
+        }
     }
 
     /**
      * 构造数据过滤sql
      */
-    private String buildDataFilter(DataColumn[] dataColumns, LoginUser loginUser, boolean isSelect) {
+    private String buildDataFilter(DataPermission dataPermission, LoginUser loginUser, boolean isSelect) {
         // 更新或删除需满足所有条件
-        String joinStr = isSelect ? " OR " : " AND ";
+        String joinStr = isSelect ? " or " : " and ";
         StandardEvaluationContext context = new StandardEvaluationContext();
         context.setBeanResolver(beanResolver);
-        context.setVariable("#deptId", loginUser.getDeptId());
-
+        context.setVariable("deptId", loginUser.getDeptId());
 
         Set<String> conditions = new HashSet<>();
         for (RoleDO role : loginUser.getRoles()) {
             // 获取角色权限枚举类
             DataScopeTypeEnum type = DataScopeTypeEnum.findCode(role.getDataScope().toString());
+            String[] keys = dataPermission.key();
+            String[] values = dataPermission.value();
+
             if (ObjectUtil.isNull(type)) {
                 throw exception(DATA_SCOPE_NOT_EXISTS);
             }
@@ -135,51 +138,33 @@ public class PlusDataPermissionHandler {
             if (type == DataScopeTypeEnum.ALL) {
                 return "";
             }
-
-            boolean isSuccess = false;
-            for (DataColumn dataColumn : dataColumns) {
-
-                String[] keys = dataColumn.key();
-                String[] values = dataColumn.value();
-
-                if (keys.length != values.length) {
-                    throw exception(DATA_SCOPE_KEY_VALUE_ERR);
-                }
-
-                // 不包含 key 变量 则不处理
-                if (!StrUtil.containsAny(type.getSqlTemplate(), Arrays.stream(keys).map(key -> "#" + key).toArray(String[]::new))) {
-                    continue;
-                }
-                // 设置注解变量 key 为表达式变量 value 为变量值
-                for (int i = 0; i < keys.length; i++) {
-                    context.setVariable(keys[i], values[i]);
-                }
-
-                // 解析sql模板并填充
-                String sql = parser.parseExpression(type.getSqlTemplate(), parserContext).getValue(context, String.class);
-                conditions.add(joinStr + sql);
-                isSuccess = true;
+            //key和value长度不对等
+            if (keys.length != values.length) {
+                throw exception(DATA_SCOPE_KEY_VALUE_ERR);
+            }
+            // 不包含 key 变量 则不处理
+            if (!StrUtil.containsAny(type.getSqlTemplate(), Arrays.stream(keys).map(key -> "#" + key).toArray(String[]::new))) {
+                continue;
             }
 
-
-            // 未处理成功则填充兜底方案
-            if (!isSuccess && StrUtil.isNotBlank(type.getElseSql())) {
-                conditions.add(joinStr + type.getElseSql());
+            // 设置注解变量 key 为表达式变量 value 为变量值
+            for (int i = 0; i < keys.length; i++) {
+                context.setVariable(keys[i], values[i]);
             }
+            // 解析sql模板并填充
+            String sql = parser.parseExpression(type.getSqlTemplate(), parserContext).getValue(context, String.class);
+            conditions.add(joinStr + sql);
         }
 
-        if (CollUtil.isNotEmpty(conditions)) {
-            String sql = conditions.stream().filter(Objects::nonNull).collect(Collectors.joining(""));
-            return sql.substring(joinStr.length());
-        }
-        //conditions不会为空,走不到这来
-        return "";
+        //处理sql返回
+        String sql = conditions.stream().filter(Objects::nonNull).collect(Collectors.joining(""));
+        return sql.substring(joinStr.length());
     }
 
     /**
      * @param mappedStatementId 格式: 类路径.方法名
      */
-    private DataColumn[] findAnnotation(String mappedStatementId) {
+    private DataPermission findAnnotation(String mappedStatementId) {
         StringBuilder sb = new StringBuilder(mappedStatementId);
         int index = sb.lastIndexOf(".");
         //获取类路径
@@ -196,14 +181,14 @@ public class PlusDataPermissionHandler {
             //优先从缓存取
             dataPermission = dataPermissionCacheMap.get(mappedStatementId);
             if (ObjectUtil.isNotNull(dataPermission)) {
-                return dataPermission.value();
+                return dataPermission;
             }
 
             //查找有注解的方法
             if (AnnotationUtil.hasAnnotation(method, DataPermission.class)) {
                 dataPermission = AnnotationUtil.getAnnotation(method, DataPermission.class);
                 dataPermissionCacheMap.put(mappedStatementId, dataPermission);
-                return dataPermission.value();
+                return dataPermission;
             }
         }
 
@@ -212,7 +197,7 @@ public class PlusDataPermissionHandler {
         if (AnnotationUtil.hasAnnotation(clazz, DataPermission.class)) {
             dataPermission = AnnotationUtil.getAnnotation(clazz, DataPermission.class);
             dataPermissionCacheMap.put(clazzName, dataPermission);
-            return dataPermission.value();
+            return dataPermission;
         }
 
         //如果类上方法上都没有注解,返回空对象

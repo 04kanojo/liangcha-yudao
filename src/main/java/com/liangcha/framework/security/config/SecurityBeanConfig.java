@@ -1,7 +1,5 @@
 package com.liangcha.framework.security.config;
 
-import com.liangcha.framework.security.handler.AccessDeniedHandlerImpl;
-import com.liangcha.framework.security.handler.AuthenticationEntryPointImpl;
 import com.liangcha.framework.security.service.SecurityFrameworkService;
 import com.liangcha.framework.security.service.impl.SecurityFrameworkServiceImpl;
 import com.liangcha.system.permission.service.PermissionService;
@@ -9,8 +7,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.access.AccessDeniedHandler;
 
 import javax.annotation.Resource;
 
@@ -21,22 +17,6 @@ import javax.annotation.Resource;
 public class SecurityBeanConfig {
     @Resource
     private SecurityProperties securityProperties;
-
-    /**
-     * 认证失败处理类 Bean
-     */
-    @Bean
-    public AuthenticationEntryPoint authenticationEntryPoint() {
-        return new AuthenticationEntryPointImpl();
-    }
-
-    /**
-     * 权限不够处理器 Bean
-     */
-    @Bean
-    public AccessDeniedHandler accessDeniedHandler() {
-        return new AccessDeniedHandlerImpl();
-    }
 
     /**
      * Spring Security 加密器
