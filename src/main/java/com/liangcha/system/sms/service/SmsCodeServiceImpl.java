@@ -7,11 +7,11 @@ import com.liangcha.framework.rabbitMq.message.SmsSendMessage;
 import com.liangcha.framework.rabbitMq.producer.SmsProducer;
 import com.liangcha.server.controller.auth.vo.AuthSmsSendReqVO;
 import com.liangcha.server.controller.sms.dto.SmsCodeSendReqDTO;
-import com.liangcha.system.permission.properties.SmsCodeProperties;
 import com.liangcha.system.sms.dao.SmsCodeMapper;
 import com.liangcha.system.sms.domain.SmsCodeDO;
 import com.liangcha.system.sms.domain.SmsTemplateDO;
 import com.liangcha.system.sms.enums.SmsSceneEnum;
+import com.liangcha.system.sms.properties.SmsCodeProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 

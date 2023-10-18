@@ -1,4 +1,4 @@
-package com.liangcha.system.permission.properties;
+package com.liangcha.system.sms.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

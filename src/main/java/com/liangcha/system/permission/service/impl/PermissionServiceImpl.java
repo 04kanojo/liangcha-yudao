@@ -128,14 +128,14 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
-    @Cached(name = RedisKeyConstants.MENU_ROLE_ID_LIST, key = "#menuId", expire = 1, timeUnit = TimeUnit.HOURS)
+    @Cached(name = RedisKeyConstants.MENU_ROLE_ID_LIST, key = "#menuId", expire = 10, timeUnit = TimeUnit.MINUTES)
     public Set<Long> getMenuRoleIdListByMenuId(Long menuId) {
         return convertSet(roleMenuMapper.selectListByMenuId(menuId), RoleMenuDO::getRoleId);
     }
 
 
     @Override
-    @Cached(name = USER_ROLE_ID_LIST, key = "#userId", expire = 1, timeUnit = TimeUnit.HOURS)
+    @Cached(name = USER_ROLE_ID_LIST, key = "#userId", expire = 10, timeUnit = TimeUnit.MINUTES)
     public Set<Long> getUserRoleIdListByUserId(Long userId) {
         return convertSet(userRoleMapper.selectListByUserId(userId), UserRoleDO::getRoleId);
     }

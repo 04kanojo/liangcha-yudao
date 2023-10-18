@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 短信模板 Service 实现类
@@ -30,7 +31,7 @@ public class SmsTemplateServiceImpl implements SmsTemplateService {
     }
 
     @Override
-    @Cached(name = RedisKeyConstants.SMS_TEMPLATE, key = "#code")
+    @Cached(name = RedisKeyConstants.SMS_TEMPLATE, key = "#code", expire = 10, timeUnit = TimeUnit.MINUTES)
     public SmsTemplateDO getSmsTemplateByCodeFromCache(String code) {
         return smsTemplateMapper.selectByCode(code);
     }

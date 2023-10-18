@@ -2,12 +2,11 @@ package com.liangcha.system.permission.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import com.liangcha.framework.redis.RedisKeyConstants;
+import com.alicp.jetcache.anno.Cached;
 import com.liangcha.system.permission.dao.RoleMapper;
 import com.liangcha.system.permission.domain.RoleDO;
 import com.liangcha.system.permission.enums.RoleCodeEnum;
 import com.liangcha.system.permission.service.RoleService;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -15,8 +14,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import static com.liangcha.common.utils.CollectionUtils.convertList;
+import static com.liangcha.framework.redis.RedisKeyConstants.ROLE;
 
 /**
  * 角色 Service 实现类
@@ -29,8 +30,7 @@ public class RoleServiceImpl implements RoleService {
     private RoleMapper roleMapper;
 
     @Override
-    @Cacheable(value = RedisKeyConstants.ROLE, key = "#id",
-            unless = "#result == null")
+    @Cached(name = ROLE, key = "#id", expire = 10, timeUnit = TimeUnit.MINUTES)
     public RoleDO getRoleById(Long id) {
         return roleMapper.selectById(id);
     }
@@ -58,11 +58,6 @@ public class RoleServiceImpl implements RoleService {
             }
         }
         return false;
-    }
-
-    @Override
-    public String getDeptAndChild(Long deptId) {
-        return "success";
     }
 
     /**

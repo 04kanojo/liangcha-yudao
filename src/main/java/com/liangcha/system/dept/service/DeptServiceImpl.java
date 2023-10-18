@@ -1,6 +1,7 @@
 package com.liangcha.system.dept.service;
 
 import cn.hutool.core.collection.CollUtil;
+import com.alicp.jetcache.anno.Cached;
 import com.liangcha.common.utils.CollectionUtils;
 import com.liangcha.system.dept.dao.DeptMapper;
 import com.liangcha.system.dept.domain.DeptDO;
@@ -11,8 +12,10 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import static com.liangcha.common.utils.CollectionUtils.convertSet;
+import static com.liangcha.framework.redis.RedisKeyConstants.DEPT_CHILDREN_ID_LIST;
 
 /**
  * 部门 Service 实现类
@@ -26,6 +29,7 @@ public class DeptServiceImpl implements DeptService {
     private DeptMapper deptMapper;
 
     @Override
+    @Cached(name = DEPT_CHILDREN_ID_LIST, key = "#id", expire = 10, timeUnit = TimeUnit.MINUTES)
     public String getChildDeptList(Long id) {
         //LinkedList头尾插入更快,ArrayList查询更快
         List<DeptDO> children = new LinkedList<>();

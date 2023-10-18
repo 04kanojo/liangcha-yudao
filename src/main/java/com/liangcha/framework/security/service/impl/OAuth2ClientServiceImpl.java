@@ -16,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.annotation.Resource;
 import java.util.Collection;
+import java.util.concurrent.TimeUnit;
 
 import static com.liangcha.common.enums.ErrorCodeEnum.*;
 import static com.liangcha.common.utils.ServiceExceptionUtil.exception;
@@ -85,7 +86,7 @@ public class OAuth2ClientServiceImpl implements OAuth2ClientService {
         return client;
     }
 
-    @Cached(name = RedisKeyConstants.OAUTH_CLIENT, key = "#clientId")
+    @Cached(name = RedisKeyConstants.OAUTH_CLIENT, key = "#clientId", expire = 10, timeUnit = TimeUnit.MINUTES)
     public OAuth2ClientDO getOAuth2ClientFromCache(String clientId) {
         return oauth2ClientMapper.selectByClientId(clientId);
     }
