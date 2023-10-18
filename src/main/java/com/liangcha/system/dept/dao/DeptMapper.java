@@ -11,6 +11,6 @@ import java.util.Set;
 @Mapper
 public interface DeptMapper extends BaseMapper<DeptDO> {
     default List<DeptDO> selectListByParentId(Set<Long> parentId) {
-        return selectList(new LambdaQueryWrapper<DeptDO>().eq(DeptDO::getParentId, parentId));
+        return selectList(new LambdaQueryWrapper<DeptDO>().in(DeptDO::getParentId, parentId));
     }
 }

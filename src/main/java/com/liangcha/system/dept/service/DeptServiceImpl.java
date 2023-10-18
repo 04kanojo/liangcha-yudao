@@ -1,6 +1,7 @@
 package com.liangcha.system.dept.service;
 
 import cn.hutool.core.collection.CollUtil;
+import com.liangcha.common.utils.CollectionUtils;
 import com.liangcha.system.dept.dao.DeptMapper;
 import com.liangcha.system.dept.domain.DeptDO;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class DeptServiceImpl implements DeptService {
     private DeptMapper deptMapper;
 
     @Override
-    public List<DeptDO> getChildDeptList(Long id) {
+    public String getChildDeptList(Long id) {
         //LinkedList头尾插入更快,ArrayList查询更快
         List<DeptDO> children = new LinkedList<>();
         Set<Long> parentIds = Collections.singleton(id);
@@ -41,6 +42,6 @@ public class DeptServiceImpl implements DeptService {
             children.addAll(depts);
             parentIds = convertSet(depts, DeptDO::getId);
         }
-        return children;
+        return CollectionUtils.join(children, deptDO -> String.valueOf(deptDO.getId()), ",");
     }
 }

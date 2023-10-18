@@ -16,8 +16,6 @@ import org.springframework.expression.spel.support.StandardEvaluationContext;
 
 import javax.annotation.Resource;
 import java.time.Duration;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 @SpringBootTest
@@ -53,7 +51,7 @@ public class DataPermissionInjectTest {
 
     @Test
     void testSqel() {
-        String tmp = "#{#deptName} IN ( #{@roleServiceImpl.getDeptAndChild( #deptId )}";
+        String tmp = "#{#deptName} IN ( #{@deptServiceImpl.getChildDeptList( #deptId )}";
         // 解析器
         ExpressionParser parser = new SpelExpressionParser();
 
@@ -61,7 +59,7 @@ public class DataPermissionInjectTest {
         StandardEvaluationContext context = new StandardEvaluationContext();
         context.setBeanResolver(new BeanFactoryResolver(SpringUtil.getBeanFactory()));
         context.setVariable("deptName", "dept_id");
-        context.setVariable("deptId", "1");
+        context.setVariable("deptId", "100");
 
         //解析模板
         Expression expression = parser.parseExpression(tmp, new TemplateParserContext());
@@ -71,9 +69,4 @@ public class DataPermissionInjectTest {
         System.out.println(value);
     }
 
-    @Test
-    void testCon() {
-        Collection<Long> parentIds = Collections.singleton(10L);
-        parentIds.forEach(System.out::println);
-    }
 }

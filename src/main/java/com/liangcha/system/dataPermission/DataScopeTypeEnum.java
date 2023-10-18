@@ -33,7 +33,7 @@ public enum DataScopeTypeEnum {
     /**
      * 部门及以下数据权限
      */
-    DEPT_AND_CHILD("4", " #{#deptName} IN ( #{@roleServiceImpl.getDeptAndChild( #deptId )} )"),
+    DEPT_AND_CHILD("4", " #{#deptName} IN ( #{@deptServiceImpl.getChildDeptList( #deptId )} )"),
 
     /**
      * 仅本人数据权限

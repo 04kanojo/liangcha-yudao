@@ -1,9 +1,5 @@
 package com.liangcha.system.dept.service;
 
-import com.liangcha.system.dept.domain.DeptDO;
-
-import java.util.List;
-
 /**
  * 部门 Service 接口
  *
@@ -16,5 +12,5 @@ public interface DeptService {
      * @param id 部门编号
      * @return 子部门列表
      */
-    List<DeptDO> getChildDeptList(Long id);
+    String getChildDeptList(Long id);
 }

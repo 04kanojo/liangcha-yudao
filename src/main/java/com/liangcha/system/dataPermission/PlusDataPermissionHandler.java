@@ -89,7 +89,7 @@ public class PlusDataPermissionHandler {
                 .setUserType(UserTypeEnum.ADMIN.getCode())
                 .setUserId(100L)
                 .setRoles(roles)
-                .setDeptId(1L);
+                .setDeptId(100L);
 
         if (loginUser == null) {
             throw exception(NO_LOGIN);
