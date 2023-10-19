@@ -1,15 +1,27 @@
 package com.liangcha.common.config;
 
+import com.alibaba.fastjson.serializer.SerializeConfig;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.alibaba.fastjson.support.config.FastJsonConfig;
+import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import javax.annotation.Resource;
+import java.time.LocalDateTime;
+import java.util.List;
+
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
+
+    @Resource
+    private LocalDateTimeSerializer localDateTimeSerializer;
 
     /*
        配置跨域
@@ -42,5 +54,29 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/favicon.ico").addResourceLocations("classpath:/static/");
         registry.addResourceHandler("doc.html").addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+    }
+
+    /**
+     * 自定义json处理LocalDateTime规则
+     * <p>
+     * 注:这里使用的fastjson,并不是fastjson2
+     */
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        FastJsonHttpMessageConverter fastJsonHttpMessageConverter = new FastJsonHttpMessageConverter();
+        FastJsonConfig config = new FastJsonConfig();
+        //创建序列化配置
+        SerializeConfig serializeConfig = SerializeConfig.globalInstance;
+        //注入自定义的序列化解析器
+        serializeConfig.put(LocalDateTime.class, localDateTimeSerializer);
+        config.setSerializeConfig(serializeConfig);
+        config.setSerializerFeatures(
+                SerializerFeature.PrettyFormat,
+                SerializerFeature.WriteMapNullValue,
+                SerializerFeature.DisableCircularReferenceDetect
+        );
+
+        fastJsonHttpMessageConverter.setFastJsonConfig(config);
+        converters.add(0, fastJsonHttpMessageConverter);
     }
 }

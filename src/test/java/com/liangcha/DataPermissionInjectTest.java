@@ -69,4 +69,12 @@ public class DataPermissionInjectTest {
         System.out.println(value);
     }
 
+    @Test
+    void testInsert() {
+        AdminUserDO adminUserDO = mapper.selectById(1);
+        adminUserDO.setId(null);
+        adminUserDO.setCreateTime(null);
+        mapper.insert(adminUserDO);
+    }
+
 }

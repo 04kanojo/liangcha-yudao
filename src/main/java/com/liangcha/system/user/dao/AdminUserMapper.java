@@ -12,7 +12,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * 凉茶
+ * @author 凉茶
  */
 @Mapper
 public interface AdminUserMapper extends BaseMapper<AdminUserDO> {

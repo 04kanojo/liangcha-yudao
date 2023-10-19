@@ -1,8 +1,8 @@
 package com.liangcha.framework.mybatisplus.type;
 
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.TypeReference;
 import com.baomidou.mybatisplus.extension.handlers.AbstractJsonTypeHandler;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.liangcha.common.utils.JsonUtils;
 
 import java.util.Set;
 
@@ -15,18 +15,16 @@ import java.util.Set;
  */
 public class JsonLongSetTypeHandler extends AbstractJsonTypeHandler<Object> {
 
-    //初始化类型
-    private static final TypeReference<Set<Long>> TYPE_REFERENCE = new TypeReference<Set<Long>>() {
-    };
-
     @Override
     protected Object parse(String json) {
-        return JsonUtils.parseObject(json, TYPE_REFERENCE);
+        TypeReference<Set<Long>> typeReference = new TypeReference<Set<Long>>() {
+        };
+        return JSON.parseObject(json, typeReference);
     }
 
     @Override
     protected String toJson(Object obj) {
-        return JsonUtils.toJsonString(obj);
+        return JSON.toJSONString(obj);
     }
 
 }

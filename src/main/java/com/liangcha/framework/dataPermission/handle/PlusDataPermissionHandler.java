@@ -11,7 +11,6 @@ import com.liangcha.framework.dataPermission.annotation.DataPermission;
 import com.liangcha.framework.dataPermission.enums.DataScopeTypeEnum;
 import com.liangcha.framework.security.pojo.LoginUser;
 import com.liangcha.system.permission.domain.RoleDO;
-import com.liangcha.system.user.enums.UserTypeEnum;
 import net.sf.jsqlparser.JSQLParserException;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.Parenthesis;
@@ -62,18 +61,6 @@ public class PlusDataPermissionHandler {
      */
     private final BeanResolver beanResolver = new BeanFactoryResolver(SpringUtil.getBeanFactory());
 
-    private static LoginUser test() {
-        ArrayList<RoleDO> roles = new ArrayList<>();
-//        roles.add(new RoleDO().setDataScope(2));
-        roles.add(new RoleDO().setDataScope(4));
-
-        return new LoginUser()
-                .setUserType(UserTypeEnum.ADMIN.getCode())
-                .setUserId(100L)
-                .setRoles(roles)
-                .setDeptId(100L);
-    }
-
     /**
      * @param where             where子句
      * @param mappedStatementId 方法路径,格式：类名.方法名
@@ -89,8 +76,14 @@ public class PlusDataPermissionHandler {
             return where;
         }
 
+        //如果未登录,直接返回,给登录时根据用户名查询用户使用
+        //TODO 这里不知道是否会被攻击,暂定可以把selectUserByUsername方法用配置文件的形式写出来
+        //TODO 1.要进入到这里,登录的时候也会进来,为了防止报错,直接返回where子句
+        //TODO 2.如果攻击者未登录,想要访问到这,只有通过登录接口,但是返回了全部信息也不影响,因为实际上是调用的selectone
         LoginUser loginUser = getLoginUser();
-        loginUser = test();
+        if (loginUser == null) {
+            return where;
+        }
 
         String dataFilterSql = buildDataFilter(dataPermission, loginUser, isSelect);
         if (StrUtil.isBlank(dataFilterSql)) {
