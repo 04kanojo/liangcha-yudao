@@ -1,5 +1,6 @@
 package com.liangcha.common.utils;
 
+import com.alibaba.fastjson2.JSON;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -42,6 +43,9 @@ public class JsonUtils {
 
     public static <T> T parseObject(String text, TypeReference<T> typeReference) {
         try {
+
+            JSON.parseObject(text, TypeReference.class);
+
             return objectMapper.readValue(text, typeReference);
         } catch (IOException e) {
             log.error("json parse err,json:{}", text, e);
