@@ -64,7 +64,13 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public String getDesignateDeptById(Long id) {
         RoleDO role = getSelf().getRoleById(id);
-        return CollectionUtils.join(role.getDataScopeDeptIds(), String::valueOf, ",");
+        Set<Long> dataScopeDeptIds = role.getDataScopeDeptIds();
+
+        for (Long idd : dataScopeDeptIds) {
+            System.out.println(idd);
+        }
+        dataScopeDeptIds.forEach(System.out::println);
+        return CollectionUtils.join(dataScopeDeptIds, String::valueOf, ",");
     }
 
     /**

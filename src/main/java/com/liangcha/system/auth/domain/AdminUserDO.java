@@ -4,10 +4,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.liangcha.common.pojo.BaseDO;
+import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -22,8 +20,9 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @TableName(value = "system_users", autoResultMap = true)
-public class AdminUserDO implements Serializable {
+public class AdminUserDO extends BaseDO implements Serializable {
 
     /**
      * 用户ID

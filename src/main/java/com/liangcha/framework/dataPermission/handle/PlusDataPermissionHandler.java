@@ -1,4 +1,4 @@
-package com.liangcha.system.dataPermission.handle;
+package com.liangcha.framework.dataPermission.handle;
 
 import cn.hutool.core.annotation.AnnotationUtil;
 import cn.hutool.core.collection.ConcurrentHashSet;
@@ -7,9 +7,9 @@ import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
+import com.liangcha.framework.dataPermission.annotation.DataPermission;
+import com.liangcha.framework.dataPermission.enums.DataScopeTypeEnum;
 import com.liangcha.framework.security.pojo.LoginUser;
-import com.liangcha.system.dataPermission.annotation.DataPermission;
-import com.liangcha.system.dataPermission.enums.DataScopeTypeEnum;
 import com.liangcha.system.permission.domain.RoleDO;
 import com.liangcha.system.user.enums.UserTypeEnum;
 import net.sf.jsqlparser.JSQLParserException;

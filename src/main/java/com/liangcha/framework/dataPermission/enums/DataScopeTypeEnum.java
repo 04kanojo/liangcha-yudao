@@ -1,4 +1,4 @@
-package com.liangcha.system.dataPermission.enums;
+package com.liangcha.framework.dataPermission.enums;
 
 import cn.hutool.core.util.StrUtil;
 import lombok.AllArgsConstructor;
@@ -28,7 +28,7 @@ public enum DataScopeTypeEnum {
     /**
      * 指定部门数据权限
      */
-    DEPT_DESIGNATE("3", " #{#deptName} IN ( #{@RoleServiceImpl.getDesignateDeptById( #roleId )} ) "),
+    DEPT_DESIGNATE("3", " #{#deptName} IN ( #{@roleServiceImpl.getDesignateDeptById( #roleId )} ) "),
 
     /**
      * 部门及以下数据权限

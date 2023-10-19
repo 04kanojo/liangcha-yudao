@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
+import com.liangcha.framework.dataPermission.annotation.DataPermission;
 import com.liangcha.system.auth.domain.AdminUserDO;
-import com.liangcha.system.dataPermission.annotation.DataPermission;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

@@ -2,7 +2,9 @@ package com.liangcha.system.permission.domain;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.liangcha.common.pojo.BaseDO;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 
@@ -11,9 +13,10 @@ import java.io.Serializable;
  *
  * @author 凉茶
  */
-@TableName("system_role_menu")
 @Data
-public class RoleMenuDO implements Serializable {
+@EqualsAndHashCode(callSuper = true)
+@TableName("system_role_menu")
+public class RoleMenuDO extends BaseDO implements Serializable {
 
     /**
      * 自增主键

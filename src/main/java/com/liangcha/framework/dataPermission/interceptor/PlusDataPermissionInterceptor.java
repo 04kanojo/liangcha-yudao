@@ -1,9 +1,9 @@
-package com.liangcha.system.dataPermission.interceptor;
+package com.liangcha.framework.dataPermission.interceptor;
 
 import com.baomidou.mybatisplus.core.toolkit.PluginUtils;
 import com.baomidou.mybatisplus.extension.parser.JsqlParserSupport;
 import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
-import com.liangcha.system.dataPermission.handle.PlusDataPermissionHandler;
+import com.liangcha.framework.dataPermission.handle.PlusDataPermissionHandler;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.statement.delete.Delete;
 import net.sf.jsqlparser.statement.select.PlainSelect;

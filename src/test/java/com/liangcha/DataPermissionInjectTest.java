@@ -51,7 +51,7 @@ public class DataPermissionInjectTest {
 
     @Test
     void testSqel() {
-        String tmp = "#{#deptName} IN ( #{@deptServiceImpl.getChildDeptList( #deptId )}";
+        String tmp = " #{#deptName} IN ( #{@roleServiceImpl.getDesignateDeptById( #roleId )} ";
         // 解析器
         ExpressionParser parser = new SpelExpressionParser();
 
@@ -59,7 +59,7 @@ public class DataPermissionInjectTest {
         StandardEvaluationContext context = new StandardEvaluationContext();
         context.setBeanResolver(new BeanFactoryResolver(SpringUtil.getBeanFactory()));
         context.setVariable("deptName", "dept_id");
-        context.setVariable("deptId", "100");
+        context.setVariable("roleId", "101");
 
         //解析模板
         Expression expression = parser.parseExpression(tmp, new TemplateParserContext());

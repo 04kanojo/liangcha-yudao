@@ -3,8 +3,10 @@ package com.liangcha.system.permission.domain;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
+import com.liangcha.common.pojo.BaseDO;
+import com.liangcha.framework.mybatisplus.type.JsonLongSetTypeHandler;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
@@ -17,8 +19,9 @@ import java.util.Set;
  */
 @Data
 @Accessors(chain = true)
+@EqualsAndHashCode(callSuper = true)
 @TableName(value = "system_role", autoResultMap = true)
-public class RoleDO implements Serializable {
+public class RoleDO extends BaseDO implements Serializable {
 
     /**
      * 角色ID
@@ -64,7 +67,7 @@ public class RoleDO implements Serializable {
     /**
      * 数据范围(指定部门数组)
      */
-    @TableField(typeHandler = JacksonTypeHandler.class)
+    @TableField(typeHandler = JsonLongSetTypeHandler.class)
     private Set<Long> dataScopeDeptIds;
 
 }
