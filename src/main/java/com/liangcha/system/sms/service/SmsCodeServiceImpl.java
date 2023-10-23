@@ -6,10 +6,10 @@ import com.liangcha.framework.convert.auth.AuthConvert;
 import com.liangcha.framework.rabbitMq.message.SmsSendMessage;
 import com.liangcha.framework.rabbitMq.producer.SmsProducer;
 import com.liangcha.server.controller.auth.vo.AuthSmsSendReqVO;
-import com.liangcha.server.controller.sms.dto.SmsCodeSendReqDTO;
 import com.liangcha.system.sms.dao.SmsCodeMapper;
 import com.liangcha.system.sms.domain.SmsCodeDO;
 import com.liangcha.system.sms.domain.SmsTemplateDO;
+import com.liangcha.system.sms.dto.SmsCodeSendReqDTO;
 import com.liangcha.system.sms.enums.SmsSceneEnum;
 import com.liangcha.system.sms.properties.SmsCodeProperties;
 import org.springframework.stereotype.Service;
@@ -22,6 +22,7 @@ import static cn.hutool.core.util.RandomUtil.randomInt;
 import static com.liangcha.common.enums.ErrorCodeEnum.*;
 import static com.liangcha.common.utils.ServiceExceptionUtil.exception;
 import static com.liangcha.common.utils.ServletUtils.getClientIP;
+import static com.liangcha.common.utils.ServletUtils.getRequest;
 
 /**
  * 短信验证码 Service 实现类
@@ -48,7 +49,7 @@ public class SmsCodeServiceImpl implements SmsCodeService {
         //解释vo为dto
         SmsCodeSendReqDTO reqDTO = AuthConvert.INSTANCE
                 .convert(reqVO)
-                .setCreateIp(getClientIP());
+                .setCreateIp(getClientIP(getRequest()));
 
         //根据场景获取枚举类
         SmsSceneEnum sceneEnum = SmsSceneEnum.getByScene(reqDTO.getScene());

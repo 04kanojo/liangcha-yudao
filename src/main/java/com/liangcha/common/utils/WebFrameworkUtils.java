@@ -1,7 +1,5 @@
 package com.liangcha.common.utils;
 
-import cn.hutool.core.util.NumberUtil;
-import com.liangcha.common.pojo.CommonResult;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -19,19 +17,6 @@ public class WebFrameworkUtils {
     public static final String HEADER_TENANT_ID = "tenant-id";
     private static final String REQUEST_ATTRIBUTE_LOGIN_USER_ID = "login_user_id";
     private static final String REQUEST_ATTRIBUTE_LOGIN_USER_TYPE = "login_user_type";
-    private static final String REQUEST_ATTRIBUTE_COMMON_RESULT = "common_result";
-
-    /**
-     * 获得租户编号，从 header 中
-     * 考虑到其它 framework 组件也会使用到租户编号，所以不得不放在 WebFrameworkUtils 统一提供
-     *
-     * @param request 请求
-     * @return 租户编号
-     */
-    public static Long getTenantId(HttpServletRequest request) {
-        String tenantId = request.getHeader(HEADER_TENANT_ID);
-        return NumberUtil.isNumber(tenantId) ? Long.valueOf(tenantId) : null;
-    }
 
     public static void setLoginUserId(ServletRequest request, Long userId) {
         request.setAttribute(REQUEST_ATTRIBUTE_LOGIN_USER_ID, userId);
@@ -73,11 +58,7 @@ public class WebFrameworkUtils {
             return null;
         }
         // 1. 优先，从 Attribute 中获取
-        Integer userType = (Integer) request.getAttribute(REQUEST_ATTRIBUTE_LOGIN_USER_TYPE);
-        if (userType != null) {
-            return userType;
-        }
-        return null;
+        return (Integer) request.getAttribute(REQUEST_ATTRIBUTE_LOGIN_USER_TYPE);
     }
 
     public static Integer getLoginUserType() {
@@ -88,14 +69,6 @@ public class WebFrameworkUtils {
     public static Long getLoginUserId() {
         HttpServletRequest request = getRequest();
         return getLoginUserId(request);
-    }
-
-    public static void setCommonResult(ServletRequest request, CommonResult<?> result) {
-        request.setAttribute(REQUEST_ATTRIBUTE_COMMON_RESULT, result);
-    }
-
-    public static CommonResult<?> getCommonResult(ServletRequest request) {
-        return (CommonResult<?>) request.getAttribute(REQUEST_ATTRIBUTE_COMMON_RESULT);
     }
 
     public static HttpServletRequest getRequest() {

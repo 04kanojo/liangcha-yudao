@@ -183,7 +183,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <!--jetcache2.7.x版本需要额外添加jedis依赖 因为其他坐标引入，这里就不引入了-->
+        <!--jetcache2.7.x版本需要额外添加jedis依赖  上面如果不排除jedis,且不自己添加会启动失败-->
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
@@ -193,27 +193,22 @@
 
         <!--阿里的json处理技术-->
         <dependency>
-            <groupId>com.alibaba.fastjson2</groupId>
-            <artifactId>fastjson2</artifactId>
-            <version>2.0.33</version>
-        </dependency>
-        <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>2.0.40</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>fastjson2</artifactId>
-                    <groupId>com.alibaba.fastjson2</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
-
 
         <!--AMQP依赖，包含RabbitMQ-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+
+        <!--链路追踪-->
+        <dependency>
+            <groupId>org.apache.skywalking</groupId>
+            <artifactId>apm-toolkit-trace</artifactId>
+            <version>8.12.0</version>
         </dependency>
     </dependencies>
 

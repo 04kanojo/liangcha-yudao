@@ -1,4 +1,4 @@
-package com.liangcha.server.controller.sms.dto;
+package com.liangcha.system.sms.dto;
 
 import com.liangcha.framework.validation.annotation.InEnum;
 import com.liangcha.framework.validation.annotation.Mobile;

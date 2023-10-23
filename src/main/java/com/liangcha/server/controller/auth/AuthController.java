@@ -2,6 +2,7 @@ package com.liangcha.server.controller.auth;
 
 import cn.hutool.core.util.StrUtil;
 import com.liangcha.common.pojo.CommonResult;
+import com.liangcha.framework.log.annotation.Log;
 import com.liangcha.framework.security.config.SecurityProperties;
 import com.liangcha.framework.security.utils.SecurityFrameworkUtils;
 import com.liangcha.server.controller.auth.vo.AuthLoginReqVO;
@@ -35,6 +36,7 @@ public class AuthController {
     @Resource
     private SecurityProperties securityProperties;
 
+    @Log
     @PostMapping("/login")
     @ApiOperation("管理员登录")
     public CommonResult<AuthLoginRespVO> login(HttpServletRequest request, @RequestBody @Valid AuthLoginReqVO authLoginReqVO) {

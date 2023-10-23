@@ -5,6 +5,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 
 /**
@@ -16,6 +17,7 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
  * @author 凉茶
  */
 @SpringBootApplication
+@EnableAspectJAutoProxy
 @ConfigurationPropertiesScan
 @MapperScan("com.liangcha.system.*.dao")
 @EnableMethodCache(basePackages = "com.liangcha.framework.redis")

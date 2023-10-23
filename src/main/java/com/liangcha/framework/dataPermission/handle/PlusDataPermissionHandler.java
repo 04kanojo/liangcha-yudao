@@ -11,6 +11,7 @@ import com.liangcha.framework.dataPermission.annotation.DataPermission;
 import com.liangcha.framework.dataPermission.enums.DataScopeTypeEnum;
 import com.liangcha.framework.security.pojo.LoginUser;
 import com.liangcha.system.permission.domain.RoleDO;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.jsqlparser.JSQLParserException;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.Parenthesis;
@@ -38,6 +39,7 @@ import static com.liangcha.framework.security.utils.SecurityFrameworkUtils.getLo
  *
  * @author 凉茶
  */
+@Slf4j
 public class PlusDataPermissionHandler {
 
     /**
@@ -100,6 +102,7 @@ public class PlusDataPermissionHandler {
                 return parenthesis;
             }
         } catch (JSQLParserException e) {
+            log.error(DATA_SCOPE_PARSE_ERR.getMsg());
             throw exception(DATA_SCOPE_PARSE_ERR);
         }
     }
@@ -122,6 +125,7 @@ public class PlusDataPermissionHandler {
             // 获取角色权限枚举类
             DataScopeTypeEnum type = DataScopeTypeEnum.findCode(role.getDataScope().toString());
             if (ObjectUtil.isNull(type)) {
+                log.error(DATA_SCOPE_NOT_EXISTS.getMsg());
                 throw exception(DATA_SCOPE_NOT_EXISTS);
             }
             if (type.equals(DataScopeTypeEnum.ALL)) {
@@ -135,6 +139,7 @@ public class PlusDataPermissionHandler {
             String[] values = dataPermission.value();
             // key和value长度不对等
             if (keys.length != values.length) {
+                log.error(DATA_SCOPE_KEY_VALUE_ERR.getMsg());
                 throw exception(DATA_SCOPE_KEY_VALUE_ERR);
             }
 

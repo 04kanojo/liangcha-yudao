@@ -42,11 +42,18 @@ public class ServletUtils {
         return ((ServletRequestAttributes) requestAttributes).getRequest();
     }
 
-    public static String getClientIP() {
-        HttpServletRequest request = getRequest();
+    /**
+     * 获得请求ip
+     */
+    public static String getClientIP(HttpServletRequest request) {
         if (request == null) {
             return null;
         }
         return ServletUtil.getClientIP(request);
+    }
+
+    public static String getUserAgent(HttpServletRequest request) {
+        String ua = request.getHeader("User-Agent");
+        return ua != null ? ua : "";
     }
 }

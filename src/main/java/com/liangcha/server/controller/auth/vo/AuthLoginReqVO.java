@@ -29,7 +29,6 @@ public class AuthLoginReqVO {
     @Length(min = 4, max = 16, message = "密码长度为 4-16 位")
     private String password;
 
-    // ========== 图片验证码相关 ==========
 
     @NotEmpty(message = "验证码不能为空")
     private String captchaVerification;
