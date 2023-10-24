@@ -13,6 +13,8 @@ import com.liangcha.common.utils.WebFrameworkUtils;
 import com.liangcha.framework.log.annotation.Log;
 import com.liangcha.framework.log.enums.OperateTypeEnum;
 import com.liangcha.framework.log.service.OperateLogFrameworkService;
+import com.liangcha.framework.security.pojo.LoginUser;
+import com.liangcha.framework.security.utils.SecurityFrameworkUtils;
 import com.liangcha.system.log.domain.OperateLogDO;
 import com.liangcha.system.user.enums.UserTypeEnum;
 import io.swagger.annotations.Api;
@@ -22,6 +24,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -46,6 +49,7 @@ import static com.liangcha.common.enums.ErrorCodeEnum.SYSTEM_ERROR;
  * @author 凉茶
  */
 @Aspect
+@Component
 public class OperateLogAspect {
 
     @Resource
@@ -264,7 +268,8 @@ public class OperateLogAspect {
     @Around(value = "@annotation(com.liangcha.framework.log.annotation.Log)")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         // 目前，只有管理员，才记录操作日志！所以非管理员，直接调用，不进行记录
-        Integer userType = WebFrameworkUtils.getLoginUserType();
+        LoginUser loginUser = SecurityFrameworkUtils.getLoginUser();
+        Integer userType = loginUser.getUserType();
         if (!userType.equals(UserTypeEnum.ADMIN.getCode())) {
             return joinPoint.proceed();
         }

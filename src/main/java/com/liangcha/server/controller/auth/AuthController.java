@@ -36,7 +36,6 @@ public class AuthController {
     @Resource
     private SecurityProperties securityProperties;
 
-    @Log
     @PostMapping("/login")
     @ApiOperation("管理员登录")
     public CommonResult<AuthLoginRespVO> login(HttpServletRequest request, @RequestBody @Valid AuthLoginReqVO authLoginReqVO) {
@@ -53,6 +52,7 @@ public class AuthController {
         return success(true);
     }
 
+    @Log
     @PostMapping("/refresh-token")
     @ApiOperation("刷新令牌")
     public CommonResult<AuthLoginRespVO> refreshToken(String refreshToken) {
