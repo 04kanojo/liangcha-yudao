@@ -2,7 +2,7 @@ package com.liangcha.common.handler;
 
 import com.liangcha.common.exception.ServiceException;
 import com.liangcha.common.pojo.CommonResult;
-import com.liangcha.common.utils.WebFrameworkUtils;
+import com.liangcha.framework.security.utils.SecurityFrameworkUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
@@ -117,7 +117,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = AccessDeniedException.class)
     public CommonResult<?> accessDeniedExceptionHandler(HttpServletRequest req, AccessDeniedException ex) {
-        log.error("[accessDeniedExceptionHandler][userId({}) 无法访问 url({})]", WebFrameworkUtils.getLoginUserId(req), req.getRequestURL(), ex);
+        log.error("[accessDeniedExceptionHandler][userId({}) 无法访问 url({})]", SecurityFrameworkUtils.getLoginUserId(), req.getRequestURL(), ex);
         return CommonResult.error(SMALL_AUTHORITY);
     }
 

@@ -1,9 +1,7 @@
 package com.liangcha.framework.security.utils;
 
 import cn.hutool.core.util.StrUtil;
-import com.liangcha.common.utils.WebFrameworkUtils;
 import com.liangcha.framework.security.pojo.LoginUser;
-import org.springframework.lang.Nullable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -60,13 +58,22 @@ public class SecurityFrameworkUtils {
      *
      * @return 当前用户
      */
-    @Nullable
     public static LoginUser getLoginUser() {
         Authentication authentication = getAuthentication();
         if (authentication == null) {
             return null;
         }
-        return authentication.getPrincipal() instanceof LoginUser ? (LoginUser) authentication.getPrincipal() : null;
+        return (LoginUser) authentication.getPrincipal();
+    }
+
+    /**
+     * 获取当前用户类型
+     *
+     * @return 当前用户类型
+     */
+    public static Integer getUserType() {
+        LoginUser loginUser = getLoginUser();
+        return loginUser != null ? loginUser.getUserType() : null;
     }
 
     /**
@@ -74,7 +81,6 @@ public class SecurityFrameworkUtils {
      *
      * @return 用户编号
      */
-    @Nullable
     public static Long getLoginUserId() {
         LoginUser loginUser = getLoginUser();
         return loginUser != null ? loginUser.getUserId() : null;
@@ -90,12 +96,6 @@ public class SecurityFrameworkUtils {
         // 创建 Authentication，并设置到上下文
         Authentication authentication = buildAuthentication(loginUser, request);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        // 额外设置到 request 中，用于 ApiAccessLogFilter 可以获取到用户编号；
-        // 原因是，Spring Security 的 Filter 在 ApiAccessLogFilter 后面，在它记录访问日志时，线上上下文已经没有用户编号等信息
-        //TODO security配置过滤器链顺序应该跨域解决 不知道为什么在异常那边用的web获取登录对象,留个心眼,后面研究security的上下文范围
-        WebFrameworkUtils.setLoginUserId(request, loginUser.getUserId());
-        WebFrameworkUtils.setLoginUserType(request, loginUser.getUserType());
     }
 
     /**

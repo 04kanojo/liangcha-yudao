@@ -7,7 +7,6 @@ import com.liangcha.framework.captcha.CaptchaProperties;
 import com.liangcha.framework.convert.auth.AuthConvert;
 import com.liangcha.framework.security.pojo.LoginUser;
 import com.liangcha.framework.security.service.OAuth2TokenService;
-import com.liangcha.framework.security.utils.SecurityFrameworkUtils;
 import com.liangcha.server.controller.auth.vo.AuthLoginReqVO;
 import com.liangcha.server.controller.auth.vo.AuthLoginRespVO;
 import com.liangcha.server.controller.auth.vo.AuthSmsSendReqVO;
@@ -49,7 +48,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         AdminUserDO user = authenticate(reqVO.getUsername(), reqVO.getPassword());
 
         // 创建 Token 令牌
-        return createTokenAfterLoginSuccess(user.getId());
+        return createTokenAfterLoginSuccess(user.getId(), request);
     }
 
     private void EnableCaptcha(HttpServletRequest request, AuthLoginReqVO reqVO) {
@@ -115,8 +114,6 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     private AuthLoginRespVO createTokenAfterLoginSuccess(Long userId, HttpServletRequest request) {
         // 创建访问令牌
         LoginUser user = oauth2TokenService.createAccessToken(userId);
-        //设置到上下文对象
-        SecurityFrameworkUtils.setLoginUser(user, request);
         return AuthConvert.INSTANCE.convert(user);
     }
 

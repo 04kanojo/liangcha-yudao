@@ -9,12 +9,9 @@ import com.google.common.collect.Maps;
 import com.liangcha.common.pojo.CommonResult;
 import com.liangcha.common.utils.ServletUtils;
 import com.liangcha.common.utils.TracerUtils;
-import com.liangcha.common.utils.WebFrameworkUtils;
 import com.liangcha.framework.log.annotation.Log;
 import com.liangcha.framework.log.enums.OperateTypeEnum;
 import com.liangcha.framework.log.service.OperateLogFrameworkService;
-import com.liangcha.framework.security.pojo.LoginUser;
-import com.liangcha.framework.security.utils.SecurityFrameworkUtils;
 import com.liangcha.system.log.domain.OperateLogDO;
 import com.liangcha.system.user.enums.UserTypeEnum;
 import io.swagger.annotations.Api;
@@ -44,6 +41,8 @@ import java.util.stream.IntStream;
 
 import static com.liangcha.common.enums.ErrorCodeEnum.SUCCESS;
 import static com.liangcha.common.enums.ErrorCodeEnum.SYSTEM_ERROR;
+import static com.liangcha.framework.security.utils.SecurityFrameworkUtils.getLoginUserId;
+import static com.liangcha.framework.security.utils.SecurityFrameworkUtils.getUserType;
 
 /**
  * @author 凉茶
@@ -207,7 +206,9 @@ public class OperateLogAspect {
         }
 
         // 优先读取log注解
-        operateLog.setType(log.type()[0].getType());
+        if (ArrayUtil.isNotEmpty(log.type())) {
+            operateLog.setType(log.type()[0].getType());
+        }
         // 如果没读取到,则读取controller类的注解内容
         if (operateLog.getType() == null) {
             RequestMethod[] requestMethods = getRequestMethod(joinPoint);
@@ -267,12 +268,6 @@ public class OperateLogAspect {
      */
     @Around(value = "@annotation(com.liangcha.framework.log.annotation.Log)")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
-        // 目前，只有管理员，才记录操作日志！所以非管理员，直接调用，不进行记录
-        LoginUser loginUser = SecurityFrameworkUtils.getLoginUser();
-        Integer userType = loginUser.getUserType();
-        if (!userType.equals(UserTypeEnum.ADMIN.getCode())) {
-            return joinPoint.proceed();
-        }
         //获取方法注解
         Log log = getMethodAnnotation(joinPoint, Log.class);
         // 记录开始时间
@@ -280,6 +275,13 @@ public class OperateLogAspect {
         try {
             // 执行原有方法
             Object result = joinPoint.proceed();
+
+            // 目前，只有管理员，才记录操作日志！所以非管理员，直接调用，不进行记录
+            Integer userType = getUserType();
+            if (userType != null && !userType.equals(UserTypeEnum.ADMIN.getCode())) {
+                return joinPoint.proceed();
+            }
+
             // 记录正常执行时的操作日志
             beforeLog(joinPoint, log, startTime, result, null);
             return result;
@@ -309,8 +311,8 @@ public class OperateLogAspect {
         operateLog.setTraceId(TracerUtils.getTraceId());
         operateLog.setStartTime(startTime);
         // 补充用户信息
-        operateLog.setUserId(WebFrameworkUtils.getLoginUserId());
-        operateLog.setUserType(WebFrameworkUtils.getLoginUserType());
+        operateLog.setUserId(getLoginUserId());
+        operateLog.setUserType(getUserType());
         // 补全模块信息
         fillModuleFields(operateLog, joinPoint, log);
         // 补全请求信息
