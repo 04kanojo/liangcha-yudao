@@ -30,7 +30,7 @@ spring:
           type: com.alibaba.druid.pool.DruidDataSource
 
 jetcache:
-  statIntervalMinutes: 15
+  statIntervalMinutes: 30
   areaInCacheName: false
   local:
     default:

@@ -38,8 +38,8 @@ public class AuthController {
 
     @PostMapping("/login")
     @ApiOperation("管理员登录")
-    public CommonResult<AuthLoginRespVO> login(HttpServletRequest request, @RequestBody @Valid AuthLoginReqVO authLoginReqVO) {
-        return success(authService.login(request, authLoginReqVO));
+    public CommonResult<AuthLoginRespVO> login(@RequestBody @Valid AuthLoginReqVO authLoginReqVO) {
+        return success(authService.login(authLoginReqVO));
     }
 
     @PostMapping("/logout")

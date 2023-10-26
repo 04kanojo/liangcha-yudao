@@ -42,7 +42,7 @@ knife4j:
 liangcha:
   captcha:
     #验证码开关
-    enable: false
+    enable: true
     expire-times: 3m
 
   security:

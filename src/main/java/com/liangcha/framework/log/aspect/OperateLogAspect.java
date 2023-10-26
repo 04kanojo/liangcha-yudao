@@ -146,8 +146,8 @@ public class OperateLogAspect {
         // 补全请求信息
         operateLogObj.setRequestMethod(request.getMethod());
         operateLogObj.setRequestUrl(request.getRequestURI());
-        operateLogObj.setUserIp(ServletUtils.getClientIP(request));
-        operateLogObj.setUserAgent(ServletUtils.getUserAgent(request));
+        operateLogObj.setUserIp(ServletUtils.getClientIP());
+        operateLogObj.setUserAgent(ServletUtils.getUserAgent());
     }
 
     /**

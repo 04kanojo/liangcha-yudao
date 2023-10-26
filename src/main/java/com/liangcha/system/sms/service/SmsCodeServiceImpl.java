@@ -22,7 +22,6 @@ import static cn.hutool.core.util.RandomUtil.randomInt;
 import static com.liangcha.common.enums.ErrorCodeEnum.*;
 import static com.liangcha.common.utils.ServiceExceptionUtil.exception;
 import static com.liangcha.common.utils.ServletUtils.getClientIP;
-import static com.liangcha.common.utils.ServletUtils.getRequest;
 
 /**
  * 短信验证码 Service 实现类
@@ -49,7 +48,7 @@ public class SmsCodeServiceImpl implements SmsCodeService {
         //解释vo为dto
         SmsCodeSendReqDTO reqDTO = AuthConvert.INSTANCE
                 .convert(reqVO)
-                .setCreateIp(getClientIP(getRequest()));
+                .setCreateIp(getClientIP());
 
         //根据场景获取枚举类
         SmsSceneEnum sceneEnum = SmsSceneEnum.getByScene(reqDTO.getScene());

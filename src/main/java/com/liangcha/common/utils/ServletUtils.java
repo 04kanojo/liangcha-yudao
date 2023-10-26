@@ -45,14 +45,19 @@ public class ServletUtils {
     /**
      * 获得请求ip
      */
-    public static String getClientIP(HttpServletRequest request) {
+    public static String getClientIP() {
+        HttpServletRequest request = getRequest();
         if (request == null) {
             return null;
         }
         return ServletUtil.getClientIP(request);
     }
 
-    public static String getUserAgent(HttpServletRequest request) {
+    /**
+     * 获取用户代理
+     */
+    public static String getUserAgent() {
+        HttpServletRequest request = getRequest();
         String ua = request.getHeader("User-Agent");
         return ua != null ? ua : "";
     }

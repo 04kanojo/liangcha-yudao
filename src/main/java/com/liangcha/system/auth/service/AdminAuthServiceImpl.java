@@ -3,6 +3,8 @@ package com.liangcha.system.auth.service;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.liangcha.common.enums.CommonStatusEnum;
+import com.liangcha.common.utils.ServletUtils;
+import com.liangcha.common.utils.TracerUtils;
 import com.liangcha.framework.captcha.CaptchaProperties;
 import com.liangcha.framework.convert.auth.AuthConvert;
 import com.liangcha.framework.security.pojo.LoginUser;
@@ -11,15 +13,21 @@ import com.liangcha.server.controller.auth.vo.AuthLoginReqVO;
 import com.liangcha.server.controller.auth.vo.AuthLoginRespVO;
 import com.liangcha.server.controller.auth.vo.AuthSmsSendReqVO;
 import com.liangcha.system.auth.domain.AdminUserDO;
+import com.liangcha.system.log.dto.LoginLogCreateReqDTO;
+import com.liangcha.system.log.service.LoginLogService;
 import com.liangcha.system.sms.service.SmsCodeService;
+import com.liangcha.system.user.enums.LoginLogTypeEnum;
+import com.liangcha.system.user.enums.LoginResultEnum;
+import com.liangcha.system.user.enums.UserTypeEnum;
 import com.liangcha.system.user.service.AdminUserService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
+import java.util.Objects;
 
 import static com.liangcha.common.enums.ErrorCodeEnum.*;
 import static com.liangcha.common.utils.ServiceExceptionUtil.exception;
+import static com.liangcha.common.utils.ServletUtils.getRequest;
 
 /**
  * 凉茶
@@ -39,22 +47,25 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     @Resource
     private SmsCodeService smsCodeService;
 
+    @Resource
+    private LoginLogService loginLogService;
+
     @Override
-    public AuthLoginRespVO login(HttpServletRequest request, AuthLoginReqVO reqVO) {
+    public AuthLoginRespVO login(AuthLoginReqVO reqVO) {
         // 判断验证码
-        EnableCaptcha(request, reqVO);
+        EnableCaptcha(reqVO);
 
         // 使用账号密码，进行登录
         AdminUserDO user = authenticate(reqVO.getUsername(), reqVO.getPassword());
 
         // 创建 Token 令牌
-        return createTokenAfterLoginSuccess(user.getId(), request);
+        return createTokenAfterLoginSuccess(user.getId(), user.getUsername(), LoginLogTypeEnum.LOGIN_USERNAME);
     }
 
-    private void EnableCaptcha(HttpServletRequest request, AuthLoginReqVO reqVO) {
+    private void EnableCaptcha(AuthLoginReqVO reqVO) {
         if (captchaProperties.getEnable()) {
             String userInput = reqVO.getCaptchaVerification();
-            String captcha = (String) request.getSession().getAttribute("captcha");
+            String captcha = (String) getRequest().getSession().getAttribute("captcha");
             if (StrUtil.isEmpty(captcha)) {
                 throw exception(CAPTCHA_EXPIRED);
             }
@@ -111,10 +122,30 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         return user;
     }
 
-    private AuthLoginRespVO createTokenAfterLoginSuccess(Long userId, HttpServletRequest request) {
+    private AuthLoginRespVO createTokenAfterLoginSuccess(Long userId, String username, LoginLogTypeEnum logType) {
+        // 插入登陆日志
+        createLoginLog(userId, username, logType, LoginResultEnum.SUCCESS);
         // 创建访问令牌
         LoginUser user = oauth2TokenService.createAccessToken(userId);
         return AuthConvert.INSTANCE.convert(user);
     }
 
+    private void createLoginLog(Long userId, String username,
+                                LoginLogTypeEnum logTypeEnum, LoginResultEnum loginResult) {
+        // 插入登录日志
+        LoginLogCreateReqDTO reqDTO = new LoginLogCreateReqDTO();
+        reqDTO.setLogType(logTypeEnum.getType());
+        reqDTO.setTraceId(TracerUtils.getTraceId());
+        reqDTO.setUserId(userId);
+        reqDTO.setUserType(UserTypeEnum.ADMIN.getCode());
+        reqDTO.setUsername(username);
+        reqDTO.setUserAgent(ServletUtils.getUserAgent());
+        reqDTO.setUserIp(ServletUtils.getClientIP());
+        reqDTO.setResult(loginResult.getResult());
+        loginLogService.createLoginLog(reqDTO);
+        // 更新最后登录时间
+        if (userId != null && Objects.equals(LoginResultEnum.SUCCESS.getResult(), loginResult.getResult())) {
+            userService.updateUserLogin(userId, ServletUtils.getClientIP());
+        }
+    }
 }

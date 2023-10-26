@@ -30,12 +30,23 @@
 | 2023/10/16 |         /          |         1.大改权限部分<br/>2.更改项目结构          |
 | 2023/10/17 |         /          |   1.新增权限配置类注入bean<br/>2.过期时间提取成配置文件    |
 | 2023/10/18 |        数据权限        |                   /                    |
+| 2023/10/26 |       操作日志记录       |                   /                    |
 
 ## 联系方式
 
 **邮箱 G2494552478@hotmail.com**
 
-##
+## 技术要点记录
 
-平时记录: 缓存里面时间好像是无限,排查一下原因,日志插入方法参数那块没理解,多看看
+### 关于基本架构,以及类的创建
 
+- **
+  _dto是各种地方传递使用,例如OperateLogFrameworkServiceImpl这个类使用OperateLogService的方法,便传递dto,但是如果是前端调用接口,给controller,再给service,即可以用vo_
+  **
+
+### 数据权限
+
+#### 注解@Permission
+
+假如要给selectUserByUsername添加数据权限功能,在selectUserByUsername上添加注解并无效果,因为此方法最后调用的是selectOne,
+所以要重写selectOne方法,并且把注解加到selectOne方法上,否则无法实现数据权限
