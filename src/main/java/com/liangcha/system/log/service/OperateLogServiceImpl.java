@@ -18,6 +18,7 @@ public class OperateLogServiceImpl implements OperateLogService {
     @Override
     public void createOperateLog(OperateLogCreateReqDTO createReqDTO) {
         OperateLogDO logDO = OperateLogConvert.INSTANCE.convert(createReqDTO);
+        // 查询数据转换为json可能很多
         logDO.setJavaMethodArgs(StrUtil.maxLength(logDO.getJavaMethodArgs(), OperateLogDO.JAVA_METHOD_ARGS_MAX_LENGTH));
         logDO.setResultData(StrUtil.maxLength(logDO.getResultData(), OperateLogDO.RESULT_MAX_LENGTH));
         operateLogMapper.insert(logDO);

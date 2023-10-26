@@ -15,6 +15,10 @@ spring:
 
 --- #################### mybatisPlus相关配置 ####################
 mybatis-plus:
+  global-config:
+    db-config:
+      id-type: assign_id
+
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     # 开启驼峰和下划线对应
@@ -47,7 +51,7 @@ liangcha:
     # 加密复杂度
     password-encoder-length: 4
     # token过期时间
-    token-expire-times: 30m
+    token-expire-times: 20m
     # refreshToken过期时间
     refresh-token-expire-times: 3d
     # token前缀
@@ -59,6 +63,7 @@ liangcha:
       - /captcha/get
       - /sms/send-sms-code
       - /auth/refresh-token
+      - /test
       # swagger需要不登录访问的路径
       - /doc.html
       - /favicon.ico

@@ -4,6 +4,8 @@ import cn.hutool.extra.spring.SpringUtil;
 import com.liangcha.framework.captcha.CaptchaProperties;
 import com.liangcha.framework.security.config.SecurityProperties;
 import com.liangcha.system.auth.domain.AdminUserDO;
+import com.liangcha.system.log.dao.OperateLogMapper;
+import com.liangcha.system.log.domain.OperateLogDO;
 import com.liangcha.system.user.dao.AdminUserMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,6 +25,9 @@ public class DataPermissionInjectTest {
 
     @Resource
     private AdminUserMapper mapper;
+
+    @Resource
+    private OperateLogMapper operateLogMapper;
 
     @Resource
     private CaptchaProperties properties;
@@ -71,10 +76,13 @@ public class DataPermissionInjectTest {
 
     @Test
     void testInsert() {
-        AdminUserDO adminUserDO = mapper.selectById(1);
-        adminUserDO.setId(null);
-        adminUserDO.setCreateTime(null);
-        mapper.insert(adminUserDO);
+//        AdminUserDO adminUserDO = mapper.selectById(1);
+//        adminUserDO.setId(null);
+//        adminUserDO.setCreateTime(null);
+//        mapper.insert(adminUserDO);
+        OperateLogDO operateLogDO = new OperateLogDO();
+        operateLogDO.setUserId(1L);
+        operateLogMapper.insert(operateLogDO);
     }
 
 }

@@ -41,5 +41,5 @@ public class SecurityProperties {
     /**
      * refreshToken过期时间
      */
-    private Duration refreshTokenExpireTimes;
+    private Duration refreshTokenExpireTimes = Duration.ofDays(3);
 }

@@ -43,7 +43,8 @@ public class MybatisPlusConfig implements MetaObjectHandler {
                 baseDO.setUpdateTime(current);
             }
 
-            Long userId = getLoginUserId();
+//            Long userId = getLoginUserId();
+            Long userId = 1L;
             // 当前登录用户不为空，创建人为空，则当前登录用户为创建人
             if (Objects.nonNull(userId) && Objects.isNull(baseDO.getCreator())) {
                 baseDO.setCreator(userId.toString());

@@ -61,7 +61,7 @@ public class AuthController {
 
     @PostMapping("/send-sms-code")
     @ApiOperation("发送手机验证码")
-    public CommonResult<Boolean> sendLoginSmsCode(@RequestBody @Valid AuthSmsSendReqVO reqVO, HttpServletRequest request) {
+    public CommonResult<Boolean> sendLoginSmsCode(@RequestBody @Valid AuthSmsSendReqVO reqVO) {
         authService.sendSmsCode(reqVO);
         return success(true);
     }

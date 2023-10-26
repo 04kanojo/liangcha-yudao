@@ -159,13 +159,13 @@ public class OperateLogAspect {
                                          Object result, Throwable exception) {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         operateLogObj.setJavaMethod(methodSignature.toString());
-        if (log == null || log.logArgs()) {
+
+        if (log.logArgs()) {
             operateLogObj.setJavaMethodArgs(getMethodArgs(joinPoint));
-        }
-        if (log == null || log.logResultData()) {
             operateLogObj.setResultData(getResultData(result));
         }
         operateLogObj.setDuration((int) (LocalDateTimeUtil.between(startTime, LocalDateTime.now()).toMillis()));
+
         // （正常）处理 resultCode 和 resultMsg 字段
         if (result instanceof CommonResult) {
             CommonResult<?> commonResult = (CommonResult<?>) result;
@@ -174,6 +174,7 @@ public class OperateLogAspect {
         } else {
             operateLogObj.setResultCode(SUCCESS.getCode());
         }
+
         // （异常）处理 resultCode 和 resultMsg 字段
         if (exception != null) {
             operateLogObj.setResultCode(SYSTEM_ERROR.getCode());
@@ -218,6 +219,9 @@ public class OperateLogAspect {
         }
     }
 
+    /**
+     * 获取方法参数
+     */
     private static String getMethodArgs(ProceedingJoinPoint joinPoint) {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         String[] argNames = methodSignature.getParameterNames();
@@ -234,14 +238,18 @@ public class OperateLogAspect {
     }
 
     private static String getResultData(Object result) {
-        // TODO 提升：结果脱敏和忽略
+        //TODO 提升：结果脱敏和忽略
         if (result instanceof CommonResult) {
             result = ((CommonResult<?>) result).getData();
         }
         return JSON.toJSONString(result);
     }
 
+    /**
+     * 忽略部分类
+     */
     private static boolean isIgnoreArgs(Object object) {
+        //TODO 没去深度解析,等遇到这几个类的时候再debug试试,现在先用着
         Class<?> clazz = object.getClass();
         // 处理数组的情况
         if (clazz.isArray()) {
@@ -268,6 +276,12 @@ public class OperateLogAspect {
      */
     @Around(value = "@annotation(com.liangcha.framework.log.annotation.Log)")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
+        // 目前，只有管理员，才记录操作日志！所以非管理员，直接调用，不进行记录
+        Integer userType = getUserType();
+        if (userType != null && !userType.equals(UserTypeEnum.ADMIN.getCode())) {
+            return joinPoint.proceed();
+        }
+
         //获取方法注解
         Log log = getMethodAnnotation(joinPoint, Log.class);
         // 记录开始时间
@@ -275,37 +289,23 @@ public class OperateLogAspect {
         try {
             // 执行原有方法
             Object result = joinPoint.proceed();
-
-            // 目前，只有管理员，才记录操作日志！所以非管理员，直接调用，不进行记录
-            Integer userType = getUserType();
-            if (userType != null && !userType.equals(UserTypeEnum.ADMIN.getCode())) {
-                return joinPoint.proceed();
-            }
-
             // 记录正常执行时的操作日志
-            beforeLog(joinPoint, log, startTime, result, null);
+            log(joinPoint, log, startTime, result, null);
             return result;
         } catch (Throwable exception) {
-            beforeLog(joinPoint, log, startTime, null, exception);
+            log(joinPoint, log, startTime, null, exception);
             throw exception;
         }
-    }
-
-    /**
-     * 记录日志之前的准备操作
-     */
-    private void beforeLog(ProceedingJoinPoint joinPoint, Log log, LocalDateTime startTime, Object result, Throwable exception) {
-        // 判断不记录的情况
-        if (!log.enable()) {
-            return;
-        }
-        log(joinPoint, log, startTime, result, exception);
     }
 
     /**
      * 记录日志
      */
     private void log(ProceedingJoinPoint joinPoint, Log log, LocalDateTime startTime, Object result, Throwable exception) {
+        // 判断不记录的情况
+        if (!log.enable()) {
+            return;
+        }
         OperateLogDO operateLog = new OperateLogDO();
         // 补全通用字段
         operateLog.setTraceId(TracerUtils.getTraceId());

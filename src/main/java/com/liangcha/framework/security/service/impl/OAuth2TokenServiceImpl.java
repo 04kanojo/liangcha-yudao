@@ -2,6 +2,7 @@ package com.liangcha.framework.security.service.impl;
 
 import cn.hutool.core.util.IdUtil;
 import com.alicp.jetcache.Cache;
+import com.liangcha.framework.security.config.SecurityProperties;
 import com.liangcha.framework.security.pojo.LoginUser;
 import com.liangcha.framework.security.service.OAuth2TokenService;
 import com.liangcha.system.permission.service.PermissionService;
@@ -34,6 +35,9 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
     @Resource
     private AdminUserService userService;
 
+    @Resource
+    private SecurityProperties properties;
+
     private static String generateToken() {
         return IdUtil.fastSimpleUUID();
     }
@@ -55,8 +59,7 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
         user
                 .setAccessToken(generateToken())
                 .setRefreshToken(generateToken())
-                .setExpiresTime(LocalDateTime.now().plusMinutes(20));
-
+                .setExpiresTime(LocalDateTime.now().plusMinutes(properties.getTokenExpireTimes().toMinutes()));
         tokenCache.put(user.getAccessToken(), user);
         refreshTokenCache.put(user.getRefreshToken(), user);
         return user;
