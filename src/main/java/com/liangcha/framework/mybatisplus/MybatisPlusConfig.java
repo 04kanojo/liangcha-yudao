@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInt
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.liangcha.common.pojo.BaseDO;
 import com.liangcha.framework.dataPermission.interceptor.PlusDataPermissionInterceptor;
+import com.liangcha.framework.security.pojo.LoginUser;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +17,7 @@ import org.springframework.context.annotation.Configuration;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+import static com.liangcha.framework.security.utils.SecurityFrameworkUtils.getLoginUser;
 import static com.liangcha.framework.security.utils.SecurityFrameworkUtils.getLoginUserId;
 
 /**
@@ -43,7 +45,12 @@ public class MybatisPlusConfig implements MetaObjectHandler {
                 baseDO.setUpdateTime(current);
             }
 
-            Long userId = getLoginUserId();
+            // 比如登录日志,插入的时候并未登录,则不记录创建人或者更新人
+            LoginUser loginUser = getLoginUser();
+            if (loginUser == null) {
+                return;
+            }
+            Long userId = loginUser.getUserId();
             // 当前登录用户不为空，创建人为空，则当前登录用户为创建人
             if (Objects.nonNull(userId) && Objects.isNull(baseDO.getCreator())) {
                 baseDO.setCreator(userId.toString());

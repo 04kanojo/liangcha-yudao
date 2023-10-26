@@ -63,7 +63,8 @@ public class SecurityFrameworkUtils {
         if (authentication == null) {
             return null;
         }
-        return (LoginUser) authentication.getPrincipal();
+        // 可能有时候并不是此类型,假如为String,转换就会报错,提前判断是否是LoginUser
+        return authentication.getPrincipal() instanceof LoginUser ? (LoginUser) authentication.getPrincipal() : null;
     }
 
     /**
