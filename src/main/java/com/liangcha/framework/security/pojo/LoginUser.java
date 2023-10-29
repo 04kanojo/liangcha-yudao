@@ -57,6 +57,9 @@ public class LoginUser implements Serializable {
      */
     private List<String> scopes;
 
+    /**
+     * 过期时间
+     */
     private LocalDateTime expiresTime;
 
 }

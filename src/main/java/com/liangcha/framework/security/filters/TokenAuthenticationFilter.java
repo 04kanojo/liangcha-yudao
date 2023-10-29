@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.liangcha.system.auth2.OAuth2ClientConstants.CLIENT_ID_DEFAULT;
+
 /**
  * Token 过滤器，验证 token 的有效性
  *
@@ -51,7 +53,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
         //token未过期但是刷新过期,重新创建令牌
         if (oauth2TokenService.getUserByRefreshAccessToken(user.getRefreshToken()) != null) {
-            oauth2TokenService.createAccessToken(user.getUserId());
+            oauth2TokenService.createAccessToken(user.getUserId(), CLIENT_ID_DEFAULT, null);
         }
         return user;
     }

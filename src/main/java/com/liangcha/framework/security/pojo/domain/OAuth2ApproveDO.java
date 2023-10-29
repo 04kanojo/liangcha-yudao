@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 /**
  * OAuth2 批准 DO
  * <p>
- * 用户在 sso.vue 界面时，记录接受的 scope 列表
+ * 记录接受的 scope 列表
  *
  * @author 凉茶
  */

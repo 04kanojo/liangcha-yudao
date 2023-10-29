@@ -40,13 +40,13 @@
 
 ### 关于基本架构,以及类的创建
 
-- **
-  _dto是各种地方传递使用,例如OperateLogFrameworkServiceImpl这个类使用OperateLogService的方法,便传递dto,但是如果是前端调用接口,给controller,再给service,即可以用vo_
-  **
+- **_dto是各种地方传递使用,例如OperateLogFrameworkServiceImpl这个类使用OperateLogService的方法
+  ,便传递dto,但是如果是前端调用接口,给controller,再给service,即可以用vo_**
 
 ### 数据权限
 
-#### 注解@Permission
+#### @Permission注解使用
 
-假如要给selectUserByUsername添加数据权限功能,在selectUserByUsername上添加注解并无效果,因为此方法最后调用的是selectOne,
-所以要重写selectOne方法,并且把注解加到selectOne方法上,否则无法实现数据权限
+_**假如要给selectUserByUsername添加数据权限功能,在selectUserByUsername上添加注解并无效果
+,因为此方法最后调用的是selectOne, 所以要重写selectOne方法,并且把注解加到selectOne方法上
+,否则无法实现数据权限**_

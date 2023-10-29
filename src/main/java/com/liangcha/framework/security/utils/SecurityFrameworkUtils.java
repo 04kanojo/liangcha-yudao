@@ -31,13 +31,7 @@ public class SecurityFrameworkUtils {
         if (StrUtil.isBlank(authorization)) {
             return null;
         }
-        String tokenPrefix = bearer + " ";
-        int index = authorization.indexOf(tokenPrefix);
-        // 未找到
-        if (index == -1) {
-            return null;
-        }
-        return authorization.substring(index + tokenPrefix.length()).trim();
+        return StrUtil.subAfter(authorization, bearer, false);
     }
 
     /**

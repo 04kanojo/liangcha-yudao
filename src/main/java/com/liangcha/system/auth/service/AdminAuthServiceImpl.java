@@ -28,6 +28,7 @@ import java.util.Objects;
 import static com.liangcha.common.enums.ErrorCodeEnum.*;
 import static com.liangcha.common.utils.ServiceExceptionUtil.exception;
 import static com.liangcha.common.utils.ServletUtils.getRequest;
+import static com.liangcha.system.auth2.OAuth2ClientConstants.CLIENT_ID_DEFAULT;
 
 /**
  * 凉茶
@@ -126,7 +127,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         // 插入登陆日志
         createLoginLog(userId, username, logType, LoginResultEnum.SUCCESS);
         // 创建访问令牌
-        LoginUser user = oauth2TokenService.createAccessToken(userId);
+        LoginUser user = oauth2TokenService.createAccessToken(userId, CLIENT_ID_DEFAULT, null);
         return AuthConvert.INSTANCE.convert(user);
     }
 

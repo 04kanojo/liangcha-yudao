@@ -21,4 +21,7 @@ public class ServiceExceptionUtil {
         throw new ServiceException(codeEnum.getCode(), format);
     }
 
+    public static ServiceException exception(Integer code, String messagePattern) {
+        return new ServiceException(code, messagePattern);
+    }
 }

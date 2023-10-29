@@ -3,6 +3,8 @@ package com.liangcha.framework.security.service;
 
 import com.liangcha.framework.security.pojo.LoginUser;
 
+import java.util.List;
+
 /**
  * OAuth2.0 Token API 接口
  *
@@ -13,18 +15,20 @@ public interface OAuth2TokenService {
     /**
      * 创建访问令牌
      *
-     * @param userId 用户id
-     * @return 访问令牌的信息
-     */
-    LoginUser createAccessToken(Long userId);
-
-    /**
-     * 创建访问令牌
-     *
      * @param user 登录用户
      * @return 登录用户的信息
      */
     LoginUser createAccessToken(LoginUser user);
+
+    /**
+     * 创建访问令牌
+     *
+     * @param userId   用户编号
+     * @param clientId 客户端编号
+     * @param scopes   授权范围
+     * @return 访问令牌的信息
+     */
+    LoginUser createAccessToken(Long userId, String clientId, List<String> scopes);
 
     /**
      * 获取访问令牌

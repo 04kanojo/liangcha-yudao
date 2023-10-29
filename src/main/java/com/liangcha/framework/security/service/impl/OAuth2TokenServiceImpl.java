@@ -4,6 +4,7 @@ import cn.hutool.core.util.IdUtil;
 import com.alicp.jetcache.Cache;
 import com.liangcha.framework.security.config.SecurityProperties;
 import com.liangcha.framework.security.pojo.LoginUser;
+import com.liangcha.framework.security.service.OAuth2ClientService;
 import com.liangcha.framework.security.service.OAuth2TokenService;
 import com.liangcha.system.permission.service.PermissionService;
 import com.liangcha.system.user.enums.UserTypeEnum;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static com.liangcha.common.enums.ErrorCodeEnum.FLUSH_TOKEN_EXPIRED;
 import static com.liangcha.common.utils.ServiceExceptionUtil.exception;
@@ -38,15 +40,20 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
     @Resource
     private SecurityProperties properties;
 
+    @Resource
+    private OAuth2ClientService oAuth2ClientService;
+
     private static String generateToken() {
         return IdUtil.fastSimpleUUID();
     }
 
     @Override
-    public LoginUser createAccessToken(Long userId) {
+    public LoginUser createAccessToken(Long userId, String clientId, List<String> scopes) {
         // 创建访问令牌
         LoginUser user = new LoginUser()
                 .setUserId(userId)
+                .setScopes(scopes)
+                .setClientId(clientId)
                 .setUserType(UserTypeEnum.ADMIN.getCode())
                 .setRoles(permissionService.getEnableUserRoleListByUserId(userId))
                 .setDeptId(userService.getById(userId).getDeptId());
@@ -64,7 +71,6 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
         refreshTokenCache.put(user.getRefreshToken(), user);
         return user;
     }
-
 
     @Override
     public LoginUser getUserByAccessToken(String accessToken) {

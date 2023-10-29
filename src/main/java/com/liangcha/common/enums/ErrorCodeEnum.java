@@ -55,7 +55,16 @@ public enum ErrorCodeEnum {
     IO_ERR(414, "io流异常"),
 
     // ========== 客户端错误段 ==========
-    TOO_MANY_REQUESTS(415, "请求过于频繁，请稍后重试"),
+
+    BAD_REQUEST(400, "请求参数不正确"),
+
+    UNAUTHORIZED(401, "账号未登录"),
+
+    FORBIDDEN(403, "没有该操作权限"),
+
+    LOCKED(423, "请求失败，请稍后重试"),
+
+    TOO_MANY_REQUESTS(429, "请求过于频繁，请稍后重试"),
 
     // ========== 数据权限 ==========
     DATA_SCOPE_NOT_EXISTS(416, "数据范围不存在"),

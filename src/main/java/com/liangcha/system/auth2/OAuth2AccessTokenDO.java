@@ -1,6 +1,7 @@
-package com.liangcha.framework.security.pojo.domain;
+package com.liangcha.system.auth2;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.liangcha.common.pojo.BaseDO;
@@ -11,24 +12,33 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * OAuth2 授权码 DO
+ * OAuth2 访问令牌 DO
+ * <p>
+ * 如下字段，暂时未使用，暂时不支持：
+ * user_name、authentication（用户信息）
  *
- * @author 凉茶
+ * @author 芋道源码
  */
+@TableName(value = "system_oauth2_access_token", autoResultMap = true)
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName(value = "system_oauth2_code", autoResultMap = true)
-public class OAuth2CodeDO extends BaseDO {
+public class OAuth2AccessTokenDO extends BaseDO {
 
     /**
      * 编号，数据库递增
      */
+    @TableId
     private Long id;
 
     /**
-     * 授权码
+     * 访问令牌
      */
-    private String code;
+    private String accessToken;
+
+    /**
+     * 刷新令牌
+     */
+    private String refreshToken;
 
     /**
      * 用户编号
@@ -50,16 +60,6 @@ public class OAuth2CodeDO extends BaseDO {
      */
     @TableField(typeHandler = JacksonTypeHandler.class)
     private List<String> scopes;
-
-    /**
-     * 重定向地址
-     */
-    private String redirectUri;
-
-    /**
-     * 状态
-     */
-    private String state;
 
     /**
      * 过期时间

@@ -79,6 +79,7 @@ public class OAuth2ClientServiceImpl implements OAuth2ClientService {
         if (CollUtil.isNotEmpty(scopes) && !CollUtil.containsAll(client.getScopes(), scopes)) {
             throw exception(OAUTH2_CLIENT_SCOPE_OVER);
         }
+
         // 校验回调地址
         if (StrUtil.isNotEmpty(redirectUri) && !startWithAny(redirectUri, client.getRedirectUris())) {
             throw exception(OAUTH2_CLIENT_REDIRECT_URI_NOT_MATCH);
@@ -86,7 +87,7 @@ public class OAuth2ClientServiceImpl implements OAuth2ClientService {
         return client;
     }
 
-    @Cached(name = RedisKeyConstants.OAUTH_CLIENT, key = "#clientId", expire = 10, timeUnit = TimeUnit.MINUTES)
+    @Cached(name = RedisKeyConstants.OAUTH_CLIENT, key = "#clientId", expire = 2, timeUnit = TimeUnit.HOURS)
     public OAuth2ClientDO getOAuth2ClientFromCache(String clientId) {
         return oauth2ClientMapper.selectByClientId(clientId);
     }

@@ -25,7 +25,6 @@ public interface OAuth2ClientService {
      * @param redirectUri         重定向地址
      * @return 客户端
      */
-    OAuth2ClientDO validOAuthClientFromCache(String clientId, String clientSecret,
-                                             String authorizedGrantType, Collection<String> scopes, String redirectUri);
+    OAuth2ClientDO validOAuthClientFromCache(String clientId, String clientSecret, String authorizedGrantType, Collection<String> scopes, String redirectUri);
 
 }
