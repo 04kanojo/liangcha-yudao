@@ -1,7 +1,7 @@
 package com.liangcha.framework.security.utils;
 
 import cn.hutool.core.util.StrUtil;
-import com.liangcha.framework.security.pojo.LoginUser;
+import com.liangcha.system.auth2.pojo.LoginUser;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;

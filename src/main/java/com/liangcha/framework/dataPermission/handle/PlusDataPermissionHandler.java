@@ -9,7 +9,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.liangcha.framework.dataPermission.annotation.DataPermission;
 import com.liangcha.framework.dataPermission.enums.DataScopeTypeEnum;
-import com.liangcha.framework.security.pojo.LoginUser;
+import com.liangcha.system.auth2.pojo.LoginUser;
 import com.liangcha.system.permission.domain.RoleDO;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jsqlparser.JSQLParserException;

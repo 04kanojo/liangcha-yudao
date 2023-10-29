@@ -7,8 +7,8 @@ import com.liangcha.common.utils.ServletUtils;
 import com.liangcha.common.utils.TracerUtils;
 import com.liangcha.framework.captcha.CaptchaProperties;
 import com.liangcha.framework.convert.auth.AuthConvert;
-import com.liangcha.framework.security.pojo.LoginUser;
-import com.liangcha.framework.security.service.OAuth2TokenService;
+import com.liangcha.system.auth2.pojo.LoginUser;
+import com.liangcha.system.auth2.service.OAuth2TokenService;
 import com.liangcha.server.controller.auth.vo.AuthLoginReqVO;
 import com.liangcha.server.controller.auth.vo.AuthLoginRespVO;
 import com.liangcha.server.controller.auth.vo.AuthSmsSendReqVO;
@@ -28,7 +28,7 @@ import java.util.Objects;
 import static com.liangcha.common.enums.ErrorCodeEnum.*;
 import static com.liangcha.common.utils.ServiceExceptionUtil.exception;
 import static com.liangcha.common.utils.ServletUtils.getRequest;
-import static com.liangcha.system.auth2.OAuth2ClientConstants.CLIENT_ID_DEFAULT;
+import static com.liangcha.system.auth2.enums.OAuth2ClientConstants.CLIENT_ID_DEFAULT;
 
 /**
  * 凉茶

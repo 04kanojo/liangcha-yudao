@@ -4,11 +4,16 @@ import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.liangcha.common.pojo.CommonResult;
 import com.liangcha.framework.convert.auth.OAuth2OpenConvert;
-import com.liangcha.framework.security.pojo.LoginUser;
-import com.liangcha.framework.security.pojo.domain.OAuth2ApproveDO;
-import com.liangcha.framework.security.pojo.domain.OAuth2ClientDO;
-import com.liangcha.framework.security.service.OAuth2ClientService;
-import com.liangcha.system.auth2.*;
+import com.liangcha.system.auth2.pojo.LoginUser;
+import com.liangcha.system.auth2.pojo.domain.OAuth2ApproveDO;
+import com.liangcha.system.auth2.pojo.domain.OAuth2ClientDO;
+import com.liangcha.system.auth2.service.OAuth2ClientService;
+import com.liangcha.framework.security.utils.OAuth2Utils;
+import com.liangcha.server.controller.auth2.vo.OAuth2OpenAuthorizeInfoRespVO;
+import com.liangcha.system.auth2.pojo.domain.OAuth2AccessTokenDO;
+import com.liangcha.system.auth2.enums.OAuth2GrantTypeEnum;
+import com.liangcha.system.auth2.service.OAuth2ApproveService;
+import com.liangcha.system.auth2.service.OAuth2GrantService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +30,7 @@ import static com.liangcha.common.pojo.CommonResult.success;
 import static com.liangcha.common.utils.ServiceExceptionUtil.exception;
 import static com.liangcha.framework.security.utils.SecurityFrameworkUtils.getLoginUserId;
 import static com.liangcha.framework.security.utils.SecurityFrameworkUtils.getUserType;
-import static com.liangcha.system.auth2.OAuth2GrantTypeEnum.AUTHORIZATION_CODE;
+import static com.liangcha.system.auth2.enums.OAuth2GrantTypeEnum.AUTHORIZATION_CODE;
 
 /**
  * @author 凉茶

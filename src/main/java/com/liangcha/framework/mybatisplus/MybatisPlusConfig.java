@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInt
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.liangcha.common.pojo.BaseDO;
 import com.liangcha.framework.dataPermission.interceptor.PlusDataPermissionInterceptor;
-import com.liangcha.framework.security.pojo.LoginUser;
+import com.liangcha.system.auth2.pojo.LoginUser;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -2,7 +2,7 @@ package com.liangcha.system.auth.dao;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.liangcha.framework.security.pojo.domain.OAuth2ClientDO;
+import com.liangcha.system.auth2.pojo.domain.OAuth2ClientDO;
 import org.apache.ibatis.annotations.Mapper;
 
 

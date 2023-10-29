@@ -5,7 +5,7 @@ import com.alicp.jetcache.CacheManager;
 import com.alicp.jetcache.anno.CacheType;
 import com.alicp.jetcache.template.QuickConfig;
 import com.liangcha.framework.security.config.SecurityProperties;
-import com.liangcha.framework.security.pojo.LoginUser;
+import com.liangcha.system.auth2.pojo.LoginUser;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 

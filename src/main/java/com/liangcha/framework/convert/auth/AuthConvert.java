@@ -1,6 +1,6 @@
 package com.liangcha.framework.convert.auth;
 
-import com.liangcha.framework.security.pojo.LoginUser;
+import com.liangcha.system.auth2.pojo.LoginUser;
 import com.liangcha.server.controller.auth.vo.AuthLoginRespVO;
 import com.liangcha.server.controller.auth.vo.AuthSmsSendReqVO;
 import com.liangcha.system.sms.dto.SmsCodeSendReqDTO;
