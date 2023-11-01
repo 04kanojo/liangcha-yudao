@@ -27,4 +27,13 @@ public interface OAuth2ClientService {
      */
     OAuth2ClientDO validOAuthClientFromCache(String clientId, String clientSecret, String authorizedGrantType, Collection<String> scopes, String redirectUri);
 
+    /**
+     * 部分地方只需要获取客户端,跳转作用
+     *
+     * @param clientId 客户端编号
+     * @return 客户端
+     */
+    default OAuth2ClientDO validOAuthClientFromCache(String clientId) {
+        return validOAuthClientFromCache(clientId, null, null, null, null);
+    }
 }

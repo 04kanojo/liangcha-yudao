@@ -2,8 +2,11 @@ package com.liangcha.system.auth2.service;
 
 
 import com.liangcha.system.auth2.pojo.domain.OAuth2ApproveDO;
+import com.liangcha.system.auth2.pojo.domain.OAuth2ClientDO;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 /**
  * OAuth2 批准 Service 接口
@@ -23,5 +26,27 @@ public interface OAuth2ApproveService {
      * @return 是否授权通过
      */
     List<OAuth2ApproveDO> getApproveList(Long userId, Integer userType, String clientId);
+
+    /**
+     * 获得指定用户，针对指定客户端的指定授权，是否通过
+     *
+     * @param userId          用户编号
+     * @param userType        用户类型
+     * @param clientId        客户端编号
+     * @param requestedScopes 授权范围
+     * @return 是否授权通过
+     */
+    boolean checkForPreApproval(Long userId, Integer userType, OAuth2ClientDO clientId, Collection<String> requestedScopes);
+
+    /**
+     * 在用户发起批准时，基于 scopes 的选项，计算最终是否通过
+     *
+     * @param userId          用户编号
+     * @param userType        用户类型
+     * @param clientId        客户端编号
+     * @param requestedScopes 授权范围
+     * @return 是否授权通过
+     */
+    boolean updateAfterApproval(Long userId, Integer userType, String clientId, Map<String, Boolean> requestedScopes);
 
 }

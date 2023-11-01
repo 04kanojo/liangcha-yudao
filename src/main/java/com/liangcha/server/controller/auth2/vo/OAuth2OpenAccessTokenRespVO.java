@@ -1,4 +1,4 @@
-package com.liangcha.server.controller.auth2;
+package com.liangcha.server.controller.auth2.vo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;

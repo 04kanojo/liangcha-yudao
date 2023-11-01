@@ -1,4 +1,4 @@
-package com.liangcha.system.auth2.mapper;
+package com.liangcha.system.auth2.dao;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -16,6 +16,14 @@ public interface OAuth2ApproveMapper extends BaseMapper<OAuth2ApproveDO> {
                 .eq(OAuth2ApproveDO::getUserId, userId)
                 .eq(OAuth2ApproveDO::getUserType, userType)
                 .eq(OAuth2ApproveDO::getClientId, clientId));
+    }
+
+    default int update(OAuth2ApproveDO updateObj) {
+        return update(updateObj, new LambdaQueryWrapper<OAuth2ApproveDO>()
+                .eq(OAuth2ApproveDO::getUserId, updateObj.getUserId())
+                .eq(OAuth2ApproveDO::getUserType, updateObj.getUserType())
+                .eq(OAuth2ApproveDO::getClientId, updateObj.getClientId())
+                .eq(OAuth2ApproveDO::getScope, updateObj.getScope()));
     }
 
 }

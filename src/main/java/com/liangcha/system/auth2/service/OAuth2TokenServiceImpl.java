@@ -38,9 +38,11 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
     @Resource
     private SecurityProperties properties;
 
-    @Resource
-    private OAuth2ClientService oAuth2ClientService;
 
+    /**
+     * 生成随机字符串
+     * TODO 可优化成：加密(用户id+时间戳+签名+..)
+     */
     private static String generateToken() {
         return IdUtil.fastSimpleUUID();
     }

@@ -1,4 +1,4 @@
-package com.liangcha.system.auth2.mapper;
+package com.liangcha.system.auth2.dao;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;

@@ -1,15 +1,18 @@
 package com.liangcha.framework.convert.auth;
 
+import com.liangcha.common.utils.CollectionUtils;
+import com.liangcha.server.controller.auth2.vo.OAuth2OpenAccessTokenRespVO;
+import com.liangcha.server.controller.auth2.vo.OAuth2OpenAuthorizeInfoRespVO;
 import com.liangcha.system.auth2.pojo.LoginUser;
 import com.liangcha.system.auth2.pojo.domain.OAuth2ApproveDO;
 import com.liangcha.system.auth2.pojo.domain.OAuth2ClientDO;
-import com.liangcha.server.controller.auth2.OAuth2OpenAccessTokenRespVO;
-import com.liangcha.server.controller.auth2.vo.OAuth2OpenAuthorizeInfoRespVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Mapper
@@ -27,8 +30,14 @@ public interface OAuth2OpenConvert {
 
     default OAuth2OpenAuthorizeInfoRespVO convert(OAuth2ClientDO client, List<OAuth2ApproveDO> approves) {
         // 构建 scopes
-        List<String> scopes = new ArrayList<>(client.getScopes().size());
-        approves.forEach(approve -> scopes.add(approve.getScope()));
+        List<Map<String, Boolean>> scopes = new ArrayList<>(client.getScopes().size());
+        Map<String, OAuth2ApproveDO> approveMap = CollectionUtils.convertMap(approves, OAuth2ApproveDO::getScope);
+        client.getScopes().forEach(scope -> {
+            OAuth2ApproveDO approve = approveMap.get(scope);
+            Map<String, Boolean> map = new HashMap<>(1);
+            map.put(scope, approve != null ? approve.getApproved() : false);
+            scopes.add(map);
+        });
         // 拼接返回
         return new OAuth2OpenAuthorizeInfoRespVO(new OAuth2OpenAuthorizeInfoRespVO.Client(client.getName(), client.getLogo()), scopes);
     }

@@ -2,8 +2,8 @@ package com.liangcha.system.auth2.service;
 
 import cn.hutool.core.util.StrUtil;
 import com.liangcha.system.auth2.pojo.LoginUser;
-import com.liangcha.system.auth2.pojo.domain.OAuth2CodeDO;
 import com.liangcha.system.auth2.pojo.domain.OAuth2AccessTokenDO;
+import com.liangcha.system.auth2.pojo.domain.OAuth2CodeDO;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -60,5 +60,13 @@ public class OAuth2GrantServiceImpl implements OAuth2GrantService {
 //        return oauth2TokenService.createAccessToken(user.getId(), UserTypeEnum.ADMIN.getValue(), clientId, scopes);
         return null;
     }
+
+    @Override
+    public String grantAuthorizationCodeForCode(Long userId, Integer userType,
+                                                String clientId, List<String> scopes,
+                                                String redirectUri, String state) {
+        return oauth2CodeService.createAuthorizationCode(userId, userType, clientId, scopes, redirectUri, state).getCode();
+    }
+
 
 }

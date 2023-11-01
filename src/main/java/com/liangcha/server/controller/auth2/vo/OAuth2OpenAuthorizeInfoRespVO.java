@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Map;
 
 
 @ApiModel(description = "管理后台 - 授权页的信息 Response VO")
@@ -21,7 +22,7 @@ public class OAuth2OpenAuthorizeInfoRespVO {
     private Client client;
 
     @ApiModelProperty("scope 的选中信息,使用 List 保证有序性，Key 是 scope，Value 为是否选中")
-    private List<String> scopes;
+    private List<Map<String, Boolean>> scopes;
 
     @Data
     @NoArgsConstructor

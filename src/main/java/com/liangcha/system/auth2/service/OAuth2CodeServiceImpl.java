@@ -2,8 +2,8 @@ package com.liangcha.system.auth2.service;
 
 import cn.hutool.core.util.IdUtil;
 import com.liangcha.common.utils.DateUtils;
+import com.liangcha.system.auth2.dao.OAuth2CodeMapper;
 import com.liangcha.system.auth2.pojo.domain.OAuth2CodeDO;
-import com.liangcha.system.auth2.mapper.OAuth2CodeMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
