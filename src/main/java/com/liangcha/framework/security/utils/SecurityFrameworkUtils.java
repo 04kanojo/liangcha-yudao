@@ -31,7 +31,7 @@ public class SecurityFrameworkUtils {
         if (StrUtil.isBlank(authorization)) {
             return null;
         }
-        return StrUtil.subAfter(authorization, bearer, false);
+        return StrUtil.subAfter(authorization, bearer + " ", false);
     }
 
     /**

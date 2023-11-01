@@ -117,8 +117,6 @@ public class OAuth2OpenController {
     @GetMapping("/authorize")
     @ApiOperation("获得授权信息")
     public CommonResult<OAuth2OpenAuthorizeInfoRespVO> authorize(@RequestParam("clientId") String clientId) {
-        // 0. 校验用户已经登录。通过 Spring Security 实现
-
         // 1. 获得 Client 客户端的信息
         OAuth2ClientDO client = oauth2ClientService.validOAuthClientFromCache(clientId);
 
@@ -135,9 +133,17 @@ public class OAuth2OpenController {
      * 场景一：【自动授权 autoApprove = true】
      * 刚进入 sso.vue 界面，调用该接口，用户历史已经给该应用做过对应的授权，或者 OAuth2Client 支持该 scope 的自动授权
      * 场景二：【手动授权 autoApprove = false】
-     * 在 sso.vue 界面，用户选择好 scope 授权范围，调用该接口，进行授权。此时，approved 为 true 或者 false
+     * 用户选择好 scope 授权范围，调用该接口，进行授权。此时，approved 为 true 或者 false
      * <p>
-     * 因为前后端分离，Axios 无法很好的处理 302 重定向，所以和 Spring Security OAuth 略有不同，返回结果是重定向的 URL，剩余交给前端处理
+     * 因为前后端分离，Axios 无法很好的处理 302 重定向，所以和 Spring Security OAuth 略有不同，返回结果是重定向的 URL，剩余交给前端处理、
+     *
+     * @param responseType 响应类型
+     * @param clientId     客户端id
+     * @param scope        授权范围
+     * @param redirectUri  重定向url
+     * @param autoApprove  是否自动授权
+     * @param state        状态
+     * @return 重定向url
      */
     @PostMapping("/authorize")
     @ApiOperation("申请授权")
@@ -154,15 +160,13 @@ public class OAuth2OpenController {
         // 1.2 校验 redirectUri 重定向域名是否合法 + 校验 scope 是否在 Client 授权范围内
         OAuth2ClientDO client = oauth2ClientService.validOAuthClientFromCache(clientId, null, grantTypeEnum.getGrantType(), scopes.keySet(), redirectUri);
 
-        // 2.1 假设 approved 为 null，说明是场景一
         if (Boolean.TRUE.equals(autoApprove)) {
             // 如果无法自动授权通过，则不跳转
             if (!oauth2ApproveService.checkForPreApproval(getLoginUserId(), getUserType(), client, scopes.keySet())) {
                 return success(null);
             }
         } else {
-            // 2.2 假设 approved 非 null，说明是场景二
-            // 如果计算后不通过，则失败
+            // 如果计算后不通过，则跳转错误链接
             if (!oauth2ApproveService.updateAfterApproval(getLoginUserId(), getUserType(), clientId, scopes)) {
                 return success(OAuth2Utils.buildUnsuccessfulRedirect(redirectUri, responseType, state, "access_denied", "User denied access"));
             }
