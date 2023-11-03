@@ -40,9 +40,9 @@ import static com.liangcha.system.auth2.enums.OAuth2GrantTypeEnum.AUTHORIZATION_
  */
 @Api("管理后台 - OAuth2.0 授权")
 @RestController
-@RequestMapping("/system/oauth2")
+@RequestMapping("/oauth2")
 @Validated
-public class OAuth2OpenController {
+public class Auth2OpenController {
 
     @Resource
     private OAuth2GrantService oauth2GrantService;
@@ -131,9 +131,9 @@ public class OAuth2OpenController {
      * 对应 Spring Security OAuth 的 AuthorizationEndpoint 类的 approveOrDeny 方法
      * <p>
      * 场景一：【自动授权 autoApprove = true】
-     * 刚进入 sso.vue 界面，调用该接口，用户历史已经给该应用做过对应的授权，或者 OAuth2Client 支持该 scope 的自动授权
+     * 用户历史已经给该应用做过对应的授权，或者 客户端 支持该 scope 的自动授权
      * 场景二：【手动授权 autoApprove = false】
-     * 用户选择好 scope 授权范围，调用该接口，进行授权。此时，approved 为 true 或者 false
+     * 用户选择好 scope 授权范围，调用该接口，进行授权
      * <p>
      * 因为前后端分离，Axios 无法很好的处理 302 重定向，所以和 Spring Security OAuth 略有不同，返回结果是重定向的 URL，剩余交给前端处理、
      *
@@ -155,9 +155,9 @@ public class OAuth2OpenController {
                                               @RequestParam(value = "state", required = false) String state) {
         @SuppressWarnings("unchecked")
         Map<String, Boolean> scopes = JSON.parseObject(scope, Map.class);
-        // 1.1 校验 responseType 是否满足 code 或者 token 值
+        // 校验 responseType 是否满足 code 或者 token 值
         OAuth2GrantTypeEnum grantTypeEnum = getGrantTypeEnum(responseType);
-        // 1.2 校验 redirectUri 重定向域名是否合法 + 校验 scope 是否在 Client 授权范围内
+        // 校验 redirectUri 重定向域名是否合法 + 校验 scope 是否在 Client 授权范围内
         OAuth2ClientDO client = oauth2ClientService.validOAuthClientFromCache(clientId, null, grantTypeEnum.getGrantType(), scopes.keySet(), redirectUri);
 
         if (Boolean.TRUE.equals(autoApprove)) {
@@ -172,7 +172,7 @@ public class OAuth2OpenController {
             }
         }
 
-        // 3.1 如果是 code 授权码模式，则发放 code 授权码，并重定向
+        // 如果是 code 授权码模式，则发放 code 授权码，并重定向
         List<String> approveScopes = convertList(scopes.entrySet(), Map.Entry::getKey, Map.Entry::getValue);
         if (grantTypeEnum == AUTHORIZATION_CODE) {
             return success(getAuthorizationCodeRedirect(getLoginUserId(), client, approveScopes, redirectUri, state));

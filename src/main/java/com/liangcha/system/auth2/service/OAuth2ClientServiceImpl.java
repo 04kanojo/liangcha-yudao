@@ -5,16 +5,19 @@ import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
+import com.alicp.jetcache.Cache;
 import com.alicp.jetcache.anno.Cached;
 import com.liangcha.common.enums.CommonStatusEnum;
 import com.liangcha.framework.redis.RedisKeyConstants;
-import com.liangcha.system.auth2.pojo.domain.OAuth2ClientDO;
 import com.liangcha.system.auth.dao.OAuth2ClientMapper;
+import com.liangcha.system.auth2.pojo.domain.OAuth2ClientDO;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static com.liangcha.common.enums.ErrorCodeEnum.*;
@@ -28,6 +31,9 @@ import static com.liangcha.common.utils.ServiceExceptionUtil.exception;
 @Component
 @Validated
 public class OAuth2ClientServiceImpl implements OAuth2ClientService {
+
+    @Resource
+    private Cache<String, OAuth2ClientDO> clientCache;
 
     @Resource
     private OAuth2ClientMapper oauth2ClientMapper;
@@ -52,10 +58,16 @@ public class OAuth2ClientServiceImpl implements OAuth2ClientService {
         return false;
     }
 
+    @PostConstruct
+    public void init() {
+        List<OAuth2ClientDO> clients = getAll();
+        clients.forEach(client -> clientCache.put(client.getClientId(), client));
+    }
+
     @Override
     public OAuth2ClientDO validOAuthClientFromCache(String clientId, String clientSecret, String authorizedGrantType, Collection<String> scopes, String redirectUri) {
         // 校验客户端是否存在
-        OAuth2ClientDO client = getSelf().getOAuth2ClientFromCache(clientId);
+        OAuth2ClientDO client = getSelf().getOAuth2ClientByClientId(clientId);
         if (client == null) {
             throw exception(OAUTH2_CLIENT_NOT_EXISTS);
 
@@ -86,10 +98,16 @@ public class OAuth2ClientServiceImpl implements OAuth2ClientService {
         return client;
     }
 
+    @Override
+    public List<OAuth2ClientDO> getAll() {
+        return oauth2ClientMapper.selectList(null);
+    }
+
     @Cached(name = RedisKeyConstants.OAUTH_CLIENT, key = "#clientId", expire = 2, timeUnit = TimeUnit.HOURS)
-    public OAuth2ClientDO getOAuth2ClientFromCache(String clientId) {
+    public OAuth2ClientDO getOAuth2ClientByClientId(String clientId) {
         return oauth2ClientMapper.selectByClientId(clientId);
     }
+
 
     /**
      * 获得自身的代理对象，解决 AOP 生效问题

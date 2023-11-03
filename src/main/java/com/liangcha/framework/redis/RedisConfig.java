@@ -6,14 +6,15 @@ import com.alicp.jetcache.anno.CacheType;
 import com.alicp.jetcache.template.QuickConfig;
 import com.liangcha.framework.security.config.SecurityProperties;
 import com.liangcha.system.auth2.pojo.LoginUser;
+import com.liangcha.system.auth2.pojo.domain.OAuth2ClientDO;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import java.time.Duration;
 
-import static com.liangcha.framework.redis.RedisKeyConstants.OAUTH2_ACCESS_TOKEN;
-import static com.liangcha.framework.redis.RedisKeyConstants.OAUTH2_REFRESH_ACCESS_TOKEN;
+import static com.liangcha.framework.redis.RedisKeyConstants.*;
 
 @Component
 public class RedisConfig {
@@ -25,13 +26,20 @@ public class RedisConfig {
 
     /**
      * accessToken缓存
+     * 格式：用户id+用户信息
      */
     private Cache<String, LoginUser> tokenCache;
 
     /**
-     * accessToken缓存
+     * refreshToken缓存
+     * 格式：用户id+用户信息
      */
     private Cache<String, LoginUser> refreshTokenCache;
+
+    /**
+     * 客户端缓存
+     */
+    private Cache<String, OAuth2ClientDO> clientCache;
 
     @PostConstruct
     public void init() {
@@ -51,8 +59,18 @@ public class RedisConfig {
                 .syncLocal(false)
                 .build();
 
+        QuickConfig clientQc = QuickConfig.newBuilder(OAUTH_CLIENT)
+                //TODO 提到配置文件
+                .expire(Duration.ofDays(3))
+                // 二级缓存
+                .cacheType(CacheType.BOTH)
+                // 更新后使所有 JVM 进程中的本地缓存失效
+                .syncLocal(false)
+                .build();
+
         tokenCache = cacheManager.getOrCreateCache(tokenQc);
         refreshTokenCache = cacheManager.getOrCreateCache(refreshTokenQc);
+        clientCache = cacheManager.getOrCreateCache(clientQc);
     }
 
     @Bean("tokenCache")
@@ -63,5 +81,10 @@ public class RedisConfig {
     @Bean("refreshTokenCache")
     public Cache<String, LoginUser> getRefreshToken() {
         return refreshTokenCache;
+    }
+
+    @Bean
+    public Cache<String, OAuth2ClientDO> getClientCache() {
+        return clientCache;
     }
 }

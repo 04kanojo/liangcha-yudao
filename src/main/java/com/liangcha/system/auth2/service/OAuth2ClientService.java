@@ -4,6 +4,7 @@ package com.liangcha.system.auth2.service;
 import com.liangcha.system.auth2.pojo.domain.OAuth2ClientDO;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * OAuth2.0 Client Service 接口
@@ -36,4 +37,12 @@ public interface OAuth2ClientService {
     default OAuth2ClientDO validOAuthClientFromCache(String clientId) {
         return validOAuthClientFromCache(clientId, null, null, null, null);
     }
+
+    /**
+     * 获取全部客户端
+     * TODO 目前只用于初始化
+     *
+     * @return 客户端全部数据
+     */
+    List<OAuth2ClientDO> getAll();
 }

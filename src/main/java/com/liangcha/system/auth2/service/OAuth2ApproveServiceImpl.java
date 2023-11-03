@@ -46,7 +46,7 @@ public class OAuth2ApproveServiceImpl implements OAuth2ApproveService {
     @Transactional
     public boolean checkForPreApproval(Long userId, Integer userType, OAuth2ClientDO clientDO, Collection<String> requestedScopes) {
         String clientId = clientDO.getClientId();
-        // 基于 Client 的自动授权计算，如果 scopes 都在自动授权中，则返回 true 通过
+        // 1.基于 Client 的自动授权计算，如果 scopes 都在自动授权中，则返回 true 通过
         if (CollUtil.containsAll(clientDO.getAutoApproveScopes(), requestedScopes)) {
             // 如果所有范围都已自动批准，则仍需要将批准添加到批准存储中。
             LocalDateTime expireTime = LocalDateTime.now().plusSeconds(TIMEOUT);
@@ -56,7 +56,7 @@ public class OAuth2ApproveServiceImpl implements OAuth2ApproveService {
             return true;
         }
 
-        // 算上用户已经批准的授权。如果 scopes 都包含，则返回 true
+        // 2.基于 LoginUser 已经批准的授权。如果 scopes 都包含，则返回 true 通过
         List<OAuth2ApproveDO> approveDOs = getApproveList(userId, userType, clientId);
         Set<String> scopes = convertSet(approveDOs, OAuth2ApproveDO::getScope, OAuth2ApproveDO::getApproved); // 只保留未过期的 + 同意的
         return CollUtil.containsAll(scopes, requestedScopes);
