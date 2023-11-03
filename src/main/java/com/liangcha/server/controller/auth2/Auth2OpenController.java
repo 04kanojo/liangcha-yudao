@@ -11,7 +11,7 @@ import com.liangcha.server.controller.auth2.vo.OAuth2OpenAuthorizeInfoRespVO;
 import com.liangcha.system.auth2.enums.OAuth2GrantTypeEnum;
 import com.liangcha.system.auth2.pojo.LoginUser;
 import com.liangcha.system.auth2.pojo.domain.OAuth2AccessTokenDO;
-import com.liangcha.system.auth2.pojo.domain.OAuth2ApproveDO;
+import com.liangcha.system.auth2.pojo.domain.OAuth2Approve;
 import com.liangcha.system.auth2.pojo.domain.OAuth2ClientDO;
 import com.liangcha.system.auth2.service.OAuth2ApproveService;
 import com.liangcha.system.auth2.service.OAuth2ClientService;
@@ -121,7 +121,7 @@ public class Auth2OpenController {
         OAuth2ClientDO client = oauth2ClientService.validOAuthClientFromCache(clientId);
 
         // 2. 获得用户已经授权的信息
-        List<OAuth2ApproveDO> approves = oauth2ApproveService.getApproveList(getLoginUserId(), getUserType(), clientId);
+        List<OAuth2Approve> approves = oauth2ApproveService.getApproveList(getLoginUserId(), clientId);
 
         // 拼接返回
         return success(OAuth2OpenConvert.INSTANCE.convert(client, approves));
@@ -162,7 +162,7 @@ public class Auth2OpenController {
 
         if (Boolean.TRUE.equals(autoApprove)) {
             // 如果无法自动授权通过，则不跳转
-            if (!oauth2ApproveService.checkForPreApproval(getLoginUserId(), getUserType(), client, scopes.keySet())) {
+            if (!oauth2ApproveService.checkAutoApproval(getLoginUserId(), getUserType(), client, scopes.keySet())) {
                 return success(null);
             }
         } else {

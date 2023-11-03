@@ -6,13 +6,14 @@ import com.alicp.jetcache.anno.CacheType;
 import com.alicp.jetcache.template.QuickConfig;
 import com.liangcha.framework.security.config.SecurityProperties;
 import com.liangcha.system.auth2.pojo.LoginUser;
+import com.liangcha.system.auth2.pojo.domain.OAuth2Approve;
 import com.liangcha.system.auth2.pojo.domain.OAuth2ClientDO;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import java.time.Duration;
+import java.util.List;
 
 import static com.liangcha.framework.redis.RedisKeyConstants.*;
 
@@ -26,20 +27,27 @@ public class RedisConfig {
 
     /**
      * accessToken缓存
-     * 格式：用户id+用户信息
+     * 格式：token+用户信息
      */
     private Cache<String, LoginUser> tokenCache;
 
     /**
      * refreshToken缓存
-     * 格式：用户id+用户信息
+     * 格式：refreshToken+用户信息
      */
     private Cache<String, LoginUser> refreshTokenCache;
 
     /**
-     * 客户端缓存
+     * client缓存
+     * 格式：客户端id+客户端信息
      */
     private Cache<String, OAuth2ClientDO> clientCache;
+
+    /**
+     * approve缓存
+     * 格式：（用户id+客户端id）+批准信息
+     */
+    private Cache<String, List<OAuth2Approve>> approveCache;
 
     @PostConstruct
     public void init() {
@@ -60,8 +68,16 @@ public class RedisConfig {
                 .build();
 
         QuickConfig clientQc = QuickConfig.newBuilder(OAUTH_CLIENT)
-                //TODO 提到配置文件
-                .expire(Duration.ofDays(3))
+                .expire(properties.getClientExpireTimes())
+                // 二级缓存
+                .cacheType(CacheType.BOTH)
+                // 更新后使所有 JVM 进程中的本地缓存失效
+                .syncLocal(false)
+                .build();
+
+        QuickConfig approveQc = QuickConfig.newBuilder(OAUTH_APPROVE)
+                //TODO 提出配置文件
+                .expire(properties.getClientExpireTimes())
                 // 二级缓存
                 .cacheType(CacheType.BOTH)
                 // 更新后使所有 JVM 进程中的本地缓存失效
@@ -71,6 +87,7 @@ public class RedisConfig {
         tokenCache = cacheManager.getOrCreateCache(tokenQc);
         refreshTokenCache = cacheManager.getOrCreateCache(refreshTokenQc);
         clientCache = cacheManager.getOrCreateCache(clientQc);
+        approveCache = cacheManager.getOrCreateCache(approveQc);
     }
 
     @Bean("tokenCache")
@@ -86,5 +103,10 @@ public class RedisConfig {
     @Bean
     public Cache<String, OAuth2ClientDO> getClientCache() {
         return clientCache;
+    }
+
+    @Bean
+    public Cache<String, List<OAuth2Approve>> getApproveCache() {
+        return approveCache;
     }
 }

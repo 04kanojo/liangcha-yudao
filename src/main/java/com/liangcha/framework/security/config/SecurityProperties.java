@@ -42,4 +42,9 @@ public class SecurityProperties {
      * refreshToken过期时间
      */
     private Duration refreshTokenExpireTimes = Duration.ofDays(3);
+
+    /**
+     * client过期时间
+     */
+    private Duration clientExpireTimes = Duration.ofDays(10);
 }

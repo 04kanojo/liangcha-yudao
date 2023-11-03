@@ -17,7 +17,7 @@ import java.util.List;
  * 如下字段，暂时未使用，暂时不支持：
  * user_name、authentication（用户信息）
  *
- * @author 芋道源码
+ * @author 凉茶
  */
 @TableName(value = "system_oauth2_access_token", autoResultMap = true)
 @Data

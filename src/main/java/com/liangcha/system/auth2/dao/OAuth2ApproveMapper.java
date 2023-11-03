@@ -2,28 +2,28 @@ package com.liangcha.system.auth2.dao;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.liangcha.system.auth2.pojo.domain.OAuth2ApproveDO;
+import com.liangcha.system.auth2.pojo.domain.OAuth2Approve;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
 
 @Mapper
-public interface OAuth2ApproveMapper extends BaseMapper<OAuth2ApproveDO> {
+public interface OAuth2ApproveMapper extends BaseMapper<OAuth2Approve> {
 
-    default List<OAuth2ApproveDO> selectListByUserIdAndUserTypeAndClientId(Long userId, Integer userType, String clientId) {
-        return selectList(new LambdaQueryWrapper<OAuth2ApproveDO>()
-                .eq(OAuth2ApproveDO::getUserId, userId)
-                .eq(OAuth2ApproveDO::getUserType, userType)
-                .eq(OAuth2ApproveDO::getClientId, clientId));
+    default List<OAuth2Approve> selectListByUserIdAndUserTypeAndClientId(Long userId, Integer userType, String clientId) {
+        return selectList(new LambdaQueryWrapper<OAuth2Approve>()
+                .eq(OAuth2Approve::getUserId, userId)
+                .eq(OAuth2Approve::getUserType, userType)
+                .eq(OAuth2Approve::getClientId, clientId));
     }
 
-    default int update(OAuth2ApproveDO updateObj) {
-        return update(updateObj, new LambdaQueryWrapper<OAuth2ApproveDO>()
-                .eq(OAuth2ApproveDO::getUserId, updateObj.getUserId())
-                .eq(OAuth2ApproveDO::getUserType, updateObj.getUserType())
-                .eq(OAuth2ApproveDO::getClientId, updateObj.getClientId())
-                .eq(OAuth2ApproveDO::getScope, updateObj.getScope()));
+    default int update(OAuth2Approve updateObj) {
+        return update(updateObj, new LambdaQueryWrapper<OAuth2Approve>()
+                .eq(OAuth2Approve::getUserId, updateObj.getUserId())
+                .eq(OAuth2Approve::getUserType, updateObj.getUserType())
+                .eq(OAuth2Approve::getClientId, updateObj.getClientId())
+                .eq(OAuth2Approve::getScope, updateObj.getScope()));
     }
 
 }

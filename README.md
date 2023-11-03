@@ -58,6 +58,4 @@ _**1.申请授权码(/oauth2/authorize)<br>
 2.使用授权码获取访问令牌(/oauth2/token)<br>
 3.使用访问令牌获取用户信息(/..)**_
 
-实现单点登录，更改缓存结构，使用id+信息，暂定tokenCache和refreshCache整合为一个
-因为退出登录删除token,不知道是新登录了用户还是强制登出,使用LoginLogTypeEnum枚举类进行记录，将authservice中logout方法添加一个参数:
-LoginLogTypeEnum,方便前端辨认访问失败类型，来提示用户
+实现用户一个地方登录使用websocket。监听用户状态，在线聊天等
