@@ -4,7 +4,7 @@ import com.liangcha.common.utils.CollectionUtils;
 import com.liangcha.server.controller.auth2.vo.OAuth2OpenAccessTokenRespVO;
 import com.liangcha.server.controller.auth2.vo.OAuth2OpenAuthorizeInfoRespVO;
 import com.liangcha.system.auth2.pojo.LoginUser;
-import com.liangcha.system.auth2.pojo.domain.OAuth2Approve;
+import com.liangcha.system.auth2.pojo.OAuth2Approve;
 import com.liangcha.system.auth2.pojo.domain.OAuth2ClientDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

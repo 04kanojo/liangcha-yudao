@@ -6,7 +6,7 @@ import com.alicp.jetcache.anno.CacheType;
 import com.alicp.jetcache.template.QuickConfig;
 import com.liangcha.framework.security.config.SecurityProperties;
 import com.liangcha.system.auth2.pojo.LoginUser;
-import com.liangcha.system.auth2.pojo.domain.OAuth2Approve;
+import com.liangcha.system.auth2.pojo.OAuth2Approve;
 import com.liangcha.system.auth2.pojo.domain.OAuth2ClientDO;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;

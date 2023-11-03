@@ -2,7 +2,7 @@ package com.liangcha.system.auth2.service;
 
 import cn.hutool.core.collection.CollUtil;
 import com.alicp.jetcache.Cache;
-import com.liangcha.system.auth2.pojo.domain.OAuth2Approve;
+import com.liangcha.system.auth2.pojo.OAuth2Approve;
 import com.liangcha.system.auth2.pojo.domain.OAuth2ClientDO;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;

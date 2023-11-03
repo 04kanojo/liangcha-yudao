@@ -1,16 +1,17 @@
-package com.liangcha.system.auth2.pojo.domain;
+package com.liangcha.system.auth2.pojo;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * OAuth2 批准类
- * <p>
  * 记录接受的 scope 列表
  *
  * @author 凉茶
  */
 @Data
-public class OAuth2Approve {
+public class OAuth2Approve implements Serializable {
 
     /**
      * 用户编号
