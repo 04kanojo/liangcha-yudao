@@ -7,6 +7,7 @@ import com.alicp.jetcache.template.QuickConfig;
 import com.liangcha.framework.security.config.SecurityProperties;
 import com.liangcha.system.auth2.pojo.LoginUser;
 import com.liangcha.system.auth2.pojo.OAuth2Approve;
+import com.liangcha.system.auth2.pojo.OAuth2Code;
 import com.liangcha.system.auth2.pojo.domain.OAuth2ClientDO;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
@@ -49,6 +50,12 @@ public class RedisConfig {
      */
     private Cache<String, List<OAuth2Approve>> approveCache;
 
+    /**
+     * 授权code缓存
+     * 格式：code+code信息
+     */
+    private Cache<String, OAuth2Code> codeCache;
+
     @PostConstruct
     public void init() {
         QuickConfig tokenQc = QuickConfig.newBuilder(OAUTH2_ACCESS_TOKEN)
@@ -84,10 +91,20 @@ public class RedisConfig {
                 .syncLocal(false)
                 .build();
 
+        QuickConfig codeQc = QuickConfig.newBuilder(OAUTH_CODE)
+                //TODO 提出配置文件
+                .expire(properties.getClientExpireTimes())
+                // 二级缓存
+                .cacheType(CacheType.BOTH)
+                // 更新后使所有 JVM 进程中的本地缓存失效
+                .syncLocal(false)
+                .build();
+
         tokenCache = cacheManager.getOrCreateCache(tokenQc);
         refreshTokenCache = cacheManager.getOrCreateCache(refreshTokenQc);
         clientCache = cacheManager.getOrCreateCache(clientQc);
         approveCache = cacheManager.getOrCreateCache(approveQc);
+        codeCache = cacheManager.getOrCreateCache(codeQc);
     }
 
     @Bean("tokenCache")
@@ -108,5 +125,10 @@ public class RedisConfig {
     @Bean
     public Cache<String, List<OAuth2Approve>> getApproveCache() {
         return approveCache;
+    }
+
+    @Bean
+    public Cache<String, OAuth2Code> getCodeCache() {
+        return codeCache;
     }
 }

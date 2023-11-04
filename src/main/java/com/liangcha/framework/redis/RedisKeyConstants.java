@@ -45,6 +45,11 @@ public interface RedisKeyConstants {
     String OAUTH_APPROVE = "oauth_approve:";
 
     /**
+     * OAuth2 code的缓存
+     */
+    String OAUTH_CODE = "oauth_code:";
+
+    /**
      * 站内信模版的缓存
      */
     String NOTIFY_TEMPLATE = "notify_template:";

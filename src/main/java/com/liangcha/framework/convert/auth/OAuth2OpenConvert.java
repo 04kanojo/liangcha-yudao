@@ -22,7 +22,7 @@ public interface OAuth2OpenConvert {
 
     default OAuth2OpenAccessTokenRespVO convert(LoginUser bean) {
         OAuth2OpenAccessTokenRespVO respVO = convert0(bean);
-        respVO.setTokenType("Bearer".toLowerCase());
+        respVO.setTokenType("Bearer");
         return respVO;
     }
 

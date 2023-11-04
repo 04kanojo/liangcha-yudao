@@ -2,9 +2,9 @@ package com.liangcha.framework.security.filters;
 
 import cn.hutool.core.util.StrUtil;
 import com.liangcha.framework.security.config.SecurityProperties;
+import com.liangcha.framework.security.utils.SecurityFrameworkUtils;
 import com.liangcha.system.auth2.pojo.LoginUser;
 import com.liangcha.system.auth2.service.OAuth2TokenService;
-import com.liangcha.framework.security.utils.SecurityFrameworkUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -52,7 +52,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         }
 
         //token未过期但是刷新过期,重新创建令牌
-        if (oauth2TokenService.getUserByRefreshAccessToken(user.getRefreshToken()) != null) {
+        if (oauth2TokenService.getUserByRefreshAccessToken(user.getRefreshToken()) == null) {
             oauth2TokenService.createAccessToken(user.getUserId(), CLIENT_ID_DEFAULT, null);
         }
         return user;

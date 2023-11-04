@@ -2,8 +2,8 @@ package com.liangcha.system.auth2.service;
 
 import cn.hutool.core.util.StrUtil;
 import com.liangcha.system.auth2.pojo.LoginUser;
+import com.liangcha.system.auth2.pojo.OAuth2Code;
 import com.liangcha.system.auth2.pojo.domain.OAuth2AccessTokenDO;
-import com.liangcha.system.auth2.pojo.domain.OAuth2CodeDO;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -28,7 +28,7 @@ public class OAuth2GrantServiceImpl implements OAuth2GrantService {
 
     @Override
     public LoginUser grantAuthorizationCodeForAccessToken(String clientId, String code, String redirectUri, String state) {
-        OAuth2CodeDO codeDO = oauth2CodeService.consumeAuthorizationCode(code);
+        OAuth2Code codeDO = oauth2CodeService.consumeAuthorizationCode(code);
 
         // 校验 clientId 是否匹配
         if (!StrUtil.equals(clientId, codeDO.getClientId())) {
@@ -40,8 +40,8 @@ public class OAuth2GrantServiceImpl implements OAuth2GrantService {
             throw exception(OAUTH2_GRANT_REDIRECT_URI_MISMATCH);
         }
 
-        // 校验 state 是否匹配
-        state = StrUtil.nullToDefault(state, ""); // 数据库 state 为 null 时，会设置为 "" 空串
+        // 校验 state 是否匹配 数据库 state 为 null 时，会设置为 "" 空串
+        state = StrUtil.nullToDefault(state, "");
         if (!StrUtil.equals(state, codeDO.getState())) {
             throw exception(OAUTH2_GRANT_STATE_MISMATCH);
         }
@@ -62,11 +62,8 @@ public class OAuth2GrantServiceImpl implements OAuth2GrantService {
     }
 
     @Override
-    public String grantAuthorizationCodeForCode(Long userId, Integer userType,
-                                                String clientId, List<String> scopes,
-                                                String redirectUri, String state) {
+    public String grantAuthorizationCodeForCode(Long userId, Integer userType, String clientId, List<String> scopes, String redirectUri, String state) {
         return oauth2CodeService.createAuthorizationCode(userId, userType, clientId, scopes, redirectUri, state).getCode();
     }
-
 
 }

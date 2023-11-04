@@ -1,24 +1,19 @@
-package com.liangcha.system.auth2.pojo.domain;
+package com.liangcha.system.auth2.pojo;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
-import com.liangcha.common.pojo.BaseDO;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-import java.time.LocalDateTime;
+import java.io.Serializable;
 import java.util.List;
 
 /**
- * OAuth2 授权码 DO
+ * OAuth2 授权码类
  *
  * @author 凉茶
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
-@TableName(value = "system_oauth2_code", autoResultMap = true)
-public class OAuth2CodeDO extends BaseDO {
+public class OAuth2Code implements Serializable {
 
     /**
      * 编号，数据库递增
@@ -60,10 +55,5 @@ public class OAuth2CodeDO extends BaseDO {
      * 状态
      */
     private String state;
-
-    /**
-     * 过期时间
-     */
-    private LocalDateTime expiresTime;
 
 }

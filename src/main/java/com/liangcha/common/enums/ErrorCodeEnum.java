@@ -207,8 +207,7 @@ public enum ErrorCodeEnum {
     OAUTH2_GRANT_CODE_NOT_EXISTS(1002021003, "code 不存在"),
 
     //  OAuth2 授权 1002022000
-    OAUTH2_CODE_NOT_EXISTS(1002022000, "code 不存在"),
-    OAUTH2_CODE_EXPIRE(1002022001, "code 已过期"),
+    OAUTH2_CODE_NOT_EXISTS_OR_EXPIRE(1002022000, "code 不存在或者已过期"),
 
     //  邮箱账号 1002023000
     MAIL_ACCOUNT_NOT_EXISTS(1002023000, "邮箱账号不存在"),

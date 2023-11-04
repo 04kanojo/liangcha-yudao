@@ -53,7 +53,6 @@ public class Auth2OpenController {
     @Resource
     private OAuth2ApproveService oauth2ApproveService;
 
-
     private static OAuth2GrantTypeEnum getGrantTypeEnum(String responseType) {
         if (StrUtil.equals(responseType, "code")) {
             return AUTHORIZATION_CODE;

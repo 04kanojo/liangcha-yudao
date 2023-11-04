@@ -35,7 +35,7 @@ public class OAuth2Utils {
         String authorization = request.getHeader("Authorization");
         authorization = StrUtil.subAfter(authorization, "Basic ", true);
 
-        if (StrUtil.isBlank(authorization)) {
+        if (StrUtil.isNotEmpty(authorization)) {
             // 将得到的字符串解码得到客户端信息,格式: clientId:clientSecret
             authorization = Base64.decodeStr(authorization);
             clientId = StrUtil.subBefore(authorization, ":", false);

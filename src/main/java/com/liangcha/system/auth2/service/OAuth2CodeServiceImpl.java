@@ -1,18 +1,15 @@
 package com.liangcha.system.auth2.service;
 
 import cn.hutool.core.util.IdUtil;
-import com.liangcha.common.utils.DateUtils;
-import com.liangcha.system.auth2.dao.OAuth2CodeMapper;
-import com.liangcha.system.auth2.pojo.domain.OAuth2CodeDO;
+import com.alicp.jetcache.Cache;
+import com.liangcha.system.auth2.pojo.OAuth2Code;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import javax.annotation.Resource;
-import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.liangcha.common.enums.ErrorCodeEnum.OAUTH2_CODE_EXPIRE;
-import static com.liangcha.common.enums.ErrorCodeEnum.OAUTH2_CODE_NOT_EXISTS;
+import static com.liangcha.common.enums.ErrorCodeEnum.OAUTH2_CODE_NOT_EXISTS_OR_EXPIRE;
 import static com.liangcha.common.utils.ServiceExceptionUtil.exception;
 
 /**
@@ -24,42 +21,34 @@ import static com.liangcha.common.utils.ServiceExceptionUtil.exception;
 @Validated
 public class OAuth2CodeServiceImpl implements OAuth2CodeService {
 
-    /**
-     * 授权码的过期时间，默认 5 分钟
-     */
-    private static final Integer TIMEOUT = 5 * 60;
-
     @Resource
-    private OAuth2CodeMapper oauth2CodeMapper;
+    private Cache<String, OAuth2Code> codeCache;
 
     private static String generateCode() {
         return IdUtil.fastSimpleUUID();
     }
 
     @Override
-    public OAuth2CodeDO createAuthorizationCode(Long userId, Integer userType, String clientId,
-                                                List<String> scopes, String redirectUri, String state) {
-        OAuth2CodeDO codeDO = new OAuth2CodeDO().setCode(generateCode())
-                .setUserId(userId).setUserType(userType)
-                .setClientId(clientId).setScopes(scopes)
-                .setExpiresTime(LocalDateTime.now().plusSeconds(TIMEOUT))
-                .setRedirectUri(redirectUri).setState(state);
-        oauth2CodeMapper.insert(codeDO);
+    public OAuth2Code createAuthorizationCode(Long userId, Integer userType, String clientId, List<String> scopes, String redirectUri, String state) {
+        OAuth2Code codeDO = new OAuth2Code()
+                .setCode(generateCode())
+                .setUserId(userId)
+                .setUserType(userType)
+                .setClientId(clientId)
+                .setScopes(scopes)
+                .setRedirectUri(redirectUri)
+                .setState(state);
+        codeCache.put(codeDO.getCode(), codeDO);
         return codeDO;
     }
 
     @Override
-    public OAuth2CodeDO consumeAuthorizationCode(String code) {
-        OAuth2CodeDO codeDO = oauth2CodeMapper.selectByCode(code);
-
+    public OAuth2Code consumeAuthorizationCode(String code) {
+        OAuth2Code codeDO = codeCache.get(code);
         if (codeDO == null) {
-            throw exception(OAUTH2_CODE_NOT_EXISTS);
+            throw exception(OAUTH2_CODE_NOT_EXISTS_OR_EXPIRE);
         }
-
-        if (DateUtils.isExpired(codeDO.getExpiresTime())) {
-            throw exception(OAUTH2_CODE_EXPIRE);
-        }
-        oauth2CodeMapper.deleteById(codeDO.getId());
+        codeCache.remove(code);
         return codeDO;
     }
 
