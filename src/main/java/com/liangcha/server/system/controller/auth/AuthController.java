@@ -37,7 +37,7 @@ public class AuthController {
     private SecurityProperties securityProperties;
 
     @PostMapping("/login")
-    @ApiOperation("管理员登录")
+    @ApiOperation(value = "管理员登录")
     public CommonResult<AuthLoginRespVO> login(@RequestBody @Valid AuthLoginReqVO authLoginReqVO) {
         return success(authService.login(authLoginReqVO));
     }

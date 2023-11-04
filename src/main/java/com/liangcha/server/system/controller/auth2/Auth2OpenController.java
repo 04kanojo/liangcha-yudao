@@ -19,6 +19,7 @@ import com.liangcha.system.auth2.service.OAuth2GrantService;
 import com.liangcha.system.user.enums.UserTypeEnum;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,7 +57,7 @@ public class Auth2OpenController {
     private OAuth2ApproveService oauth2ApproveService;
 
     private static OAuth2GrantTypeEnum getGrantTypeEnum(String responseType) {
-        if (StrUtil.equals(responseType, "code")) {
+        if (StrUtil.equals(responseType, "authorization_code")) {
             return AUTHORIZATION_CODE;
         }
 
@@ -74,11 +75,12 @@ public class Auth2OpenController {
     @PostMapping("/token")
     @PermitAll
     @ApiOperation("获得访问令牌")
+
     public CommonResult<OAuth2OpenAccessTokenRespVO> postAccessToken(HttpServletRequest request,
-                                                                     @RequestParam("grant_type") String grantType,
-                                                                     @RequestParam(value = "code", required = false) String code, // 授权码模式
-                                                                     @RequestParam(value = "redirect_uri", required = false) String redirectUri, // 授权码模式
-                                                                     @RequestParam(value = "state", required = false) String state, // 授权码模式
+                                                                     @ApiParam(value = "授权类型", example = "authorization_code") @RequestParam("grant_type") String grantType,
+                                                                     @ApiParam(value = "授权码", example = "ac4sh41") @RequestParam(value = "code", required = false) String code, // 授权码模式
+                                                                     @ApiParam(value = "重定向 URI", example = "https://yibeiliangchay.cn") @RequestParam(value = "redirect_uri", required = false) String redirectUri, // 授权码模式
+                                                                     @ApiParam(value = "状态(防止csrf攻击)", example = "1") @RequestParam(value = "state", required = false) String state, // 授权码模式
                                                                      @RequestParam(value = "username", required = false) String username, // 密码模式
                                                                      @RequestParam(value = "password", required = false) String password, // 密码模式
                                                                      @RequestParam(value = "scope", required = false) String scope, // 密码模式
@@ -148,12 +150,12 @@ public class Auth2OpenController {
      */
     @PostMapping("/authorize")
     @ApiOperation("申请授权")
-    public CommonResult<String> approveOrDeny(@RequestParam("response_type") String responseType,
+    public CommonResult<String> approveOrDeny(@ApiParam(value = "授权类型", example = "authorization_code") @RequestParam("response_type") String responseType,
                                               @RequestParam("client_id") String clientId,
-                                              @RequestParam(value = "scope", required = false) String scope,
-                                              @RequestParam("redirect_uri") String redirectUri,
-                                              @RequestParam(value = "auto_approve") Boolean autoApprove,
-                                              @RequestParam(value = "state", required = false) String state) {
+                                              @ApiParam(value = "授权范围", example = "user.read") @RequestParam(value = "scope", required = false) String scope,
+                                              @ApiParam(value = "重定向 URI", example = "https://yibeiliangchay.cn") @RequestParam("redirect_uri") String redirectUri,
+                                              @ApiParam(value = "是否自动授权", example = "true") @RequestParam(value = "auto_approve") Boolean autoApprove,
+                                              @ApiParam(value = "状态(防止csrf攻击)", example = "1") @RequestParam(value = "state", required = false) String state) {
         @SuppressWarnings("unchecked")
         Map<String, Boolean> scopes = JSON.parseObject(scope, Map.class);
         // 校验 responseType 是否满足 code 或者 token 值
