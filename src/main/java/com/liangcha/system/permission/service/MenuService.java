@@ -1,9 +1,9 @@
 package com.liangcha.system.permission.service;
 
 
-import com.liangcha.server.controller.promission.vo.MenuCreateReqVO;
-import com.liangcha.server.controller.promission.vo.MenuListReqVO;
-import com.liangcha.server.controller.promission.vo.MenuUpdateReqVO;
+import com.liangcha.server.system.controller.promission.vo.MenuCreateReqVO;
+import com.liangcha.server.system.controller.promission.vo.MenuListReqVO;
+import com.liangcha.server.system.controller.promission.vo.MenuUpdateReqVO;
 import com.liangcha.system.permission.domain.MenuDO;
 
 import java.util.Collection;

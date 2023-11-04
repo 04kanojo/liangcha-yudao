@@ -5,7 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.liangcha.framework.convert.auth.AuthConvert;
 import com.liangcha.framework.rabbitMq.message.SmsSendMessage;
 import com.liangcha.framework.rabbitMq.producer.SmsProducer;
-import com.liangcha.server.controller.auth.vo.AuthSmsSendReqVO;
+import com.liangcha.server.system.controller.auth.vo.AuthSmsSendReqVO;
 import com.liangcha.system.sms.dao.SmsCodeMapper;
 import com.liangcha.system.sms.domain.SmsCodeDO;
 import com.liangcha.system.sms.domain.SmsTemplateDO;

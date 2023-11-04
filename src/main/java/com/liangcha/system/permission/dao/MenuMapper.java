@@ -2,7 +2,7 @@ package com.liangcha.system.permission.dao;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.liangcha.server.controller.promission.vo.MenuListReqVO;
+import com.liangcha.server.system.controller.promission.vo.MenuListReqVO;
 import com.liangcha.system.permission.domain.MenuDO;
 import org.apache.ibatis.annotations.Mapper;
 

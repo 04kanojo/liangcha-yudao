@@ -1,8 +1,8 @@
 package com.liangcha.system.auth.service;
 
-import com.liangcha.server.controller.auth.vo.AuthLoginReqVO;
-import com.liangcha.server.controller.auth.vo.AuthLoginRespVO;
-import com.liangcha.server.controller.auth.vo.AuthSmsSendReqVO;
+import com.liangcha.server.system.controller.auth.vo.AuthLoginReqVO;
+import com.liangcha.server.system.controller.auth.vo.AuthLoginRespVO;
+import com.liangcha.server.system.controller.auth.vo.AuthSmsSendReqVO;
 
 import javax.validation.Valid;
 

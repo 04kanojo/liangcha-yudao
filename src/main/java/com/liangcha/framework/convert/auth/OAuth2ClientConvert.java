@@ -2,9 +2,9 @@ package com.liangcha.framework.convert.auth;
 
 import cn.hutool.db.PageResult;
 import com.liangcha.system.auth2.pojo.domain.OAuth2ClientDO;
-import com.liangcha.server.controller.auth2.vo.OAuth2ClientCreateReqVO;
-import com.liangcha.server.controller.auth2.vo.OAuth2ClientRespVO;
-import com.liangcha.server.controller.auth2.vo.OAuth2ClientUpdateReqVO;
+import com.liangcha.server.system.controller.auth2.vo.OAuth2ClientCreateReqVO;
+import com.liangcha.server.system.controller.auth2.vo.OAuth2ClientRespVO;
+import com.liangcha.server.system.controller.auth2.vo.OAuth2ClientUpdateReqVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

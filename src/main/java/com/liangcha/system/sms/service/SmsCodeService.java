@@ -1,7 +1,7 @@
 package com.liangcha.system.sms.service;
 
 import com.liangcha.framework.rabbitMq.message.SmsSendMessage;
-import com.liangcha.server.controller.auth.vo.AuthSmsSendReqVO;
+import com.liangcha.server.system.controller.auth.vo.AuthSmsSendReqVO;
 
 /**
  * 短信验证码 Service 接口
