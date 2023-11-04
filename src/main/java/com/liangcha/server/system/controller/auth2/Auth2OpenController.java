@@ -40,7 +40,7 @@ import static com.liangcha.system.auth2.enums.OAuth2GrantTypeEnum.AUTHORIZATION_
 /**
  * @author 凉茶
  */
-@Api("管理后台 - OAuth2.0 授权")
+@Api(tags = "管理后台 - OAuth2.0 授权")
 @RestController
 @RequestMapping("/oauth2")
 @Validated

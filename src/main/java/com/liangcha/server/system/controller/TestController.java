@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 
-@Api("测试各种功能")
+@Api(tags = "测试各种功能")
 @RestController
 @RequestMapping
 public class TestController {
