@@ -39,6 +39,8 @@ import static com.liangcha.framework.security.utils.SecurityFrameworkUtils.getLo
 import static com.liangcha.system.auth2.enums.OAuth2GrantTypeEnum.AUTHORIZATION_CODE;
 
 /**
+ * TODO 优化:此处获取到的accessToken存入的和普通用户存入的缓存类型一样，即第三方拿到了accessToken，可以访问普通用户能操作的所有接口,新建一个redis缓存类型，单独存入第三方获取到的accessToken。。。
+ *
  * @author 凉茶
  */
 @Api(tags = "管理后台 - OAuth2.0 授权")
