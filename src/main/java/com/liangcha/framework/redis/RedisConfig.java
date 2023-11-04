@@ -83,8 +83,7 @@ public class RedisConfig {
                 .build();
 
         QuickConfig approveQc = QuickConfig.newBuilder(OAUTH_APPROVE)
-                //TODO 提出配置文件
-                .expire(properties.getClientExpireTimes())
+                .expire(properties.getApproveExpireTimes())
                 // 二级缓存
                 .cacheType(CacheType.BOTH)
                 // 更新后使所有 JVM 进程中的本地缓存失效
@@ -92,8 +91,7 @@ public class RedisConfig {
                 .build();
 
         QuickConfig codeQc = QuickConfig.newBuilder(OAUTH_CODE)
-                //TODO 提出配置文件
-                .expire(properties.getClientExpireTimes())
+                .expire(properties.getAuth2CodeExpireTimes())
                 // 二级缓存
                 .cacheType(CacheType.BOTH)
                 // 更新后使所有 JVM 进程中的本地缓存失效

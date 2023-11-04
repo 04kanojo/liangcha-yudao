@@ -200,6 +200,8 @@ public enum ErrorCodeEnum {
     OAUTH2_CLIENT_REDIRECT_URI_NOT_MATCH(1002020005, "无效 redirect_uri: {}"),
     OAUTH2_CLIENT_CLIENT_SECRET_ERROR(1002020006, "无效 client_secret: {}"),
 
+    OAUTH2_CLIENT_AUTO_GRANT_ERR(1002020007, "自动授权失败"),
+
     //  OAuth2 授权 1002021000
     OAUTH2_GRANT_CLIENT_ID_MISMATCH(1002021000, "client_id 不匹配"),
     OAUTH2_GRANT_REDIRECT_URI_MISMATCH(1002021001, "redirect_uri 不匹配"),

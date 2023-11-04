@@ -56,6 +56,10 @@ liangcha:
     refresh-token-expire-times: 3d
     # client过期时间
     client-expire-times: 10d
+    # oauth2授权码过期时间
+    auth2-code-expire-times: 4m
+    # 授权信息过期时间
+    approve-expire-times: 30d
     # token前缀
     authorization-bearer: Bearer
     # 允许不登陆访问的路径

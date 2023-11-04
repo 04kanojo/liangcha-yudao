@@ -29,6 +29,8 @@ import java.util.List;
 import java.util.Map;
 
 import static com.liangcha.common.enums.ErrorCodeEnum.BAD_REQUEST;
+import static com.liangcha.common.enums.ErrorCodeEnum.OAUTH2_CLIENT_AUTO_GRANT_ERR;
+import static com.liangcha.common.pojo.CommonResult.error;
 import static com.liangcha.common.pojo.CommonResult.success;
 import static com.liangcha.common.utils.CollectionUtils.convertList;
 import static com.liangcha.common.utils.ServiceExceptionUtil.exception;
@@ -162,7 +164,7 @@ public class Auth2OpenController {
         if (Boolean.TRUE.equals(autoApprove)) {
             // 如果无法自动授权通过，则不跳转
             if (!oauth2ApproveService.checkAutoApproval(getLoginUserId(), getUserType(), client, scopes.keySet())) {
-                return success(null);
+                return error(OAUTH2_CLIENT_AUTO_GRANT_ERR);
             }
         } else {
             // 如果计算后不通过，则跳转错误链接

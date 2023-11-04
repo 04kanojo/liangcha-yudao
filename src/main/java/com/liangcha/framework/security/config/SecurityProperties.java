@@ -47,4 +47,15 @@ public class SecurityProperties {
      * client过期时间
      */
     private Duration clientExpireTimes = Duration.ofDays(10);
+
+    /**
+     * auth2Code过期时间
+     */
+    private Duration auth2CodeExpireTimes = Duration.ofMinutes(5);
+
+
+    /**
+     * 授权信息过期时间
+     */
+    private Duration approveExpireTimes = Duration.ofDays(30);
 }
