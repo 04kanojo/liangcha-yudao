@@ -110,16 +110,16 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
 
     @Override
     public void removeToken(String token, String clientId) {
+        // 1.传递过来的是accessToken
         LoginUser user = getUserByAccessToken(token, clientId);
-        // 1.传递过来的是accessToken（logout：两个token都存在的情况）
         if (user != null) {
             tokenCache.remove(getKey(token, clientId));
             refreshTokenCache.remove(getKey(user.getRefreshToken(), clientId));
             return;
         }
 
+        // 2.传递过来的是refreshToken
         user = getUserByRefreshAccessToken(token, clientId);
-        // 2.传递过来的是refreshToken（refreshToken：accessToken过期，使用refreshToken刷新accessToken）
         if (user != null) {
             refreshTokenCache.remove(getKey(user.getRefreshToken(), clientId));
         }
@@ -127,13 +127,13 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
 
     @Override
     public LoginUser refreshToken(String refreshToken, String clientId) {
-        // redis查询访问令牌
+        // 1.refreshToken过期
         LoginUser user = refreshTokenCache.get(getKey(refreshToken, clientId));
         if (user == null) {
             throw exception(FLUSH_TOKEN_NOT_EXIST, FLUSH_TOKEN_EXPIRED);
         }
 
-        //删除用户之前使用的refreshToken
+        // 2.refreshToken未过期，正常刷新，先删除用户之前使用的refreshToken
         removeToken(user.getRefreshToken(), clientId);
         OAuth2ClientDO client = oAuth2ClientService.validOAuthClientFromCache(clientId);
         return createAccessToken(user, client);

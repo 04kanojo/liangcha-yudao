@@ -9,6 +9,12 @@ import java.util.List;
 /**
  * OAuth2.0 Token API 接口
  * 注:因为关于token的所有操作都可能被其他客户端调用,所以方法体里面有客户端参数
+ * <p>
+ * token状态有4种：
+ * 1.accessToken未过期 refreshToken未过期：正常访问接口
+ * 2.accessToken过期 refreshToken未过期：使用refreshToken刷新accessToken（同时refreshToken也会更改）
+ * 3.accessToken未过期 refreshToken过期：正常访问接口，直到refreshToken过期，成为下种情况
+ * 4.accessToken过期 refreshToken过期：使用refreshToken访问接口的时候报错，用户再次登录
  *
  * @author 凉茶
  */
