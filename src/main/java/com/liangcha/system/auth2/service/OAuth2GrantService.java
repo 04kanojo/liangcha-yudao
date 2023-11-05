@@ -57,4 +57,15 @@ public interface OAuth2GrantService {
      * @return 授权码
      */
     String grantAuthorizationCodeForCode(Long userId, Integer userType, String clientId, List<String> scopes, String redirectUri, String state);
+
+    /**
+     * 刷新模式
+     * <p>
+     * 对应 Spring Security OAuth2 的 ResourceOwnerPasswordTokenGranter 功能
+     *
+     * @param refreshToken 刷新令牌
+     * @param clientId     客户端编号
+     * @return 访问令牌
+     */
+    LoginUser grantRefreshToken(String refreshToken, String clientId);
 }

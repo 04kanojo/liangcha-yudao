@@ -9,6 +9,11 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class ServiceExceptionUtil {
+
+    public static final String OR = " 或者 ";
+
+    public static final String AND = " 并且 ";
+
     public static ServiceException exception(ErrorCodeEnum codeEnum) {
         throw new ServiceException(codeEnum.getCode(), codeEnum.getMsg());
     }
@@ -23,5 +28,19 @@ public class ServiceExceptionUtil {
 
     public static ServiceException exception(Integer code, String messagePattern) {
         return new ServiceException(code, messagePattern);
+    }
+
+    /**
+     * code默认使用第一个错误code
+     */
+    public static ServiceException exception(ErrorCodeEnum... codeEnum) {
+        StringBuilder msg = new StringBuilder();
+        for (int i = 0; i < codeEnum.length; i++) {
+            msg.append(codeEnum[i].getMsg());
+            if (i != codeEnum.length - 1) {
+                msg.append(OR);
+            }
+        }
+        throw new ServiceException(codeEnum[0].getCode(), msg.toString());
     }
 }

@@ -66,4 +66,9 @@ public class OAuth2GrantServiceImpl implements OAuth2GrantService {
         return oauth2CodeService.createAuthorizationCode(userId, userType, clientId, scopes, redirectUri, state).getCode();
     }
 
+    @Override
+    public LoginUser grantRefreshToken(String refreshToken, String clientId) {
+        return oauth2TokenService.refreshToken(refreshToken, clientId);
+    }
+
 }

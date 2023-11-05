@@ -46,13 +46,13 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private LoginUser buildLoginUserByToken(String token) {
-        LoginUser user = oauth2TokenService.getUserByAccessToken(token);
+        LoginUser user = oauth2TokenService.getUserByAccessToken(token, CLIENT_ID_DEFAULT);
         if (user == null) {
             return null;
         }
 
         //token未过期但是刷新过期,重新创建令牌
-        if (oauth2TokenService.getUserByRefreshAccessToken(user.getRefreshToken()) == null) {
+        if (oauth2TokenService.getUserByRefreshAccessToken(user.getRefreshToken(), CLIENT_ID_DEFAULT) == null) {
             oauth2TokenService.createAccessToken(user.getUserId(), CLIENT_ID_DEFAULT, null);
         }
         return user;

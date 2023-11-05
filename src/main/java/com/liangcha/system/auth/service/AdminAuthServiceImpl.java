@@ -7,12 +7,12 @@ import com.liangcha.common.utils.ServletUtils;
 import com.liangcha.common.utils.TracerUtils;
 import com.liangcha.framework.captcha.CaptchaProperties;
 import com.liangcha.framework.convert.auth.AuthConvert;
-import com.liangcha.system.auth2.pojo.LoginUser;
-import com.liangcha.system.auth2.service.OAuth2TokenService;
 import com.liangcha.server.system.controller.auth.vo.AuthLoginReqVO;
 import com.liangcha.server.system.controller.auth.vo.AuthLoginRespVO;
 import com.liangcha.server.system.controller.auth.vo.AuthSmsSendReqVO;
 import com.liangcha.system.auth.domain.AdminUserDO;
+import com.liangcha.system.auth2.pojo.LoginUser;
+import com.liangcha.system.auth2.service.OAuth2TokenService;
 import com.liangcha.system.log.dto.LoginLogCreateReqDTO;
 import com.liangcha.system.log.service.LoginLogService;
 import com.liangcha.system.sms.service.SmsCodeService;
@@ -34,6 +34,7 @@ import static com.liangcha.system.auth2.enums.OAuth2ClientConstants.CLIENT_ID_DE
  * 凉茶
  */
 @Service
+//@SuppressWarnings("all")
 public class AdminAuthServiceImpl implements AdminAuthService {
 
     @Resource
@@ -53,7 +54,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
 
     @Override
     public AuthLoginRespVO login(AuthLoginReqVO reqVO) {
-        // 判断验证码
+        // 校验验证码
         EnableCaptcha(reqVO);
 
         // 使用账号密码，进行登录
@@ -68,9 +69,11 @@ public class AdminAuthServiceImpl implements AdminAuthService {
             String userInput = reqVO.getCaptchaVerification();
             String captcha = (String) getRequest().getSession().getAttribute("captcha");
             if (StrUtil.isEmpty(captcha)) {
+                createLoginLog(null, reqVO.getUsername(), LoginLogTypeEnum.LOGIN_USERNAME, LoginResultEnum.CAPTCHA_CODE_EXPIRED);
                 throw exception(CAPTCHA_EXPIRED);
             }
             if (!userInput.equals(captcha)) {
+                createLoginLog(null, reqVO.getUsername(), LoginLogTypeEnum.LOGIN_USERNAME, LoginResultEnum.CAPTCHA_CODE_ERROR);
                 throw exception(CAPTCHA_ERR);
             }
         }
@@ -79,12 +82,12 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     @Override
     public void logout(String token) {
         // 删除访问令牌
-        oauth2TokenService.removeAccessToken(token);
+        oauth2TokenService.removeAccessToken(token, CLIENT_ID_DEFAULT);
     }
 
     @Override
     public AuthLoginRespVO refreshToken(String refreshToken) {
-        LoginUser user = oauth2TokenService.refreshToken(refreshToken);
+        LoginUser user = oauth2TokenService.refreshToken(refreshToken, CLIENT_ID_DEFAULT);
         return AuthConvert.INSTANCE.convert(user);
     }
 
@@ -131,8 +134,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         return AuthConvert.INSTANCE.convert(user);
     }
 
-    private void createLoginLog(Long userId, String username,
-                                LoginLogTypeEnum logTypeEnum, LoginResultEnum loginResult) {
+    private void createLoginLog(Long userId, String username, LoginLogTypeEnum logTypeEnum, LoginResultEnum loginResult) {
         // 插入登录日志
         LoginLogCreateReqDTO reqDTO = new LoginLogCreateReqDTO();
         reqDTO.setLogType(logTypeEnum.getType());

@@ -1,8 +1,8 @@
 package com.liangcha.system.auth2.service;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
 import com.alicp.jetcache.Cache;
-import com.liangcha.common.utils.StringUtil;
 import com.liangcha.system.auth2.pojo.OAuth2Approve;
 import com.liangcha.system.auth2.pojo.domain.OAuth2ClientDO;
 import org.springframework.stereotype.Service;
@@ -27,7 +27,7 @@ public class OAuth2ApproveServiceImpl implements OAuth2ApproveService {
 
     @Override
     public List<OAuth2Approve> getApproveList(Long userId, String clientId) {
-        return approveCache.get(StringUtil.join("_", userId.toString(), clientId));
+        return approveCache.get(getKey(clientId, userId));
     }
 
     @Override
@@ -41,7 +41,7 @@ public class OAuth2ApproveServiceImpl implements OAuth2ApproveService {
                 approves.add(saveApprove(userId, userType, clientId, scope, true));
             }
             // 存入缓存
-            approveCache.put(userId + clientId, approves);
+            approveCache.put(getKey(clientId, userId), approves);
             return true;
         }
 
@@ -72,7 +72,7 @@ public class OAuth2ApproveServiceImpl implements OAuth2ApproveService {
             }
             approves.add(saveApprove(userId, userType, clientId, entry.getKey(), entry.getValue()));
         }
-        approveCache.put(StringUtil.join("_", userId.toString(), clientId), approves);
+        approveCache.put(getKey(clientId, userId), approves);
         return success;
     }
 
@@ -83,5 +83,9 @@ public class OAuth2ApproveServiceImpl implements OAuth2ApproveService {
                 .setClientId(clientId)
                 .setScope(scope)
                 .setApproved(approved);
+    }
+
+    private String getKey(String clientId, Long userId) {
+        return StrUtil.join("-", clientId, userId.toString());
     }
 }

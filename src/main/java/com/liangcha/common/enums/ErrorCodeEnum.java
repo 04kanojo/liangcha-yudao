@@ -33,7 +33,7 @@ public enum ErrorCodeEnum {
 
     ACCESS_TOKEN_EXPIRED(405, "访问令牌已过期"),
 
-    FLUSH_TOKEN_INVALID(406, "无效的刷新令牌"),
+    FLUSH_TOKEN_NOT_EXIST(406, "刷新令牌不存在"),
 
     FLUSH_TOKEN_CLIENT_ERR(407, "刷新令牌的客户端编号不正确"),
 

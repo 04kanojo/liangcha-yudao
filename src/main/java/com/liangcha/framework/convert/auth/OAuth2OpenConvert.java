@@ -3,6 +3,7 @@ package com.liangcha.framework.convert.auth;
 import com.liangcha.common.utils.CollectionUtils;
 import com.liangcha.server.system.controller.auth2.vo.OAuth2OpenAccessTokenRespVO;
 import com.liangcha.server.system.controller.auth2.vo.OAuth2OpenAuthorizeInfoRespVO;
+import com.liangcha.server.system.controller.auth2.vo.OAuth2OpenCheckTokenRespVO;
 import com.liangcha.system.auth2.pojo.LoginUser;
 import com.liangcha.system.auth2.pojo.OAuth2Approve;
 import com.liangcha.system.auth2.pojo.domain.OAuth2ClientDO;
@@ -41,4 +42,6 @@ public interface OAuth2OpenConvert {
         // 拼接返回
         return new OAuth2OpenAuthorizeInfoRespVO(new OAuth2OpenAuthorizeInfoRespVO.Client(client.getName(), client.getLogo()), scopes);
     }
+
+    OAuth2OpenCheckTokenRespVO convert2(LoginUser user);
 }
