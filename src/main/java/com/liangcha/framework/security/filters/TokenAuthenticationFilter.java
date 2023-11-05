@@ -35,7 +35,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         String token = SecurityFrameworkUtils.getToken(request, securityProperties.getTokenHeader(), securityProperties.getAuthorizationBearer());
         if (StrUtil.isNotBlank(token)) {
             // 1.1 基于 token 构建登录用户
-            LoginUser loginUser = buildLoginUserByToken(token);
+            LoginUser loginUser = oauth2TokenService.getUserByAccessToken(token, CLIENT_ID_DEFAULT);
             // 2. 设置当前用户
             if (loginUser != null) {
                 SecurityFrameworkUtils.setLoginUser(loginUser, request);
@@ -45,16 +45,4 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         chain.doFilter(request, response);
     }
 
-    private LoginUser buildLoginUserByToken(String token) {
-        LoginUser user = oauth2TokenService.getUserByAccessToken(token, CLIENT_ID_DEFAULT);
-        if (user == null) {
-            return null;
-        }
-
-        //token未过期但是刷新过期,重新创建令牌
-        if (oauth2TokenService.getUserByRefreshAccessToken(user.getRefreshToken(), CLIENT_ID_DEFAULT) == null) {
-            oauth2TokenService.createAccessToken(user.getUserId(), CLIENT_ID_DEFAULT, null);
-        }
-        return user;
-    }
 }

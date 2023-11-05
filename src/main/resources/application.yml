@@ -75,7 +75,7 @@ liangcha:
       - /favicon.ico
       - /swagger-resources
       - /v2/api-docs
-      # 其余
+      # websocket
       - /websocket/message
 
   sms-code: # 短信验证码相关的配置项

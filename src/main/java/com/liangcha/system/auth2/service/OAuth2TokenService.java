@@ -51,12 +51,12 @@ public interface OAuth2TokenService {
     LoginUser getUserByRefreshAccessToken(String refreshAccessToken, String clientId);
 
     /**
-     * 移除访问令牌
+     * 移除访问令牌和刷新令牌
      *
-     * @param accessToken 访问令牌
-     * @param clientId    客户端id
+     * @param token    访问令牌或者刷新令牌
+     * @param clientId 客户端id
      */
-    void removeAccessToken(String accessToken, String clientId);
+    void removeToken(String token, String clientId);
 
     /**
      * 刷新访问令牌

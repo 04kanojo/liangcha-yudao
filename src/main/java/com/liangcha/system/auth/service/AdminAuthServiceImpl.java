@@ -82,7 +82,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     @Override
     public void logout(String token) {
         // 删除访问令牌
-        oauth2TokenService.removeAccessToken(token, CLIENT_ID_DEFAULT);
+        oauth2TokenService.removeToken(token, CLIENT_ID_DEFAULT);
     }
 
     @Override

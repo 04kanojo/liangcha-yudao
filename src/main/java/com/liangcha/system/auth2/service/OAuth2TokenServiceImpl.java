@@ -1,9 +1,9 @@
 package com.liangcha.system.auth2.service;
 
 import cn.hutool.core.util.IdUtil;
-import cn.hutool.core.util.ObjectUtil;
 import com.alicp.jetcache.Cache;
 import com.liangcha.common.utils.StringUtil;
+import com.liangcha.framework.security.config.SecurityProperties;
 import com.liangcha.system.auth2.pojo.LoginUser;
 import com.liangcha.system.auth2.pojo.domain.OAuth2ClientDO;
 import com.liangcha.system.permission.service.PermissionService;
@@ -15,7 +15,8 @@ import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.liangcha.common.enums.ErrorCodeEnum.*;
+import static com.liangcha.common.enums.ErrorCodeEnum.FLUSH_TOKEN_EXPIRED;
+import static com.liangcha.common.enums.ErrorCodeEnum.FLUSH_TOKEN_NOT_EXIST;
 import static com.liangcha.common.utils.ServiceExceptionUtil.exception;
 import static com.liangcha.system.auth2.enums.OAuth2ClientConstants.CLIENT_ID_DEFAULT;
 
@@ -40,6 +41,9 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
 
     @Resource
     private OAuth2ClientService oAuth2ClientService;
+
+    @Resource
+    private SecurityProperties properties;
 
 
     /**
@@ -68,20 +72,26 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
 
     @Override
     public LoginUser createAccessToken(LoginUser user, OAuth2ClientDO client) {
-        // 获取客户端accessToken和refreshToken过期时间，并且修改缓存的过期时间
+        // 获取客户端accessToken和refreshToken过期时间(秒)
         Integer accessTokenExSeconds = client.getAccessTokenValiditySeconds();
         Integer refreshTokenExSeconds = client.getRefreshTokenValiditySeconds();
+
+        //获取默认过期时间
+        LocalDateTime localDateTime = LocalDateTime.now().plusMinutes(properties.getTokenExpireTimes().toMinutes());
+
+        // 非默认客户端 自定义过期时间
+        if (!CLIENT_ID_DEFAULT.equals(client.getClientId())) {
+            localDateTime = LocalDateTime.now().plusSeconds(accessTokenExSeconds);
+            tokenCache.config().setExpireAfterWriteInMillis(accessTokenExSeconds * 1000L);
+            refreshTokenCache.config().setExpireAfterWriteInMillis(refreshTokenExSeconds * 1000L);
+        }
+
         // 设置用户参数
         user
                 .setAccessToken(generateToken())
                 .setRefreshToken(generateToken())
-                .setExpiresTime(LocalDateTime.now().plusSeconds(accessTokenExSeconds));
+                .setExpiresTime(localDateTime);
 
-        // 非默认客户端 额外设置自定义过期时间
-        if (!CLIENT_ID_DEFAULT.equals(client.getClientId())) {
-            tokenCache.config().setExpireAfterWriteInMillis(accessTokenExSeconds * 1000L);
-            refreshTokenCache.config().setExpireAfterWriteInMillis(refreshTokenExSeconds * 1000L);
-        }
         // 存入缓存
         tokenCache.put(getKey(user.getAccessToken(), client.getClientId()), user);
         refreshTokenCache.put(getKey(user.getRefreshToken(), client.getClientId()), user);
@@ -99,32 +109,33 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
     }
 
     @Override
-    public void removeAccessToken(String accessToken, String clientId) {
-        LoginUser user = getUserByAccessToken(accessToken, clientId);
-        // 令牌不存在直接结束
-        if (user == null) {
+    public void removeToken(String token, String clientId) {
+        LoginUser user = getUserByAccessToken(token, clientId);
+        // 1.传递过来的是accessToken（logout：两个token都存在的情况）
+        if (user != null) {
+            tokenCache.remove(getKey(token, clientId));
+            refreshTokenCache.remove(getKey(user.getRefreshToken(), clientId));
             return;
         }
-        // 删除令牌
-        tokenCache.remove(getKey(accessToken, clientId));
-        refreshTokenCache.remove(getKey(user.getRefreshToken(), clientId));
+
+        user = getUserByRefreshAccessToken(token, clientId);
+        // 2.传递过来的是refreshToken（refreshToken：accessToken过期，使用refreshToken刷新accessToken）
+        if (user != null) {
+            refreshTokenCache.remove(getKey(user.getRefreshToken(), clientId));
+        }
     }
 
     @Override
     public LoginUser refreshToken(String refreshToken, String clientId) {
         // redis查询访问令牌
-        LoginUser user = refreshTokenCache.get(refreshToken);
+        LoginUser user = refreshTokenCache.get(getKey(refreshToken, clientId));
         if (user == null) {
             throw exception(FLUSH_TOKEN_NOT_EXIST, FLUSH_TOKEN_EXPIRED);
         }
 
-        //TODO 有问题
-        // 校验 Client 匹配
+        //删除用户之前使用的refreshToken
+        removeToken(user.getRefreshToken(), clientId);
         OAuth2ClientDO client = oAuth2ClientService.validOAuthClientFromCache(clientId);
-        if (ObjectUtil.notEqual(clientId, user.getClientId())) {
-            throw exception(BAD_REQUEST.getCode(), "刷新令牌的客户端编号不正确");
-        }
-
         return createAccessToken(user, client);
     }
 
