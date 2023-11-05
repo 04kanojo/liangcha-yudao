@@ -15,7 +15,7 @@ public class ServiceExceptionUtil {
     public static final String AND = " 并且 ";
 
     public static ServiceException exception(ErrorCodeEnum codeEnum) {
-        throw new ServiceException(codeEnum.getCode(), codeEnum.getMsg());
+        return new ServiceException(codeEnum.getCode(), codeEnum.getMsg());
     }
 
     public static ServiceException exception(ErrorCodeEnum codeEnum, Object... params) {
@@ -23,7 +23,7 @@ public class ServiceExceptionUtil {
         log.error(msg, params);
         //格式化参数
         String format = StringUtil.format(msg, params);
-        throw new ServiceException(codeEnum.getCode(), format);
+        return new ServiceException(codeEnum.getCode(), format);
     }
 
     public static ServiceException exception(Integer code, String messagePattern) {
@@ -41,6 +41,6 @@ public class ServiceExceptionUtil {
                 msg.append(OR);
             }
         }
-        throw new ServiceException(codeEnum[0].getCode(), msg.toString());
+        return new ServiceException(codeEnum[0].getCode(), msg.toString());
     }
 }

@@ -161,4 +161,24 @@ public class CollectionUtils {
         return from.stream().collect(Collectors.toMap(keyFunc, valueFunc, mergeFunction, supplier));
     }
 
+    /**
+     * 集合转为字符串
+     *
+     * @param collection 集合
+     * @param connection 连接字符
+     */
+    public static <T> String convertString(Collection<T> collection, String connection) {
+        if (CollUtil.isEmpty(collection)) {
+            return "";
+        }
+        List<T> list = convertList(collection, Function.identity());
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < list.size(); i++) {
+            sb.append(list.get(i));
+            if (i != list.size() - 1) {
+                sb.append(connection);
+            }
+        }
+        return sb.toString();
+    }
 }

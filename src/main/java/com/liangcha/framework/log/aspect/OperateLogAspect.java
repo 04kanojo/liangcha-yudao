@@ -6,7 +6,9 @@ import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSON;
 import com.google.common.collect.Maps;
+import com.liangcha.common.exception.ServiceException;
 import com.liangcha.common.pojo.CommonResult;
+import com.liangcha.common.utils.CollectionUtils;
 import com.liangcha.common.utils.ServletUtils;
 import com.liangcha.common.utils.TracerUtils;
 import com.liangcha.framework.log.annotation.Log;
@@ -37,6 +39,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static com.liangcha.common.enums.ErrorCodeEnum.SUCCESS;
@@ -59,8 +62,7 @@ public class OperateLogAspect {
      * 获取方法上注解
      */
     @SuppressWarnings("SameParameterValue")
-    private static <T extends Annotation> T getMethodAnnotation(ProceedingJoinPoint joinPoint
-            , Class<T> annotationClass) {
+    private static <T extends Annotation> T getMethodAnnotation(ProceedingJoinPoint joinPoint, Class<T> annotationClass) {
         return ((MethodSignature) joinPoint.getSignature()).getMethod().getAnnotation(annotationClass);
     }
 
@@ -68,8 +70,7 @@ public class OperateLogAspect {
      * 获取类上注解
      */
     @SuppressWarnings("SameParameterValue")
-    private static <T extends Annotation> T getClassAnnotation(ProceedingJoinPoint joinPoint
-            , Class<T> annotationClass) {
+    private static <T extends Annotation> T getClassAnnotation(ProceedingJoinPoint joinPoint, Class<T> annotationClass) {
         return ((MethodSignature) joinPoint.getSignature()).getMethod().getDeclaringClass().getAnnotation(annotationClass);
     }
 
@@ -153,10 +154,7 @@ public class OperateLogAspect {
     /**
      * 填充方法字段
      */
-    private static void fillMethodFields(OperateLogDO operateLogObj,
-                                         ProceedingJoinPoint joinPoint,
-                                         Log log, LocalDateTime startTime,
-                                         Object result, Throwable exception) {
+    private static void fillMethodFields(OperateLogDO operateLogObj, ProceedingJoinPoint joinPoint, Log log, LocalDateTime startTime, Object result, Throwable exception) {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         operateLogObj.setJavaMethod(methodSignature.toString());
 
@@ -178,6 +176,12 @@ public class OperateLogAspect {
         // （异常）处理 resultCode 和 resultMsg 字段
         if (exception != null) {
             operateLogObj.setResultCode(SYSTEM_ERROR.getCode());
+            // 校验是否是自己抛出异常，如果是进行转换
+            if (exception instanceof ServiceException) {
+                ServiceException serviceException = (ServiceException) exception;
+                operateLogObj.setResultMsg(serviceException.getMsg());
+                return;
+            }
             operateLogObj.setResultMsg(ExceptionUtil.getRootCauseMessage(exception));
         }
     }
@@ -191,8 +195,10 @@ public class OperateLogAspect {
         // 如果没读取到,则读取controller类的Api注解内容
         if (StrUtil.isEmpty(operateLog.getModule())) {
             Api api = getClassAnnotation(joinPoint, Api.class);
-            if (api != null && StrUtil.isNotEmpty(api.value())) {
-                operateLog.setModule(api.value());
+            //如果api注解不为空,默认写入tags属性
+            if (api != null) {
+                String[] tags = api.tags();
+                operateLog.setModule(CollectionUtils.convertString(Arrays.stream(tags).collect(Collectors.toList()), " "));
             }
         }
 
@@ -231,8 +237,11 @@ public class OperateLogAspect {
         for (int i = 0; i < argNames.length; i++) {
             String argName = argNames[i];
             Object argValue = argValues[i];
-            // 被忽略时，标记为 ignore 字符串，避免和 null 混在一起
-            args.put(argName, !isIgnoreArgs(argValue) ? argValue : "[ignore]");
+            //部分接口访问参数不为空的情况下,才进行忽略
+            if (argValue != null) {
+                // 被忽略时，标记为 ignore 字符串，避免和 null 混在一起
+                args.put(argName, !isIgnoreArgs(argValue) ? argValue : "[ignore]");
+            }
         }
         return JSON.toJSONString(args);
     }
@@ -253,22 +262,17 @@ public class OperateLogAspect {
         Class<?> clazz = object.getClass();
         // 处理数组的情况
         if (clazz.isArray()) {
-            return IntStream.range(0, Array.getLength(object))
-                    .anyMatch(index -> isIgnoreArgs(Array.get(object, index)));
+            return IntStream.range(0, Array.getLength(object)).anyMatch(index -> isIgnoreArgs(Array.get(object, index)));
         }
         // 递归，处理数组、Collection、Map 的情况
         if (Collection.class.isAssignableFrom(clazz)) {
-            return ((Collection<?>) object).stream()
-                    .anyMatch((Predicate<Object>) OperateLogAspect::isIgnoreArgs);
+            return ((Collection<?>) object).stream().anyMatch((Predicate<Object>) OperateLogAspect::isIgnoreArgs);
         }
         if (Map.class.isAssignableFrom(clazz)) {
             return isIgnoreArgs(((Map<?, ?>) object).values());
         }
         // obj
-        return object instanceof MultipartFile
-                || object instanceof HttpServletRequest
-                || object instanceof HttpServletResponse
-                || object instanceof BindingResult;
+        return object instanceof MultipartFile || object instanceof HttpServletRequest || object instanceof HttpServletResponse || object instanceof BindingResult;
     }
 
     /**

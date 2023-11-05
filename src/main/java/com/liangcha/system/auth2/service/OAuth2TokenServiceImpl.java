@@ -109,32 +109,40 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
     }
 
     @Override
-    public void removeToken(String token, String clientId) {
-        // 1.传递过来的是accessToken
-        LoginUser user = getUserByAccessToken(token, clientId);
-        if (user != null) {
-            tokenCache.remove(getKey(token, clientId));
-            refreshTokenCache.remove(getKey(user.getRefreshToken(), clientId));
+    public void removeToken(String accessToken, String clientId) {
+        LoginUser user = getUserByAccessToken(accessToken, clientId);
+        // 未获取到用户直接返回
+        if (user == null) {
             return;
         }
+        // 从redis里面删除
+        tokenCache.remove(getKey(accessToken, clientId));
+        removeRefreshToken(user.getRefreshToken(), clientId);
+    }
 
-        // 2.传递过来的是refreshToken
-        user = getUserByRefreshAccessToken(token, clientId);
-        if (user != null) {
-            refreshTokenCache.remove(getKey(user.getRefreshToken(), clientId));
+    @Override
+    public void removeRefreshToken(String refreshToken, String clientId) {
+        LoginUser user = getUserByRefreshAccessToken(refreshToken, clientId);
+        // 未获取到用户直接返回
+        if (user == null) {
+            return;
         }
+        // TODO 如果remove键为空或者没有键是否报错 记得测试
+        // 从redis里面删除
+        refreshTokenCache.remove(getKey(user.getRefreshToken(), clientId));
     }
 
     @Override
     public LoginUser refreshToken(String refreshToken, String clientId) {
         // 1.refreshToken过期
-        LoginUser user = refreshTokenCache.get(getKey(refreshToken, clientId));
+        LoginUser user = getUserByRefreshAccessToken(refreshToken, clientId);
         if (user == null) {
             throw exception(FLUSH_TOKEN_NOT_EXIST, FLUSH_TOKEN_EXPIRED);
         }
+        // 2.refreshToken未过期，正常刷新，先删除用户正在使用的token（可能有人犯贱accessToken未过期就调用接口），所以先从accessToken开始删
+        removeToken(user.getAccessToken(), clientId);
 
-        // 2.refreshToken未过期，正常刷新，先删除用户之前使用的refreshToken
-        removeToken(user.getRefreshToken(), clientId);
+        //构建登录用户
         OAuth2ClientDO client = oAuth2ClientService.validOAuthClientFromCache(clientId);
         return createAccessToken(user, client);
     }
