@@ -36,6 +36,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         if (StrUtil.isNotBlank(token)) {
             // 1.1 基于 token 构建登录用户
             LoginUser loginUser = oauth2TokenService.getUserByAccessToken(token, CLIENT_ID_DEFAULT);
+
             // 2. 设置当前用户
             if (loginUser != null) {
                 SecurityFrameworkUtils.setLoginUser(loginUser, request);

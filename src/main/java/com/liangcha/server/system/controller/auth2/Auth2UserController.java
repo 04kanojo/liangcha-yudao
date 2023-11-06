@@ -33,7 +33,7 @@ import static com.liangcha.framework.security.utils.SecurityFrameworkUtils.getLo
  */
 @Api(tags = "管理后台 - OAuth2.0 用户")
 @RestController
-@RequestMapping("/system/oauth2/user")
+@RequestMapping("/oauth2/user")
 @Valid
 @Slf4j
 public class Auth2UserController {

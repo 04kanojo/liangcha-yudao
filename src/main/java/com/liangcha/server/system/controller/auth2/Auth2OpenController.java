@@ -104,12 +104,12 @@ public class Auth2OpenController {
         switch (grantTypeEnum) {
             // 授权码模式
             case AUTHORIZATION_CODE:
-                loginUser = oauth2GrantService.grantAuthorizationCodeForAccessToken(client.getClientId(), code, redirectUri, state);
+                loginUser = oauth2GrantService.grantAuthorizationCodeForAccessToken(client.getClientId(), code, redirectUri, state, request);
                 break;
 
             // 密码模式
             case PASSWORD:
-                loginUser = oauth2GrantService.grantPassword(username, password, client.getClientId(), scopes);
+                loginUser = oauth2GrantService.grantPassword(username, password, client.getClientId(), scopes, request);
                 break;
 
             // 刷新模式

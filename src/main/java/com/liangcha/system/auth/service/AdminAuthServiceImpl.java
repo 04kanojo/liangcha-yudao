@@ -128,7 +128,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         // 插入登陆日志
         createLoginLog(userId, username, logType, LoginResultEnum.SUCCESS);
         // 创建访问令牌
-        LoginUser user = oauth2TokenService.createAccessToken(userId, CLIENT_ID_DEFAULT, null);
+        LoginUser user = oauth2TokenService.createAccessToken(userId, CLIENT_ID_DEFAULT);
         return AuthConvert.INSTANCE.convert(user);
     }
 
