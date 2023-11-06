@@ -1,6 +1,7 @@
 package com.liangcha.framework.security.filters;
 
 import cn.hutool.core.util.StrUtil;
+import com.alicp.jetcache.Cache;
 import com.liangcha.framework.security.config.SecurityProperties;
 import com.liangcha.framework.security.utils.SecurityFrameworkUtils;
 import com.liangcha.system.auth2.pojo.LoginUser;
@@ -30,12 +31,17 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     @Resource
     private SecurityProperties securityProperties;
 
+    @Resource
+    private Cache<String, String> allTokenCache;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         String token = SecurityFrameworkUtils.getToken(request, securityProperties.getTokenHeader(), securityProperties.getAuthorizationBearer());
         if (StrUtil.isNotBlank(token)) {
-            // 1.1 基于 token 构建登录用户
-            LoginUser loginUser = oauth2TokenService.getUserByAccessToken(token, CLIENT_ID_DEFAULT);
+            // 1.1 获取到client_id
+            String clientId = allTokenCache.get(token);
+            // 1.2 基于 client_id 和 token 构建登录用户
+            LoginUser loginUser = oauth2TokenService.getUserByAccessToken(token, clientId == null ? CLIENT_ID_DEFAULT : clientId);
 
             // 2. 设置当前用户
             if (loginUser != null) {

@@ -4,7 +4,6 @@ package com.liangcha.system.auth2.service;
 import com.liangcha.system.auth2.pojo.LoginUser;
 import com.liangcha.system.auth2.pojo.domain.OAuth2ClientDO;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -28,7 +27,7 @@ public interface OAuth2TokenService {
      * @return 登录用户的信息
      */
     default LoginUser createAccessToken(Long userId, String clientId) {
-        return createAccessToken(userId, clientId, null, null);
+        return createAccessToken(userId, clientId, null);
     }
 
     /**
@@ -37,7 +36,7 @@ public interface OAuth2TokenService {
      * @param user 登录用户
      * @return 登录用户的信息
      */
-    LoginUser createAccessToken(LoginUser user, OAuth2ClientDO client, HttpServletRequest request);
+    LoginUser createAccessToken(LoginUser user, OAuth2ClientDO client);
 
     /**
      * 创建访问令牌 第一阶段
@@ -47,7 +46,7 @@ public interface OAuth2TokenService {
      * @param scopes   授权范围
      * @return 访问令牌的信息
      */
-    LoginUser createAccessToken(Long userId, String clientId, List<String> scopes, HttpServletRequest request);
+    LoginUser createAccessToken(Long userId, String clientId, List<String> scopes);
 
     /**
      * 获取访问令牌

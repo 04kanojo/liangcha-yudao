@@ -25,7 +25,7 @@ import static com.liangcha.framework.redis.RedisKeyConstants.*;
  * @author 凉茶
  */
 @Component
-public class RedisConfig {
+public class Auth2RedisConfig {
     @Resource
     private CacheManager cacheManager;
 
@@ -33,10 +33,19 @@ public class RedisConfig {
     private SecurityProperties properties;
 
     /**
-     * accessToken缓存
+     * 指定客户端accessToken缓存
      * 格式：(客户端id+token)+用户信息
      */
     private Cache<String, LoginUser> tokenCache;
+
+    /**
+     * 所有客户端accessToken缓存
+     * 格式：token+客户端id
+     * <p>
+     * 用于第三方客户端访问时,在过滤器里找不到用户情况
+     * TODO 还可以用session解决,但是我更倾向缓存
+     */
+    private Cache<String, String> allTokenCache;
 
     /**
      * refreshToken缓存
@@ -104,11 +113,21 @@ public class RedisConfig {
                 .syncLocal(false)
                 .build();
 
+        // 全部客户端过期时间默认使用默认客户端过期时间
+        QuickConfig allTokenQc = QuickConfig.newBuilder(OAUTH2_ALL_ACCESS_TOKEN)
+                .expire(properties.getTokenExpireTimes())
+                // 二级缓存
+                .cacheType(CacheType.BOTH)
+                // 更新后使所有 JVM 进程中的本地缓存失效
+                .syncLocal(false)
+                .build();
+
         tokenCache = cacheManager.getOrCreateCache(tokenQc);
         refreshTokenCache = cacheManager.getOrCreateCache(refreshTokenQc);
         clientCache = cacheManager.getOrCreateCache(clientQc);
         approveCache = cacheManager.getOrCreateCache(approveQc);
         codeCache = cacheManager.getOrCreateCache(codeQc);
+        allTokenCache = cacheManager.getOrCreateCache(allTokenQc);
     }
 
     @Bean("tokenCache")
@@ -134,5 +153,10 @@ public class RedisConfig {
     @Bean
     public Cache<String, OAuth2Code> getCodeCache() {
         return codeCache;
+    }
+
+    @Bean
+    public Cache<String, String> getAllTokenCache() {
+        return allTokenCache;
     }
 }

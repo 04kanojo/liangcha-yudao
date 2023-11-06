@@ -8,7 +8,6 @@ import com.liangcha.system.auth2.pojo.OAuth2Code;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 import static com.liangcha.common.enums.ErrorCodeEnum.*;
@@ -32,7 +31,7 @@ public class OAuth2GrantServiceImpl implements OAuth2GrantService {
     private AdminAuthService adminAuthService;
 
     @Override
-    public LoginUser grantAuthorizationCodeForAccessToken(String clientId, String code, String redirectUri, String state, HttpServletRequest request) {
+    public LoginUser grantAuthorizationCodeForAccessToken(String clientId, String code, String redirectUri, String state) {
         OAuth2Code codeDO = oauth2CodeService.consumeAuthorizationCode(code);
 
         // 校验 clientId 是否匹配
@@ -52,15 +51,15 @@ public class OAuth2GrantServiceImpl implements OAuth2GrantService {
         }
 
         // 创建访问令牌
-        return oauth2TokenService.createAccessToken(codeDO.getUserId(), codeDO.getClientId(), codeDO.getScopes(), request);
+        return oauth2TokenService.createAccessToken(codeDO.getUserId(), codeDO.getClientId(), codeDO.getScopes());
     }
 
     @Override
-    public LoginUser grantPassword(String username, String password, String clientId, List<String> scopes, HttpServletRequest request) {
+    public LoginUser grantPassword(String username, String password, String clientId, List<String> scopes) {
         // 使用账号 + 密码进行登录
         AdminUserDO user = adminAuthService.authenticate(username, password);
         // 创建访问令牌
-        return oauth2TokenService.createAccessToken(user.getId(), clientId, scopes, request);
+        return oauth2TokenService.createAccessToken(user.getId(), clientId, scopes);
     }
 
     @Override

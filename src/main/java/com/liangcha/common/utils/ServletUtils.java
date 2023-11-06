@@ -9,6 +9,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * 客户端工具类
@@ -40,6 +41,20 @@ public class ServletUtils {
             return null;
         }
         return ((ServletRequestAttributes) requestAttributes).getRequest();
+    }
+
+    /**
+     * 获得请求
+     *
+     * @return HttpServletRequest
+     */
+    public static Object getAttribute(String key) {
+        HttpServletRequest request = getRequest();
+        if (request != null) {
+            HttpSession session = request.getSession();
+            return session.getAttribute(key);
+        }
+        return null;
     }
 
     /**

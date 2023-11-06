@@ -4,7 +4,6 @@ import cn.hutool.core.util.IdUtil;
 import com.alicp.jetcache.Cache;
 import com.liangcha.common.utils.StringUtil;
 import com.liangcha.framework.security.config.SecurityProperties;
-import com.liangcha.framework.security.utils.SecurityFrameworkUtils;
 import com.liangcha.system.auth2.pojo.LoginUser;
 import com.liangcha.system.auth2.pojo.domain.OAuth2ClientDO;
 import com.liangcha.system.permission.service.PermissionService;
@@ -13,7 +12,6 @@ import com.liangcha.system.user.service.AdminUserService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -47,6 +45,9 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
     @Resource
     private SecurityProperties properties;
 
+    @Resource
+    private Cache<String, String> allTokenCache;
+
 
     /**
      * 生成随机字符串
@@ -57,7 +58,7 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
     }
 
     @Override
-    public LoginUser createAccessToken(Long userId, String clientId, List<String> scopes, HttpServletRequest request) {
+    public LoginUser createAccessToken(Long userId, String clientId, List<String> scopes) {
         //判断客户端（oauth2那部分其他客户端会调用此接口）
         OAuth2ClientDO client = oAuth2ClientService.validOAuthClientFromCache(clientId);
         // 创建访问令牌
@@ -69,12 +70,13 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
                 .setRoles(permissionService.getEnableUserRoleListByUserId(userId))
                 .setDeptId(userService.getById(userId).getDeptId());
         //降低耦合性
-        return createAccessToken(user, client, request);
+        return createAccessToken(user, client);
     }
 
     @Override
-    public LoginUser createAccessToken(LoginUser user, OAuth2ClientDO client, HttpServletRequest request) {
-        // 获取客户端accessToken和refreshToken过期时间(秒)
+    public LoginUser createAccessToken(LoginUser user, OAuth2ClientDO client) {
+        // 获取客户端id，accessToken和refreshToken过期时间(秒)
+        String clientId = client.getClientId();
         Integer accessTokenExSeconds = client.getAccessTokenValiditySeconds();
         Integer refreshTokenExSeconds = client.getRefreshTokenValiditySeconds();
 
@@ -82,7 +84,7 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
         LocalDateTime localDateTime = LocalDateTime.now().plusMinutes(properties.getTokenExpireTimes().toMinutes());
 
         // 非默认客户端 自定义过期时间
-        if (!CLIENT_ID_DEFAULT.equals(client.getClientId())) {
+        if (!CLIENT_ID_DEFAULT.equals(clientId)) {
             localDateTime = LocalDateTime.now().plusSeconds(accessTokenExSeconds);
             tokenCache.config().setExpireAfterWriteInMillis(accessTokenExSeconds * 1000L);
             refreshTokenCache.config().setExpireAfterWriteInMillis(refreshTokenExSeconds * 1000L);
@@ -97,11 +99,7 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
         // 存入缓存
         tokenCache.put(getKey(user.getAccessToken(), client.getClientId()), user);
         refreshTokenCache.put(getKey(user.getRefreshToken(), client.getClientId()), user);
-
-        //如果是从OAuth2过来的request不为空，设置上下文对象（其他客户端用户不走filter,只有这里设置进入上下文）
-        if (request != null) {
-            SecurityFrameworkUtils.setLoginUser(user, request);
-        }
+        allTokenCache.put(user.getAccessToken(), clientId);
         return user;
     }
 
@@ -151,7 +149,7 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
 
         //构建登录用户
         OAuth2ClientDO client = oAuth2ClientService.validOAuthClientFromCache(clientId);
-        return createAccessToken(user, client, null);
+        return createAccessToken(user, client);
     }
 
     private String getKey(String token, String clientId) {

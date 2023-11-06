@@ -2,7 +2,6 @@ package com.liangcha.system.auth2.service;
 
 import com.liangcha.system.auth2.pojo.LoginUser;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -28,7 +27,7 @@ public interface OAuth2GrantService {
      * @param state       状态
      * @return 登录用户
      */
-    LoginUser grantAuthorizationCodeForAccessToken(String clientId, String code, String redirectUri, String state, HttpServletRequest request);
+    LoginUser grantAuthorizationCodeForAccessToken(String clientId, String code, String redirectUri, String state);
 
     /**
      * 密码模式
@@ -41,7 +40,7 @@ public interface OAuth2GrantService {
      * @param scopes   授权范围
      * @return 访问令牌
      */
-    LoginUser grantPassword(String username, String password, String clientId, List<String> scopes, HttpServletRequest request);
+    LoginUser grantPassword(String username, String password, String clientId, List<String> scopes);
 
 
     /**

@@ -102,8 +102,7 @@ public class SecurityFrameworkUtils {
      */
     private static Authentication buildAuthentication(LoginUser loginUser, HttpServletRequest request) {
         // 创建 UsernamePasswordAuthenticationToken 对象
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                loginUser, null, Collections.emptyList());
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginUser, null, Collections.emptyList());
         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         return authenticationToken;
     }

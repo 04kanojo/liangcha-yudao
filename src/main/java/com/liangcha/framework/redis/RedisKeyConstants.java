@@ -70,9 +70,14 @@ public interface RedisKeyConstants {
     String SMS_TEMPLATE = "sms_template:";
 
     /**
-     * token的缓存
+     * 指定客户端token的缓存
      */
     String OAUTH2_ACCESS_TOKEN = "oauth2_access_token:";
+
+    /**
+     * 全部客户端token的缓存
+     */
+    String OAUTH2_ALL_ACCESS_TOKEN = "oauth2_all_access_token:";
 
     /**
      * refresh_token的缓存
