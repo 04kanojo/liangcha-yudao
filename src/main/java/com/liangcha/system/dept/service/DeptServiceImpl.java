@@ -33,6 +33,7 @@ public class DeptServiceImpl implements DeptService {
     public String getChildDeptByDeptId(Long id) {
         //LinkedList头尾插入更快,ArrayList查询更快
         List<DeptDO> children = new LinkedList<>();
+        //创建初始父id
         Set<Long> parentIds = Collections.singleton(id);
         // 使用 Short.MAX_VALUE 避免 bug 场景下，存在死循环
         for (int i = 0; i < Short.MAX_VALUE; i++) {
@@ -47,6 +48,11 @@ public class DeptServiceImpl implements DeptService {
             parentIds = convertSet(depts, DeptDO::getId);
         }
         return CollectionUtils.join(children, deptDO -> String.valueOf(deptDO.getId()), ",");
+    }
+
+    @Override
+    public DeptDO getById(Long id) {
+        return deptMapper.selectById(id);
     }
 
 }

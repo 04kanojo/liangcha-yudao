@@ -1,4 +1,4 @@
-package com.liangcha.framework.convert.auth;
+package com.liangcha.framework.convert.auth2;
 
 import com.liangcha.common.utils.CollectionUtils;
 import com.liangcha.server.system.controller.auth2.vo.OAuth2OpenAccessTokenRespVO;

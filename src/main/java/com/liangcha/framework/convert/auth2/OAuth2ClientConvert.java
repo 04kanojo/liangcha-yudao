@@ -1,4 +1,4 @@
-package com.liangcha.framework.convert.auth;
+package com.liangcha.framework.convert.auth2;
 
 import com.liangcha.server.system.controller.auth2.vo.OAuth2ClientRespVO;
 import com.liangcha.system.auth2.pojo.domain.OAuth2ClientDO;

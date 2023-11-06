@@ -11,6 +11,7 @@ import java.util.Set;
 @Mapper
 public interface DeptMapper extends BaseMapper<DeptDO> {
     default List<DeptDO> selectListByParentId(Set<Long> parentId) {
+        // 根据每一个集合元素查询数据库（根据id查询所有部门）
         return selectList(new LambdaQueryWrapper<DeptDO>().in(DeptDO::getParentId, parentId));
     }
 }

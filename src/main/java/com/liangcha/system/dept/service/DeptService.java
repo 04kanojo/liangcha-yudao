@@ -1,5 +1,7 @@
 package com.liangcha.system.dept.service;
 
+import com.liangcha.system.dept.domain.DeptDO;
+
 /**
  * 部门 Service 接口
  *
@@ -14,4 +16,5 @@ public interface DeptService {
      */
     String getChildDeptByDeptId(Long deptId);
 
+    DeptDO getById(Long id);
 }

@@ -4,7 +4,7 @@ import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSON;
 import com.liangcha.common.pojo.CommonResult;
-import com.liangcha.framework.convert.auth.OAuth2OpenConvert;
+import com.liangcha.framework.convert.auth2.OAuth2OpenConvert;
 import com.liangcha.framework.security.utils.OAuth2Utils;
 import com.liangcha.server.system.controller.auth2.vo.OAuth2OpenAccessTokenRespVO;
 import com.liangcha.server.system.controller.auth2.vo.OAuth2OpenAuthorizeInfoRespVO;
