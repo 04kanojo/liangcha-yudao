@@ -123,7 +123,7 @@ public class Auth2OpenController {
     }
 
     @GetMapping("/authorize")
-    @ApiOperation("获得授权信息")
+    @ApiOperation("获得用户授权信息(未登录默认false)")
     public CommonResult<OAuth2OpenAuthorizeInfoRespVO> authorize(@RequestParam("clientId") String clientId) {
         // 1. 获得 Client 客户端的信息
         OAuth2ClientDO client = oauth2ClientService.validOAuthClientFromCache(clientId);
