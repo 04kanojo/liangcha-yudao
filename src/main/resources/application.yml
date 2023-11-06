@@ -70,6 +70,8 @@ liangcha:
       - /sms/send-sms-code
       - /auth/refresh-token
       - /test
+      - /oauth2/check-token
+      - /oauth2/token
       # swagger需要不登录访问的路径
       - /doc.html
       - /favicon.ico

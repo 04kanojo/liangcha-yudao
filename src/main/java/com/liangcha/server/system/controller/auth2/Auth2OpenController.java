@@ -62,7 +62,7 @@ public class Auth2OpenController {
             return AUTHORIZATION_CODE;
         }
 
-        throw exception(BAD_REQUEST, "response_type 参数值只允许 code");
+        throw exception(BAD_REQUEST, "response_type 参数值只允许 authorization_code");
     }
 
     /**
@@ -172,12 +172,9 @@ public class Auth2OpenController {
             }
         }
 
-        // 如果是 code 授权码模式，则发放 code 授权码，并重定向
+        // 只有授权码模式走的到这
         List<String> approveScopes = convertList(scopes.entrySet(), Map.Entry::getKey, Map.Entry::getValue);
-        if (grantTypeEnum == AUTHORIZATION_CODE) {
-            return success(getAuthorizationCodeRedirect(getLoginUserId(), client, approveScopes, redirectUri, state));
-        }
-        throw exception(BAD_REQUEST, "只允许授权码模式");
+        return success(getAuthorizationCodeRedirect(getLoginUserId(), client, approveScopes, redirectUri, state));
     }
 
     /**
