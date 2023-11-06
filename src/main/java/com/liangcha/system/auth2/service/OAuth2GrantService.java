@@ -1,7 +1,6 @@
 package com.liangcha.system.auth2.service;
 
 import com.liangcha.system.auth2.pojo.LoginUser;
-import com.liangcha.system.auth2.pojo.domain.OAuth2AccessTokenDO;
 
 import java.util.List;
 
@@ -41,7 +40,7 @@ public interface OAuth2GrantService {
      * @param scopes   授权范围
      * @return 访问令牌
      */
-    OAuth2AccessTokenDO grantPassword(String username, String password, String clientId, List<String> scopes);
+    LoginUser grantPassword(String username, String password, String clientId, List<String> scopes);
 
 
     /**

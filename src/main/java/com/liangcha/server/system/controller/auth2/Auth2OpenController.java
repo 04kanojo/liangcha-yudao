@@ -12,7 +12,6 @@ import com.liangcha.server.system.controller.auth2.vo.OAuth2OpenCheckTokenRespVO
 import com.liangcha.system.auth2.enums.OAuth2GrantTypeEnum;
 import com.liangcha.system.auth2.pojo.LoginUser;
 import com.liangcha.system.auth2.pojo.OAuth2Approve;
-import com.liangcha.system.auth2.pojo.domain.OAuth2AccessTokenDO;
 import com.liangcha.system.auth2.pojo.domain.OAuth2ClientDO;
 import com.liangcha.system.auth2.service.OAuth2ApproveService;
 import com.liangcha.system.auth2.service.OAuth2ClientService;
@@ -101,7 +100,7 @@ public class Auth2OpenController {
         OAuth2ClientDO client = oauth2ClientService.validOAuthClientFromCache(clientIdAndSecret[0], clientIdAndSecret[1], grantType, scopes, redirectUri);
 
         // 根据授权模式，获取访问令牌
-        LoginUser loginUser = null;
+        LoginUser loginUser;
         switch (grantTypeEnum) {
             // 授权码模式
             case AUTHORIZATION_CODE:
@@ -110,8 +109,9 @@ public class Auth2OpenController {
 
             // 密码模式
             case PASSWORD:
-                OAuth2AccessTokenDO oAuth2AccessTokenDO = oauth2GrantService.grantPassword(username, password, client.getClientId(), scopes);
+                loginUser = oauth2GrantService.grantPassword(username, password, client.getClientId(), scopes);
                 break;
+
             // 刷新模式
             case REFRESH_TOKEN:
                 loginUser = oauth2GrantService.grantRefreshToken(refreshToken, client.getClientId());
@@ -208,7 +208,8 @@ public class Auth2OpenController {
     }
 
     /**
-     *
+     * 提供给第三方校验
+     * 例:假如淘宝，然后是支付宝。某个用户登录支付宝，它先看自己token库里面有没有此用户的token，没有就调用此接口看看老大有没有，如果有获取到基本信息，再进行其他操作，比如通过用户id找到用户，将他的token也存入自己的库
      */
     @PostMapping("/check-token")
     @PermitAll

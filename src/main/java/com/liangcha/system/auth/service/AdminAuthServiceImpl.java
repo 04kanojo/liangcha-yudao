@@ -101,8 +101,6 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         smsCodeService.sendSmsCode(reqVO);
     }
 
-    //======================================== 功能方法(非重写) ========================================
-
     /**
      * 验证账号 + 密码。如果通过，则返回用户
      *

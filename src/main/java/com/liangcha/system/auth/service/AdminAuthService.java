@@ -3,6 +3,7 @@ package com.liangcha.system.auth.service;
 import com.liangcha.server.system.controller.auth.vo.AuthLoginReqVO;
 import com.liangcha.server.system.controller.auth.vo.AuthLoginRespVO;
 import com.liangcha.server.system.controller.auth.vo.AuthSmsSendReqVO;
+import com.liangcha.system.auth.domain.AdminUserDO;
 
 import javax.validation.Valid;
 
@@ -39,4 +40,9 @@ public interface AdminAuthService {
      * @param reqVO 请求信息
      */
     void sendSmsCode(AuthSmsSendReqVO reqVO);
+
+    /**
+     * 根据用户名和密码校验用户
+     */
+    AdminUserDO authenticate(String username, String password);
 }

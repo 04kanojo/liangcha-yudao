@@ -1,9 +1,10 @@
 package com.liangcha.system.auth2.service;
 
 import cn.hutool.core.util.StrUtil;
+import com.liangcha.system.auth.domain.AdminUserDO;
+import com.liangcha.system.auth.service.AdminAuthService;
 import com.liangcha.system.auth2.pojo.LoginUser;
 import com.liangcha.system.auth2.pojo.OAuth2Code;
-import com.liangcha.system.auth2.pojo.domain.OAuth2AccessTokenDO;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -25,6 +26,9 @@ public class OAuth2GrantServiceImpl implements OAuth2GrantService {
     private OAuth2TokenService oauth2TokenService;
     @Resource
     private OAuth2CodeService oauth2CodeService;
+
+    @Resource
+    private AdminAuthService adminAuthService;
 
     @Override
     public LoginUser grantAuthorizationCodeForAccessToken(String clientId, String code, String redirectUri, String state) {
@@ -51,14 +55,11 @@ public class OAuth2GrantServiceImpl implements OAuth2GrantService {
     }
 
     @Override
-    public OAuth2AccessTokenDO grantPassword(String username, String password, String clientId, List<String> scopes) {
-//        // 使用账号 + 密码进行登录
-//        AdminUserDO user = adminAuthService.authenticate(username, password);
-//        Assert.notNull(user, "用户不能为空！"); // 防御性编程
-//
-//        // 创建访问令牌
-//        return oauth2TokenService.createAccessToken(user.getId(), UserTypeEnum.ADMIN.getValue(), clientId, scopes);
-        return null;
+    public LoginUser grantPassword(String username, String password, String clientId, List<String> scopes) {
+        // 使用账号 + 密码进行登录
+        AdminUserDO user = adminAuthService.authenticate(username, password);
+        // 创建访问令牌
+        return oauth2TokenService.createAccessToken(user.getId(), clientId, scopes);
     }
 
     @Override
