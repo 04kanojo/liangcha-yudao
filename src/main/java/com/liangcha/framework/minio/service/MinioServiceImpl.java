@@ -1,5 +1,6 @@
 package com.liangcha.framework.minio.service;
 
+import com.liangcha.framework.minio.MinioProperties;
 import com.liangcha.framework.minio.utils.MinioUtil;
 import com.liangcha.system.file.dao.FileMapper;
 import lombok.SneakyThrows;
@@ -17,7 +18,9 @@ import javax.annotation.Resource;
 @Service
 public class MinioServiceImpl implements MinioService {
 
-    private static final Integer timeout = 60 * 60;
+    private static final Integer timeout = 60 * 60 * 60 * 60;
+    @Resource
+    private MinioProperties minioProperties;
     @Resource
     private MinioUtil minioUtil;
     @Resource
@@ -29,19 +32,9 @@ public class MinioServiceImpl implements MinioService {
         // 1.创建桶
         minioUtil.createBucket(bucket);
         // 2.存入minio
-        minioUtil.uploadFile(file.getInputStream(), file.getContentType(), filePath, bucket);
+        minioUtil.uploadFile(file.getInputStream(), file.getContentType(), file.getSize(), filePath, bucket);
         // 3.获取访问路径
-        return minioUtil.getAccessUrl(bucket, filePath, timeout);
-//        // 保存到数据库
-//        FileDO file = new FileDO();
-//        file.setConfigId(client.getId());
-//        file.setName(name);
-//        file.setPath(path);
-//        file.setUrl(url);
-//        file.setType(type);
-//        file.setSize(content.length);
-//        fileMapper.insert(file);
-//        return url;
+        return minioUtil.getAccessUrl(bucket, filePath, Math.toIntExact(minioProperties.getExpireTimes().getSeconds()));
     }
 
 //    @Override

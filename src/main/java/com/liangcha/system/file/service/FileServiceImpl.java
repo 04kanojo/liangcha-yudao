@@ -18,6 +18,7 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public String createFile(MultipartFile file, String filePath, String bucket, String fileType) {
+        // 无法预览时也会直接下载
         String url = minioService.createFile(file, filePath, bucket);
         FileDO fileDO = new FileDO();
         fileDO

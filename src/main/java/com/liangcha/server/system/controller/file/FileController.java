@@ -2,7 +2,6 @@ package com.liangcha.server.system.controller.file;
 
 import com.liangcha.common.pojo.CommonResult;
 import com.liangcha.common.utils.TimeUtil;
-import com.liangcha.framework.minio.service.MinioService;
 import com.liangcha.server.system.controller.file.vo.FileUploadReqVO;
 import com.liangcha.system.file.enums.FileTypeEnum;
 import com.liangcha.system.file.service.FileService;
@@ -27,9 +26,6 @@ import static com.liangcha.common.utils.ServiceExceptionUtil.exception;
 public class FileController {
 
     @Resource
-    private MinioService minioService;
-
-    @Resource
     private FileService fileService;
 
     @PostMapping("/upload")
@@ -42,7 +38,6 @@ public class FileController {
         String path = uploadReqVO.getPath();
         // 拼接文件路径
         path = getPath(path == null ? "" : path, TimeUtil.getTimeForTemplate("/yyyy/MM/dd/"), file.getOriginalFilename());
-
 
         return success(fileService.createFile(file, path, bucket == null ? "default" : bucket, fileType.getType()));
     }

@@ -25,12 +25,12 @@ public class MinioUtil {
     /**
      * 上传一个文件
      */
-    public void uploadFile(InputStream stream, String contentType, String name, String bucket) throws Exception {
+    public void uploadFile(InputStream stream, String contentType, Long size, String name, String bucket) throws Exception {
         PutObjectArgs build = PutObjectArgs.builder()
                 .bucket(bucket)
                 .object(name)
                 .contentType(contentType)
-                .stream(stream, -1, 10485760)
+                .stream(stream, size, -1)
                 .build();
         minioClient.putObject(build);
         // 不关闭流会报错
