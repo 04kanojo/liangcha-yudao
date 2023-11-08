@@ -1,4 +1,4 @@
-# 🐟说明
+## 🐟说明
 
 **无意间发现gitee上[ruoyi-vue-yuedao](https://gitee.com/zhijiantianya/ruoyi-vue-pro)项目 ,决定在从0开始搭建框架模仿此项目进行学习
 **
@@ -85,11 +85,15 @@
 * **使用websocket监听用户状态，实现上下线提醒，在线聊天等**
 * **项目改造成cloud项目**
 
-## 🐻联系方式
+****
 
-**邮箱 G2494552478@hotmail.com**
-
-# 🐣写在最后
+## 🐣写在最后
 
 **感谢你看到了这里，如果文档或者项目有什么不合适的地方，
 项目存在超大的bug请联系我，比如作者名字全部换成了本人(sorry，强迫症)**
+
+**🐻邮箱 ： G2494552478@hotmail.com**
+
+### bug随笔
+
+用户使用refreshToken刷新令牌,refreshToken未删除之前的
