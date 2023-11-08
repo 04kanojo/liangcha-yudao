@@ -26,7 +26,6 @@ public class MinioUtil {
      * 上传一个文件
      */
     public void uploadFile(InputStream stream, String contentType, String name, String bucket) throws Exception {
-        // 不指定contentType获取访问链接，浏览器会直接下载不会生成预览图
         PutObjectArgs build = PutObjectArgs.builder()
                 .bucket(bucket)
                 .object(name)
@@ -40,7 +39,7 @@ public class MinioUtil {
 
     @SuppressWarnings("all")
     /**
-     * 生成一个给HTTP GET请求用的presigned URL用户可以用这个URL进行下载，即使其所在的存储桶是私有的
+     * 生成访问链接
      */
     public String getAccessUrl(String bucket, String name, Integer expires) throws Exception {
         GetPresignedObjectUrlArgs build = GetPresignedObjectUrlArgs.builder()

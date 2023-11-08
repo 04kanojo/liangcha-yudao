@@ -19,7 +19,6 @@ public class FileServiceImpl implements FileService {
     @Override
     public String createFile(MultipartFile file, String filePath, String bucket, String fileType) {
         String url = minioService.createFile(file, filePath, bucket);
-        fileMapper.insert(null);
         FileDO fileDO = new FileDO();
         fileDO
                 .setType(fileType)
