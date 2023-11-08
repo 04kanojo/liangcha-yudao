@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * 菜单 Service 接口
  *
- * @author 芋道源码
+ * @author 凉茶
  */
 public interface MenuService {
 

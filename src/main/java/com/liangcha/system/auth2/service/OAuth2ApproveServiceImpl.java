@@ -16,7 +16,7 @@ import static com.liangcha.common.utils.CollectionUtils.convertSet;
 /**
  * OAuth2 批准 Service 实现类
  *
- * @author 芋道源码
+ * @author 凉茶
  */
 @Service
 @Validated

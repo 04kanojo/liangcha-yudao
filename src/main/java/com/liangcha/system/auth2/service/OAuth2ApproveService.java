@@ -13,7 +13,7 @@ import java.util.Map;
  * <p>
  * 从功能上，和 Spring Security OAuth 的 ApprovalStoreUserApprovalHandler 的功能，记录用户针对指定客户端的授权，减少手动确定。
  *
- * @author 芋道源码
+ * @author 凉茶
  */
 public interface OAuth2ApproveService {
 

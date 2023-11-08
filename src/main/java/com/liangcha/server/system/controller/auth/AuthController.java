@@ -25,7 +25,7 @@ import static com.liangcha.common.pojo.CommonResult.success;
 /**
  * @author 凉茶
  */
-@Api(tags = "管理后台认证")
+@Api(tags = "管理后台 - 登录认证")
 @RestController
 @RequestMapping("/auth")
 public class AuthController {

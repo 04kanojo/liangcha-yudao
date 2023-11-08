@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
  * <p>
  * 注意，包括登录和登出两种行为
  *
- * @author 芋道源码
+ * @author 凉茶
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

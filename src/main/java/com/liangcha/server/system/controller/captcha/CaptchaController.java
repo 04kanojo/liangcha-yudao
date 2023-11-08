@@ -20,7 +20,7 @@ import java.io.IOException;
 /**
  * @author 凉茶
  */
-@Api(tags = "验证码相关接口")
+@Api(tags = "管理后台 - 验证码")
 @RestController
 @RequestMapping("/captcha")
 public class CaptchaController {

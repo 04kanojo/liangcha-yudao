@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 岗位 Service 接口
  *
- * @author 芋道源码
+ * @author 凉茶
  */
 public interface PostService {
 
