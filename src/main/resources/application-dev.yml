@@ -29,6 +29,12 @@ spring:
           password: woshidashuaibi
           type: com.alibaba.druid.pool.DruidDataSource
 
+#minio配置
+minio:
+  url: http://liangchay.cn:9000  #对象存储服务的URL
+  accessKey: liangcha #Access key账户
+  secretKey: liangcha520  #Secret key密码
+
 jetcache:
   statIntervalMinutes: 30
   areaInCacheName: false

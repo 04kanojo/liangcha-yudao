@@ -1,0 +1,53 @@
+package com.liangcha.system.file.domain;
+
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.liangcha.common.pojo.BaseDO;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
+/**
+ * 文件表
+ * 每次文件上传，都会记录一条记录到该表中
+ *
+ * @author 芋道源码
+ */
+@TableName("infra_file")
+@Data
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+@AllArgsConstructor
+public class FileDO extends BaseDO {
+
+    /**
+     * 编号
+     */
+    private Long id;
+
+    /**
+     * 文件名
+     */
+    private String name;
+
+    /**
+     * 路径
+     */
+    private String path;
+
+    /**
+     * 访问地址
+     */
+    private String url;
+
+    /**
+     * 文件类型
+     */
+    private String type;
+
+    /**
+     * 文件大小
+     */
+    private Long size;
+
+}

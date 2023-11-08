@@ -229,7 +229,12 @@ public enum ErrorCodeEnum {
 
     //  站内信发送 1002028000
     NOTIFY_SEND_TEMPLATE_PARAM_MISS(1002025000, "模板参数({})缺失"),
-    ;
+
+    // ========= 文件相关 1-001-003-000 =================
+    FILE_PATH_EXISTS(1_001_003_000, "文件路径已存在"),
+    FILE_NOT_EXISTS(1_001_003_001, "文件不存在"),
+    FILE_IS_EMPTY(1_001_003_002, "文件为空"),
+    FILE_TYPE_ERR(1_001_003_004, "文件类型错误");;
 
     private final Integer code;
     private final String msg;
