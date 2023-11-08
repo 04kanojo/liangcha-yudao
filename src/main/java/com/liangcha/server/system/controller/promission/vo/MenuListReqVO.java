@@ -4,6 +4,9 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+/**
+ * @author 凉茶
+ */
 @ApiModel(description = "管理后台 - 菜单列表 Request VO")
 @Data
 public class MenuListReqVO {

@@ -7,6 +7,9 @@ import org.springframework.validation.annotation.Validated;
 import javax.validation.constraints.NotNull;
 import java.time.Duration;
 
+/**
+ * @author 凉茶
+ */
 @ConfigurationProperties(prefix = "liangcha.sms-code")
 @Validated
 @Data

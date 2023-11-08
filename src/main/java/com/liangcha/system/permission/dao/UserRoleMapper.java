@@ -9,6 +9,9 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * @author 凉茶
+ */
 @Mapper
 public interface UserRoleMapper extends BaseMapper<UserRoleDO> {
 

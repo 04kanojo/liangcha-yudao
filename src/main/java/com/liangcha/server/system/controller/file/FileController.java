@@ -20,6 +20,9 @@ import static com.liangcha.system.file.enums.FileTypeEnum.AVATAR;
 import static com.liangcha.system.file.enums.FileTypeEnum.TEST;
 
 
+/**
+ * @author 凉茶
+ */
 @Api(tags = "管理后台 - 文件存储")
 @RestController
 @RequestMapping("/system/file")

@@ -7,6 +7,9 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.io.InputStream;
 
+/**
+ * @author 凉茶
+ */
 @Component
 public class MinioUtil {
     @Resource

@@ -8,6 +8,9 @@ import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 
+/**
+ * @author 凉茶
+ */
 @ApiModel(description = "管理后台 - 角色更新状态 Request VO")
 @Data
 public class RoleUpdateStatusReqVO {

@@ -13,6 +13,9 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+/**
+ * @author 凉茶
+ */
 @ApiModel(description = "管理后台 - 发送手机验证码 Request VO")
 @Data
 @NoArgsConstructor

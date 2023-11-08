@@ -6,6 +6,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 
+/**
+ * @author 凉茶
+ */
 @Mapper
 public interface OperateLogConvert {
 

@@ -8,7 +8,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 /**
- * 凉茶
+ * @author 凉茶
  */
 @Mapper
 public interface AuthConvert {

@@ -12,6 +12,8 @@ import javax.annotation.Resource;
 
 /**
  * 用于声明SpringSecurity需要的java bean
+ *
+ * @author 凉茶
  */
 @Configuration
 public class SecurityBeanConfig {

@@ -11,6 +11,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 
+/**
+ * @author 凉茶
+ */
 @Service
 public class FileServiceImpl implements FileService {
     @Resource

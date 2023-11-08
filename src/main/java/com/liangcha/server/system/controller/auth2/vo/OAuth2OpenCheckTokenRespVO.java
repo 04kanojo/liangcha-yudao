@@ -10,6 +10,9 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * @author 凉茶
+ */
 @ApiModel("管理后台 - 【开放接口】校验令牌 Response VO")
 @Data
 @NoArgsConstructor

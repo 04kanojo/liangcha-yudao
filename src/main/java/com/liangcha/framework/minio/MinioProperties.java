@@ -5,6 +5,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.time.Duration;
 
+/**
+ * @author 凉茶
+ */
 @Data
 @ConfigurationProperties(prefix = "minio")
 public class MinioProperties {

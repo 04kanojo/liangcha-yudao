@@ -17,15 +17,20 @@ import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Web配置类
+ *
+ * @author 凉茶
+ */
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
     @Resource
     private LocalDateTimeSerializer localDateTimeSerializer;
 
-    /*
-       配置跨域
-    */
+    /**
+     * 配置跨域
+     */
     @Bean
     public CorsFilter corsFilter() {
         //创建CorsConfiguration对象后添加配置

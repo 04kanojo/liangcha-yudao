@@ -1,7 +1,7 @@
 package com.liangcha.common.utils;
 
 /**
- * 字符串操作类
+ * 字符串工具类
  *
  * @author 凉茶
  */

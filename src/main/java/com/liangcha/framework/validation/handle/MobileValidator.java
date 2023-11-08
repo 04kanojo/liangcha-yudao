@@ -8,6 +8,9 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.regex.Pattern;
 
+/**
+ * @author 凉茶
+ */
 public class MobileValidator implements ConstraintValidator<Mobile, String> {
 
     private Pattern MOBILE;

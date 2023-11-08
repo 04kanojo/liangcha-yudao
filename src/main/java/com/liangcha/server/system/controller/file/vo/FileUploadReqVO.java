@@ -8,6 +8,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+/**
+ * @author 凉茶
+ */
 @ApiModel(description = "管理后台 - 上传文件 Request VO")
 @Data
 public class FileUploadReqVO {

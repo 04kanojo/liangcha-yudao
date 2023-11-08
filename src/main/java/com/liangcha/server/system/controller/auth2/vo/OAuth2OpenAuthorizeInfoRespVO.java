@@ -10,6 +10,9 @@ import java.util.List;
 import java.util.Map;
 
 
+/**
+ * @author 凉茶
+ */
 @ApiModel(description = "管理后台 - 授权页的信息 Response VO")
 @Data
 @NoArgsConstructor

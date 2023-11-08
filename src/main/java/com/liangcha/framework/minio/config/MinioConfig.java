@@ -7,6 +7,10 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.Resource;
 
+
+/**
+ * @author 凉茶
+ */
 @Configuration
 public class MinioConfig {
 

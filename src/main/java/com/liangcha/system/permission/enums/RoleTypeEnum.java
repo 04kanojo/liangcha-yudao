@@ -3,6 +3,9 @@ package com.liangcha.system.permission.enums;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * @author 凉茶
+ */
 @Getter
 @AllArgsConstructor
 public enum RoleTypeEnum {

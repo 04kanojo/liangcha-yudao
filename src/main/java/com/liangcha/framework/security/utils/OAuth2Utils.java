@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * OAuth2 相关的工具类
  *
- * @author 芋道源码
+ * @author 凉茶
  */
 public class OAuth2Utils {
 

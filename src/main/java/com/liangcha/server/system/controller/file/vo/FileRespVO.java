@@ -6,6 +6,9 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
+/**
+ * @author 凉茶
+ */
 @ApiModel("管理后台 - 文件 Response VO,不返回 content 字段，太大")
 @Data
 public class FileRespVO {

@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+/**
+ * @author 凉茶
+ */
 @ApiModel("管理后台 - OAuth2 获得用户基本信息 Response VO")
 @Data
 @NoArgsConstructor

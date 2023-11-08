@@ -5,6 +5,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.liangcha.system.sms.domain.SmsTemplateDO;
 import org.apache.ibatis.annotations.Mapper;
 
+/**
+ * @author 凉茶
+ */
 @Mapper
 public interface SmsTemplateMapper extends BaseMapper<SmsTemplateDO> {
 

@@ -8,7 +8,7 @@ import com.liangcha.system.auth.domain.AdminUserDO;
 import javax.validation.Valid;
 
 /**
- * 凉茶
+ * @author 凉茶
  */
 public interface AdminAuthService {
 

@@ -7,6 +7,8 @@ import javax.validation.Valid;
 
 /**
  * 登录日志 Service 接口
+ *
+ * @author 凉茶
  */
 public interface LoginLogService {
 

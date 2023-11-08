@@ -9,6 +9,9 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * @author 凉茶
+ */
 @Mapper
 public interface PostMapper extends BaseMapper<PostDO> {
     default List<PostDO> selectList(Collection<Long> ids) {

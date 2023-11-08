@@ -10,6 +10,9 @@ import java.time.LocalDateTime;
 import static com.liangcha.common.utils.DateUtils.FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND;
 
 
+/**
+ * @author 凉茶
+ */
 @ApiModel("管理后台 - 角色分页 Request VO")
 @Data
 public class RolePageReqVO {

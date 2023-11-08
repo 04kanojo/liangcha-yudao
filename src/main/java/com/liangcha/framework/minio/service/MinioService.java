@@ -4,9 +4,7 @@ package com.liangcha.framework.minio.service;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * 文件 Service 接口
- *
- * @author 芋道源码
+ * @author 凉茶
  */
 public interface MinioService {
 

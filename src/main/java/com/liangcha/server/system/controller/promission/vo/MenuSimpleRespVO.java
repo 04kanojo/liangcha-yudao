@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * @author 凉茶
+ */
 @ApiModel("管理后台 - 菜单精简信息 Response VO")
 @Data
 @NoArgsConstructor

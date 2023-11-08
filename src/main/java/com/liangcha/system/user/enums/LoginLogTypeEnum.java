@@ -5,6 +5,8 @@ import lombok.Getter;
 
 /**
  * 登录日志的类型枚举
+ *
+ * @author 凉茶
  */
 @Getter
 @AllArgsConstructor

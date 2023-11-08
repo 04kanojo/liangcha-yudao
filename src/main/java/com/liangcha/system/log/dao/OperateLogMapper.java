@@ -5,6 +5,9 @@ import com.liangcha.system.log.domain.OperateLogDO;
 import org.apache.ibatis.annotations.Mapper;
 
 
+/**
+ * @author 凉茶
+ */
 @Mapper
 public interface OperateLogMapper extends BaseMapper<OperateLogDO> {
 

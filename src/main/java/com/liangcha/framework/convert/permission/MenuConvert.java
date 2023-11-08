@@ -10,6 +10,9 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
+/**
+ * @author 凉茶
+ */
 @Mapper
 public interface MenuConvert {
 

@@ -10,6 +10,8 @@ import javax.annotation.Resource;
 
 /**
  * 登录日志 Service 实现
+ *
+ * @author 凉茶
  */
 @Service
 public class LoginLogServiceImpl implements LoginLogService {

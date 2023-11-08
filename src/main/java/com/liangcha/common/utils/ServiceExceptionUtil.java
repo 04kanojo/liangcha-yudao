@@ -5,6 +5,8 @@ import com.liangcha.common.exception.ServiceException;
 import lombok.extern.slf4j.Slf4j;
 
 /**
+ * 业务异常工具类
+ *
  * @author 凉茶
  */
 @Slf4j

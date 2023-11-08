@@ -8,6 +8,9 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * @author 凉茶
+ */
 @Mapper
 public interface DeptMapper extends BaseMapper<DeptDO> {
     default List<DeptDO> selectListByParentId(Set<Long> parentId) {

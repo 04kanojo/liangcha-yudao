@@ -31,7 +31,7 @@ import static com.liangcha.common.utils.ServletUtils.getRequest;
 import static com.liangcha.system.auth2.enums.OAuth2ClientConstants.CLIENT_ID_DEFAULT;
 
 /**
- * 凉茶
+ * @author 凉茶
  */
 @Service
 //@SuppressWarnings("all")

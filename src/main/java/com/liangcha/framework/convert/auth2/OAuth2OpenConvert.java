@@ -15,7 +15,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * @author 凉茶
+ */
 @Mapper
 public interface OAuth2OpenConvert {
 
