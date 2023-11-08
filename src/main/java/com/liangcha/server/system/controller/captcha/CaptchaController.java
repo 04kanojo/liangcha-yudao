@@ -22,7 +22,7 @@ import java.io.IOException;
  */
 @Api(tags = "管理后台 - 验证码")
 @RestController
-@RequestMapping("/captcha")
+@RequestMapping("/system/captcha")
 public class CaptchaController {
 
     @Resource

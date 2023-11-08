@@ -27,7 +27,7 @@ import static com.liangcha.common.pojo.CommonResult.success;
  */
 @Api(tags = "管理后台 - 登录认证")
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/system/auth")
 public class AuthController {
 
     @Resource

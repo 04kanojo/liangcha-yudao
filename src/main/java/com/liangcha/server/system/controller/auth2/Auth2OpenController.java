@@ -42,7 +42,7 @@ import static com.liangcha.system.auth2.enums.OAuth2GrantTypeEnum.AUTHORIZATION_
  */
 @Api(tags = "管理后台 - OAuth2.0 授权")
 @RestController
-@RequestMapping("/oauth2")
+@RequestMapping("/system/oauth2")
 public class Auth2OpenController {
 
     @Resource
