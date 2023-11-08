@@ -33,6 +33,16 @@ public class FileDO extends BaseDO {
     private String name;
 
     /**
+     * uuid文件名
+     */
+    private String uuidName;
+
+    /**
+     * 桶
+     */
+    private String bucket;
+
+    /**
      * 路径
      */
     private String path;

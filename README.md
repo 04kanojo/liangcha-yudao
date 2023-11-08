@@ -96,4 +96,7 @@
 
 ### bug随笔
 
-用户使用refreshToken刷新令牌,refreshToken未删除之前的
+1.用户使用refreshToken刷新令牌,refreshToken未删除之前的
+2.文件上传，如果新建桶设置为public，然后不需要生成下载地址直接用直接路径访问
+liangchay.cn:9000/default/2023/11/08/test.png
+访问

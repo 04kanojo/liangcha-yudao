@@ -55,4 +55,11 @@ public class MinioUtil {
         return minioClient.getPresignedObjectUrl(build);
     }
 
+    public InputStream download(String bucket, String name) throws Exception {
+        return minioClient.getObject(
+                GetObjectArgs.builder()
+                        .bucket(bucket)
+                        .object(name)
+                        .build());
+    }
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.InputStream;
 
 
 /**
@@ -15,7 +16,6 @@ import javax.annotation.Resource;
 @Service
 public class MinioServiceImpl implements MinioService {
 
-    private static final Integer timeout = 60 * 60 * 60 * 60;
     @Resource
     private MinioProperties minioProperties;
     @Resource
@@ -30,6 +30,11 @@ public class MinioServiceImpl implements MinioService {
         minioUtil.uploadFile(file.getInputStream(), file.getContentType(), file.getSize(), filePath, bucket);
         // 3.获取访问路径
         return minioUtil.getAccessUrl(bucket, filePath, Math.toIntExact(minioProperties.getExpireTimes().getSeconds()));
+    }
+
+    @Override
+    public InputStream download(String bucket, String name) throws Exception {
+        return minioUtil.download(bucket, name);
     }
 
 //    @Override

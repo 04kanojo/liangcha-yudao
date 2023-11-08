@@ -3,6 +3,8 @@ package com.liangcha.framework.minio.service;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.InputStream;
+
 /**
  * @author 凉茶
  */
@@ -17,6 +19,8 @@ public interface MinioService {
      * @return 文件路径
      */
     String createFile(MultipartFile file, String filePath, String bucket);
+
+    InputStream download(String bucket, String name) throws Exception;
 
 //    /**
 //     * 删除文件
