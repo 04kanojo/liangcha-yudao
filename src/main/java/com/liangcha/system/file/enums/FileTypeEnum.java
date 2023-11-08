@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public enum FileTypeEnum {
-    AVATAR("avatar");
+    AVATAR("avatar"),
+
+    TEST("test");
     private String type;
 }

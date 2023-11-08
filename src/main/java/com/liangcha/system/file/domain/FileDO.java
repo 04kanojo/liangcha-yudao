@@ -10,8 +10,10 @@ import lombok.NoArgsConstructor;
 /**
  * 文件表
  * 每次文件上传，都会记录一条记录到该表中
+ * 问：为什么要用uuid生成文件名,并且记录原文件名？
+ * 答：因为预览使用的kkfileview，使用中文命名预览失败
  *
- * @author 芋道源码
+ * @author 凉茶
  */
 @TableName("infra_file")
 @Data
@@ -26,7 +28,7 @@ public class FileDO extends BaseDO {
     private Long id;
 
     /**
-     * 文件名
+     * 原文件名
      */
     private String name;
 

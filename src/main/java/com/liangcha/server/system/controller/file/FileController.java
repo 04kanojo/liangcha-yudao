@@ -1,7 +1,6 @@
 package com.liangcha.server.system.controller.file;
 
 import com.liangcha.common.pojo.CommonResult;
-import com.liangcha.common.utils.TimeUtil;
 import com.liangcha.server.system.controller.file.vo.FileUploadReqVO;
 import com.liangcha.system.file.enums.FileTypeEnum;
 import com.liangcha.system.file.service.FileService;
@@ -10,7 +9,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
@@ -18,6 +16,8 @@ import javax.validation.Valid;
 import static com.liangcha.common.enums.ErrorCodeEnum.FILE_TYPE_ERR;
 import static com.liangcha.common.pojo.CommonResult.success;
 import static com.liangcha.common.utils.ServiceExceptionUtil.exception;
+import static com.liangcha.system.file.enums.FileTypeEnum.AVATAR;
+import static com.liangcha.system.file.enums.FileTypeEnum.TEST;
 
 
 @Api(tags = "管理后台 - 文件存储")
@@ -31,34 +31,21 @@ public class FileController {
     @PostMapping("/upload")
     @ApiOperation("上传文件")
     public CommonResult<String> uploadFile(@Valid FileUploadReqVO uploadReqVO) {
-        // 获取基本信息
-        FileTypeEnum fileType = getFileType(uploadReqVO.getType());
-        MultipartFile file = uploadReqVO.getFile();
-        String bucket = uploadReqVO.getBucket();
-        String path = uploadReqVO.getPath();
-        // 拼接文件路径
-        path = getPath(path == null ? "" : path, TimeUtil.getTimeForTemplate("/yyyy/MM/dd/"), file.getOriginalFilename());
-
-        return success(fileService.createFile(file, path, bucket == null ? "default" : bucket, fileType.getType()));
+        return success(fileService.createFile(
+                uploadReqVO.getFile(),
+                uploadReqVO.getBasicPath(),
+                uploadReqVO.getBucket(),
+                getFileType(uploadReqVO.getType()).getType()));
     }
 
-    /**
-     * 拼接文件路径
-     *
-     * @param basicPath 基本路径
-     * @param timePath  时间路径
-     * @param fileName  文件名
-     */
-    private String getPath(String basicPath, String timePath, String fileName) {
-        StringBuilder sb = new StringBuilder(basicPath);
-        sb.append(timePath).append(fileName);
-        return sb.toString();
-    }
 
     private FileTypeEnum getFileType(String type) {
         switch (type) {
             case "avatar":
-                return FileTypeEnum.AVATAR;
+                return AVATAR;
+
+            case "test":
+                return TEST;
         }
         throw exception(FILE_TYPE_ERR);
     }

@@ -16,9 +16,9 @@ public class FileUploadReqVO {
     @NotNull(message = "文件附件不能为空")
     private MultipartFile file;
 
-    @ApiModelProperty("文件路径")
+    @ApiModelProperty("基本文件路径")
     @Pattern(regexp = "^\\/[^/]+(\\/[^/]+)*\\/?$", message = "路径必须用/开头")
-    private String path;
+    private String basicPath;
 
     @ApiModelProperty("桶名称")
     private String bucket;

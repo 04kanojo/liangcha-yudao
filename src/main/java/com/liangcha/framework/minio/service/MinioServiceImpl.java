@@ -2,7 +2,6 @@ package com.liangcha.framework.minio.service;
 
 import com.liangcha.framework.minio.MinioProperties;
 import com.liangcha.framework.minio.utils.MinioUtil;
-import com.liangcha.system.file.dao.FileMapper;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,8 +22,6 @@ public class MinioServiceImpl implements MinioService {
     private MinioProperties minioProperties;
     @Resource
     private MinioUtil minioUtil;
-    @Resource
-    private FileMapper fileMapper;
 
     @Override
     @SneakyThrows
