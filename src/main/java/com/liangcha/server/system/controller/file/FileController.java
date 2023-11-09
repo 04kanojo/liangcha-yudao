@@ -38,11 +38,11 @@ public class FileController {
     @PostMapping("/upload")
     @ApiOperation("上传文件")
     public CommonResult<String> uploadFile(@Valid FileUploadReqVO uploadReqVO) {
+        String type = getFileType(uploadReqVO.getType()).getType();
         return success(fileService.createFile(
                 uploadReqVO.getFile(),
                 uploadReqVO.getBasicPath(),
-                uploadReqVO.getBucket(),
-                getFileType(uploadReqVO.getType()).getType()));
+                type));
     }
 
     private FileTypeEnum getFileType(String type) {
@@ -65,9 +65,9 @@ public class FileController {
 //    }
 //
     @ApiOperation("下载文件")
-    @GetMapping(value = "/download/{name}")
-    public void downloadFile(HttpServletResponse response, @PathVariable String name) throws Exception {
-        InputStream stream = fileService.download(name);
+    @GetMapping(value = "/download/{type}/{name}")
+    public void downloadFile(HttpServletResponse response, @PathVariable String name, @PathVariable String type) throws Exception {
+        InputStream stream = fileService.download(name, type);
         ServletOutputStream output = response.getOutputStream();
         response.setHeader("Content-Disposition", "attachment;filename=" + name);
         response.setContentType("application/octet-stream");

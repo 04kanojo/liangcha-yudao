@@ -12,8 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import java.io.InputStream;
 
+import static com.liangcha.common.enums.ErrorCodeEnum.FILE_NAME_EXISTS;
 import static com.liangcha.common.enums.ErrorCodeEnum.FILE_NOT_EXISTS;
-import static com.liangcha.common.enums.ErrorCodeEnum.FILE_PATH_EXISTS;
 import static com.liangcha.common.utils.ServiceExceptionUtil.exception;
 
 /**
@@ -28,34 +28,27 @@ public class FileServiceImpl implements FileService {
     private FileMapper fileMapper;
 
     @Override
-    public String createFile(MultipartFile file, String basicPath, String bucket, String fileType) {
-        bucket = StrUtil.isBlank(bucket) ? "default" : bucket;
+    public String createFile(MultipartFile file, String basicPath, String bucket) {
         String FileName = file.getOriginalFilename();
         String[] path = getPath(basicPath, TimeUtil.getTimeForTemplate("/yyyy/MM/dd/"), FileName);
         // 可以直接用url访问，但是无法预览的时候，比如文件是 doc 或者 docx 时，会直接下载
         String url = minioService.createFile(file, path[1], bucket);
 
         // 文件是否已经上传
-        if (fileMapper.selectByName(FileName) != null) {
-            throw exception(FILE_PATH_EXISTS);
+        if (fileMapper.selectByNameAndBucket(FileName, bucket) != null) {
+            throw exception(FILE_NAME_EXISTS);
         }
 
+        // 插入数据库
         FileDO fileDO = new FileDO();
-        fileDO
-                .setUuidName(path[0])
-                .setBucket(bucket)
-                .setType(fileType)
-                .setUrl(url)
-                .setName(FileName)
-                .setPath(path[1])
-                .setSize(file.getSize());
+        fileDO.setUrl(url).setPath(path[1]).setBucket(bucket).setName(FileName).setUuidName(path[0]).setSize(file.getSize()).setType(StrUtil.subAfter(path[1], ".", true));
         fileMapper.insert(fileDO);
         return url;
     }
 
     @Override
-    public InputStream download(String name) throws Exception {
-        FileDO file = fileMapper.selectByName(name);
+    public InputStream download(String name, String bucket) {
+        FileDO file = fileMapper.selectByNameAndBucket(name, bucket);
         if (file == null) {
             throw exception(FILE_NOT_EXISTS);
         }

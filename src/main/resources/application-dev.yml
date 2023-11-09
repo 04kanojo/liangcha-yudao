@@ -34,8 +34,6 @@ minio:
   url: http://liangchay.cn:9000  # 对象存储服务的URL
   accessKey: liangcha # Access key账户
   secretKey: liangcha520  # Secret key密码
-  expire-times: 7d # 访问链接过期时间
-
 
 jetcache:
   statIntervalMinutes: 30

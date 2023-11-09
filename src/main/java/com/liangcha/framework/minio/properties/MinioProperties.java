@@ -1,9 +1,7 @@
-package com.liangcha.framework.minio;
+package com.liangcha.framework.minio.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-
-import java.time.Duration;
 
 /**
  * @author 凉茶
@@ -16,10 +14,4 @@ public class MinioProperties {
     private String accessKey;
 
     private String secretKey;
-
-    /**
-     * 访问链接过期时间，默认7天
-     * minio文件访问路径，最短1s，最长7d
-     */
-    private Duration expireTimes = Duration.ofDays(7);
 }

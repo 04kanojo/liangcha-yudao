@@ -8,7 +8,7 @@ import java.io.InputStream;
  * @author 凉茶
  */
 public interface FileService {
-    String createFile(MultipartFile file, String basicPath, String bucket, String fileType);
+    String createFile(MultipartFile file, String basicPath, String bucket);
 
-    InputStream download(String name) throws Exception;
+    InputStream download(String name, String bucket);
 }

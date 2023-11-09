@@ -20,7 +20,7 @@ public interface MinioService {
      */
     String createFile(MultipartFile file, String filePath, String bucket);
 
-    InputStream download(String bucket, String name) throws Exception;
+    InputStream download(String bucket, String name);
 
 //    /**
 //     * 删除文件

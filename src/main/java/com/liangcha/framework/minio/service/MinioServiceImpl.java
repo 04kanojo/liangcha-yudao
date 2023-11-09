@@ -1,6 +1,5 @@
 package com.liangcha.framework.minio.service;
 
-import com.liangcha.framework.minio.MinioProperties;
 import com.liangcha.framework.minio.utils.MinioUtil;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
@@ -16,8 +15,8 @@ import java.io.InputStream;
 @Service
 public class MinioServiceImpl implements MinioService {
 
-    @Resource
-    private MinioProperties minioProperties;
+    private final String baseUrl = "http://liangchay.cn:9000/";
+
     @Resource
     private MinioUtil minioUtil;
 
@@ -29,11 +28,11 @@ public class MinioServiceImpl implements MinioService {
         // 2.存入minio
         minioUtil.uploadFile(file.getInputStream(), file.getContentType(), file.getSize(), filePath, bucket);
         // 3.获取访问路径
-        return minioUtil.getAccessUrl(bucket, filePath, Math.toIntExact(minioProperties.getExpireTimes().getSeconds()));
+        return baseUrl + bucket + filePath;
     }
 
     @Override
-    public InputStream download(String bucket, String name) throws Exception {
+    public InputStream download(String bucket, String name) {
         return minioUtil.download(bucket, name);
     }
 

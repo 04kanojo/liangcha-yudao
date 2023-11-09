@@ -53,7 +53,7 @@ public class FileDO extends BaseDO {
     private String url;
 
     /**
-     * 文件类型
+     * 文件类型（后缀）
      */
     private String type;
 

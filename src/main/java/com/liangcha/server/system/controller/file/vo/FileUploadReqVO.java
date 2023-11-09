@@ -23,9 +23,6 @@ public class FileUploadReqVO {
     @Pattern(regexp = "^\\/[^/]+(\\/[^/]+)*\\/?$", message = "路径必须用/开头")
     private String basicPath;
 
-    @ApiModelProperty("桶名称")
-    private String bucket;
-
     @ApiModelProperty("上传类型")
     @NotNull(message = "上传类型不能为空")
     private String type;

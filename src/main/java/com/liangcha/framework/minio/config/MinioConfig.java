@@ -1,6 +1,6 @@
 package com.liangcha.framework.minio.config;
 
-import com.liangcha.framework.minio.MinioProperties;
+import com.liangcha.framework.minio.properties.MinioProperties;
 import io.minio.MinioClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

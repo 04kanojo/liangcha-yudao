@@ -13,8 +13,8 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface FileMapper extends BaseMapper<FileDO> {
 
-    default FileDO selectByName(String fileName) {
-        return selectOne(new LambdaQueryWrapper<FileDO>().eq(FileDO::getName, fileName));
+    default FileDO selectByNameAndBucket(String fileName, String bucket) {
+        return selectOne(new LambdaQueryWrapper<FileDO>().eq(FileDO::getName, fileName).eq(FileDO::getBucket, bucket));
     }
 
 }
