@@ -52,7 +52,7 @@ public class FileServiceImpl implements FileService {
         if (file == null) {
             throw exception(FILE_NOT_EXISTS);
         }
-        return minioService.download(file.getBucket(), file.getUuidName());
+        return minioService.download(file.getBucket(), file.getPath());
     }
 
     /**

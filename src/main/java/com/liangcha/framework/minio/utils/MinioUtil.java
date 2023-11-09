@@ -62,7 +62,11 @@ public class MinioUtil {
 
     @SneakyThrows
     public InputStream download(String bucket, String name) {
-        return minioClient.getObject(GetObjectArgs.builder().bucket(bucket).object(name).build());
+        return minioClient.getObject(GetObjectArgs
+                .builder()
+                .bucket(bucket)
+                .object(name)
+                .build());
     }
 
     @SneakyThrows

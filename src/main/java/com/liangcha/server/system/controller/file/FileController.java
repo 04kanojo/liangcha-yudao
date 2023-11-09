@@ -2,7 +2,6 @@ package com.liangcha.server.system.controller.file;
 
 import com.liangcha.common.pojo.CommonResult;
 import com.liangcha.server.system.controller.file.vo.FileUploadReqVO;
-import com.liangcha.system.file.enums.FileTypeEnum;
 import com.liangcha.system.file.service.FileService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -15,6 +14,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.InputStream;
+import java.net.URLEncoder;
 
 import static com.liangcha.common.enums.ErrorCodeEnum.FILE_TYPE_ERR;
 import static com.liangcha.common.pojo.CommonResult.success;
@@ -38,20 +38,23 @@ public class FileController {
     @PostMapping("/upload")
     @ApiOperation("上传文件")
     public CommonResult<String> uploadFile(@Valid FileUploadReqVO uploadReqVO) {
-        String type = getFileType(uploadReqVO.getType()).getType();
+        String type = getFileType(uploadReqVO.getType());
         return success(fileService.createFile(
                 uploadReqVO.getFile(),
                 uploadReqVO.getBasicPath(),
                 type));
     }
 
-    private FileTypeEnum getFileType(String type) {
+    /**
+     * 校验文件类型是否存在
+     */
+    private String getFileType(String type) {
         switch (type) {
             case "avatar":
-                return AVATAR;
+                return AVATAR.getType();
 
             case "test":
-                return TEST;
+                return TEST.getType();
         }
         throw exception(FILE_TYPE_ERR);
     }
@@ -63,18 +66,20 @@ public class FileController {
 //        minioService.deleteFile(id);
 //        return success(true);
 //    }
-//
-    @ApiOperation("下载文件")
+
+    @ApiOperation(value = "下载文件", produces = "application/octet-stream")
     @GetMapping(value = "/download/{type}/{name}")
     public void downloadFile(HttpServletResponse response, @PathVariable String name, @PathVariable String type) throws Exception {
-        InputStream stream = fileService.download(name, type);
-        ServletOutputStream output = response.getOutputStream();
-        response.setHeader("Content-Disposition", "attachment;filename=" + name);
+        InputStream inputStream = fileService.download(name, getFileType(type));
+        ServletOutputStream outputStream = response.getOutputStream();
+        // 中文设置为filename报错，先使用utf-8进行编码
+        String encodeName = URLEncoder.encode(name, "UTF-8");
+        response.setHeader("Content-Disposition", "attachment;filename=" + encodeName);
         response.setContentType("application/octet-stream");
         response.setCharacterEncoding("UTF-8");
-        IOUtils.copy(stream, output);
-        stream.close();
-        output.close();
+        IOUtils.copy(inputStream, outputStream);
+        inputStream.close();
+        outputStream.close();
     }
 
 }

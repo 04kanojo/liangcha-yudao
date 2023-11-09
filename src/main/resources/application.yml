@@ -68,6 +68,7 @@ liangcha:
       - /test
       - /oauth2/check-token
       - /oauth2/token
+      - /system/file/download/**
       # swagger需要不登录访问的路径
       - /doc.html
       - /favicon.ico
