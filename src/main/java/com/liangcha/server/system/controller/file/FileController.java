@@ -2,6 +2,7 @@ package com.liangcha.server.system.controller.file;
 
 import com.liangcha.common.pojo.CommonResult;
 import com.liangcha.server.system.controller.file.vo.FileUploadReqVO;
+import com.liangcha.system.file.domain.FileDO;
 import com.liangcha.system.file.service.FileService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -24,6 +25,9 @@ import static com.liangcha.system.file.enums.FileTypeEnum.TEST;
 
 
 /**
+ * minio特性：访问图片存储路径预览，不下载；访问文档（如.doc）不预览直接下载。
+ * 不请求下载接口也可以使用访问接口进行下载（but文件名不一样）
+ *
  * @author 凉茶
  */
 @Api(tags = "管理后台 - 文件存储")
@@ -41,7 +45,6 @@ public class FileController {
         String type = getFileType(uploadReqVO.getType());
         return success(fileService.createFile(
                 uploadReqVO.getFile(),
-                uploadReqVO.getBasicPath(),
                 type));
     }
 
@@ -68,12 +71,13 @@ public class FileController {
 //    }
 
     @ApiOperation(value = "下载文件", produces = "application/octet-stream")
-    @GetMapping(value = "/download/{type}/{name}")
-    public void downloadFile(HttpServletResponse response, @PathVariable String name, @PathVariable String type) throws Exception {
-        InputStream inputStream = fileService.download(name, getFileType(type));
+    @GetMapping("/download/{fileId}")
+    public void downloadFile(HttpServletResponse response, @PathVariable Long fileId) throws Exception {
+        FileDO file = fileService.getById(fileId);
+        InputStream inputStream = fileService.download(file);
         ServletOutputStream outputStream = response.getOutputStream();
         // 中文设置为filename报错，先使用utf-8进行编码
-        String encodeName = URLEncoder.encode(name, "UTF-8");
+        String encodeName = URLEncoder.encode(file.getName(), "UTF-8");
         response.setHeader("Content-Disposition", "attachment;filename=" + encodeName);
         response.setContentType("application/octet-stream");
         response.setCharacterEncoding("UTF-8");

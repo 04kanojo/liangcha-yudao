@@ -1,6 +1,5 @@
 package com.liangcha.system.file.dao;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.liangcha.system.file.domain.FileDO;
 import org.apache.ibatis.annotations.Mapper;
@@ -12,9 +11,5 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface FileMapper extends BaseMapper<FileDO> {
-
-    default FileDO selectByNameAndBucket(String fileName, String bucket) {
-        return selectOne(new LambdaQueryWrapper<FileDO>().eq(FileDO::getName, fileName).eq(FileDO::getBucket, bucket));
-    }
 
 }

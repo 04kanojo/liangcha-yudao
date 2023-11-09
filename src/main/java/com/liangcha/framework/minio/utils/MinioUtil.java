@@ -42,7 +42,11 @@ public class MinioUtil {
      */
     @SneakyThrows
     public void uploadFile(InputStream stream, String contentType, Long size, String name, String bucket) {
-        PutObjectArgs build = PutObjectArgs.builder().bucket(bucket).object(name).contentType(contentType).stream(stream, size, -1).build();
+        PutObjectArgs build = PutObjectArgs.builder()
+                .bucket(bucket)
+                .object(name)
+                .contentType(contentType)
+                .stream(stream, size, -1).build();
         minioClient.putObject(build);
         // 不关闭流会报错
         stream.close();
@@ -55,7 +59,13 @@ public class MinioUtil {
      */
     @SneakyThrows
     public String getAccessUrl(String bucket, String name, Integer expires) {
-        GetPresignedObjectUrlArgs build = GetPresignedObjectUrlArgs.builder().bucket(bucket).object(name).expiry(expires).method(Method.GET).build();
+        GetPresignedObjectUrlArgs build = GetPresignedObjectUrlArgs
+                .builder()
+                .bucket(bucket)
+                .object(name)
+                .expiry(expires)
+                .method(Method.GET)
+                .build();
 
         return minioClient.getPresignedObjectUrl(build);
     }
@@ -112,6 +122,10 @@ public class MinioUtil {
                 "}";
         config = StrUtil.replace(config, "bucketName", bucket);
         System.out.println(bucket);
-        minioClient.setBucketPolicy(SetBucketPolicyArgs.builder().bucket(bucket).config(config).build());
+        minioClient.setBucketPolicy(SetBucketPolicyArgs
+                .builder()
+                .bucket(bucket)
+                .config(config)
+                .build());
     }
 }

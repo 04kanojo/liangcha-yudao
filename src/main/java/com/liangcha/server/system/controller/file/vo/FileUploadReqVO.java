@@ -6,7 +6,6 @@ import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 /**
  * @author 凉茶
@@ -18,10 +17,6 @@ public class FileUploadReqVO {
     @ApiModelProperty("文件附件")
     @NotNull(message = "文件附件不能为空")
     private MultipartFile file;
-
-    @ApiModelProperty("基本文件路径")
-    @Pattern(regexp = "^\\/[^/]+(\\/[^/]+)*\\/?$", message = "路径必须用/开头")
-    private String basicPath;
 
     @ApiModelProperty("上传类型")
     @NotNull(message = "上传类型不能为空")

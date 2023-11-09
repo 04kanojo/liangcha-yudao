@@ -32,8 +32,8 @@ public class MinioServiceImpl implements MinioService {
     }
 
     @Override
-    public InputStream download(String bucket, String name) {
-        return minioUtil.download(bucket, name);
+    public InputStream download(String bucket, String path) {
+        return minioUtil.download(bucket, path);
     }
 
 //    @Override
