@@ -33,7 +33,7 @@ mybatis-plus:
 knife4j:
   enable: true
   openapi:
-    title: 凉茶后台接口文档
+    title: liangcha-yudao后台接口文档
     description: "**根据yudao源码进行修改(学习用)**"
     email: G2494552478@hotmail.com
     concat: 凉茶
@@ -61,13 +61,13 @@ liangcha:
     authorization-bearer: Bearer # token前缀
     permit-all-urls: # 允许不登陆访问的路径
       # 接口
-      - /auth/login
+      - /test
       - /captcha/get
       - /sms/send-sms-code
-      - /auth/refresh-token
-      - /test
-      - /oauth2/check-token
-      - /oauth2/token
+      - /system/auth/login
+      - /system/auth/refresh-token
+      - /system/oauth2/check-token
+      - /system/oauth2/token
       - /system/file/download/**
       # swagger需要不登录访问的路径
       - /doc.html
@@ -76,6 +76,8 @@ liangcha:
       - /v2/api-docs
       # websocket
       - /websocket/message
+      # 其它
+      - /error
 
   sms-code: # 短信验证码相关的配置项
     expire-times: 10m
