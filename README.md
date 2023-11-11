@@ -1,11 +1,19 @@
 ## 🐟说明
 
-**无意间发现gitee上[ruoyi-vue-yuedao](https://gitee.com/zhijiantianya/ruoyi-vue-pro)项目 ,决定在从0开始搭建框架模仿此项目进行学习
+**此项目仅供交流学习**
+
+## 🐇前言
+
+**无意间发现gitee上[ruoyi-vue-yuedao](https://gitee.com/zhijiantianya/ruoyi-vue-pro)项目 ,决定在从0开始搭建框架，模仿此项目进行学习
 **
 
 本人目前是个大三学生，因为是学习阶段，所有大部分代码是很像的，
-但是不代表一模一样，我加入了自己的想法，
-比如OAuth权限部分,我把数据库设计全部改为了redis，验证码使用的Hutool等等
+但是不代表一模一样，我融入了自己的想法，
+比如OAuth权限部分,我把数据库设计全部改为了Redis，验证码使用的Hutool等等。
+
+项目只是实现了相关功能，但是不代表每个应该使用的地方都在使用，
+大部分只用在了一个地方（进行测试），比如权限校验板块，
+项目本身只在OAuth2授权范围认证使用。
 
 ## 🐶使用技术
 
@@ -60,9 +68,9 @@
 
 - **数据权限**
 
+```
 @Permission注解使用
 
-```
 假如要给selectUserByUsername添加数据权限功能,在selectUserByUsername上添加注解并无效果
         ,因为此方法最后调用的是selectOne, 所以要重写selectOne方法,并且把注解加到selectOne方法上
         ,否则无法实现数据权限
@@ -79,6 +87,16 @@
 申请授权码(/oauth2/token)
   ```
 
+- **操作权限**
+
+```
+@PreAuthorize注解使用
+此注解分为三种模式：
+1.scope：根据数据授权校验
+2.role：角色校验
+3.permission：菜单校验
+  ```
+
 ## 🐾展望未来
 
 * **使用此框架完成实训和毕设**
@@ -91,9 +109,10 @@
 ## 🐣写在最后
 
 **感谢你看到了这里，如果文档或者项目有什么不合适的地方，
-项目存在超大的bug请联系我，比如作者名字全部换成了本人(sorry，强迫症)**
+项目存在bug请联系我，比如作者名字全部换成了本人(sorry，强迫症)**
 
-**🐻邮箱 ： G2494552478@hotmail.com**
+**🐻邮箱 ： G2494552478@hotmail.com**<br>
+**🐻微信 ： yibeiliangchay**
 
 ### bug随笔
 

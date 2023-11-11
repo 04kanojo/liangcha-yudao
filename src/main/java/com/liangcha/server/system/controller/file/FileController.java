@@ -48,27 +48,13 @@ public class FileController {
                 type));
     }
 
-    /**
-     * 校验文件类型是否存在
-     */
-    private String getFileType(String type) {
-        switch (type) {
-            case "avatar":
-                return AVATAR.getType();
-
-            case "test":
-                return TEST.getType();
-        }
-        throw exception(FILE_TYPE_ERR);
+    @DeleteMapping("/delete")
+    @ApiOperation("删除文件")
+    public CommonResult<Boolean> deleteFile(@RequestParam("id") Long fileId) {
+        FileDO file = fileService.getById(fileId);
+        fileService.delete(file);
+        return success(true);
     }
-
-    //    @DeleteMapping("/delete")
-//    @ApiOperation("删除文件")
-//    @PreAuthorize("@ss.hasPermission('infra:file:delete')")
-//    public CommonResult<Boolean> deleteFile(@RequestParam("id") Long id) throws Exception {
-//        minioService.deleteFile(id);
-//        return success(true);
-//    }
 
     @ApiOperation(value = "下载文件", produces = "application/octet-stream")
     @GetMapping("/download/{fileId}")
@@ -84,6 +70,21 @@ public class FileController {
         IOUtils.copy(inputStream, outputStream);
         inputStream.close();
         outputStream.close();
+    }
+
+
+    /**
+     * 校验文件类型是否存在
+     */
+    private String getFileType(String type) {
+        switch (type) {
+            case "avatar":
+                return AVATAR.getType();
+
+            case "test":
+                return TEST.getType();
+        }
+        throw exception(FILE_TYPE_ERR);
     }
 
 }

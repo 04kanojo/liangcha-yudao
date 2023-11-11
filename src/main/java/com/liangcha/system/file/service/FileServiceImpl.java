@@ -65,6 +65,15 @@ public class FileServiceImpl implements FileService {
         return fileMapper.selectById(id);
     }
 
+    @Override
+    public void delete(FileDO file) {
+        if (file == null) {
+            throw exception(FILE_NOT_EXISTS);
+        }
+        minioService.delete(file.getBucket(), file.getPath());
+        fileMapper.deleteById(file.getId());
+    }
+
     /**
      * 拼接文件路径
      * <p>例：</p>

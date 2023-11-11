@@ -16,4 +16,6 @@ public interface FileService {
     void insert(FileDO fileDO);
 
     FileDO getById(Long id);
+
+    void delete(FileDO file);
 }

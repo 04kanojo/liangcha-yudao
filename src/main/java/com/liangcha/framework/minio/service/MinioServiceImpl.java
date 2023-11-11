@@ -36,6 +36,11 @@ public class MinioServiceImpl implements MinioService {
         return minioUtil.download(bucket, path);
     }
 
+    @Override
+    public void delete(String bucket, String path) {
+        minioUtil.delete(bucket, path);
+    }
+
 //    @Override
 //    public void deleteFile(Long id) throws Exception {
 //        // 校验存在

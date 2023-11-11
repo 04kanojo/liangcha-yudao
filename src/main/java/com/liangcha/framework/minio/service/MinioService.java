@@ -11,7 +11,7 @@ import java.io.InputStream;
 public interface MinioService {
 
     /**
-     * 保存文件，并返回文件的下载路径
+     * 保存文件，并返回文件的访问路径
      *
      * @param file     文件
      * @param filePath 文件路径
@@ -20,22 +20,21 @@ public interface MinioService {
      */
     String createFile(MultipartFile file, String filePath, String bucket);
 
-    InputStream download(String bucket, String name);
+    /**
+     * 下载文件
+     *
+     * @param bucket 桶名称
+     * @param path   文件路径
+     * @return 文件流
+     */
+    InputStream download(String bucket, String path);
 
-//    /**
-//     * 删除文件
-//     *
-//     * @param id 编号
-//     */
-//    void deleteFile(Long id) throws Exception;
-//
-//    /**
-//     * 获得文件内容
-//     *
-//     * @param configId 配置编号
-//     * @param path     文件路径
-//     * @return 文件内容
-//     */
-//    byte[] getFileContent(Long configId, String path) throws Exception;
+    /**
+     * 删除文件
+     *
+     * @param bucket 桶名称
+     * @param path   文件路径
+     */
+    void delete(String bucket, String path);
 
 }

@@ -22,6 +22,8 @@ public class MinioUtil {
 
     /**
      * 创建一个桶
+     *
+     * @param bucket 桶名称
      */
     @SneakyThrows
     public void createBucket(String bucket) {
@@ -39,6 +41,11 @@ public class MinioUtil {
 
     /**
      * 上传一个文件
+     *
+     * @param stream      文件流
+     * @param contentType 文件类型
+     * @param size        文件大小
+     * @param bucket      桶名称
      */
     @SneakyThrows
     public void uploadFile(InputStream stream, String contentType, Long size, String name, String bucket) {
@@ -53,9 +60,13 @@ public class MinioUtil {
     }
 
 
-    @SuppressWarnings("all")
     /**
-     * 生成访问链接
+     * 生成访问链接，即使是私有
+     * 图片访问是预览，文档访问（如doc）是下载
+     *
+     * @param bucket  桶名称
+     * @param name    名字
+     * @param expires 过期时间
      */
     @SneakyThrows
     public String getAccessUrl(String bucket, String name, Integer expires) {
@@ -70,6 +81,12 @@ public class MinioUtil {
         return minioClient.getPresignedObjectUrl(build);
     }
 
+    /**
+     * 下载文件
+     *
+     * @param bucket 桶名称
+     * @param name   文件路径
+     */
     @SneakyThrows
     public InputStream download(String bucket, String name) {
         return minioClient.getObject(GetObjectArgs
@@ -79,6 +96,26 @@ public class MinioUtil {
                 .build());
     }
 
+    /**
+     * 删除一个对象
+     *
+     * @param bucket 桶名称
+     * @param path   文件路径
+     */
+    @SneakyThrows
+    public void delete(String bucket, String path) {
+        minioClient.removeObject(RemoveObjectArgs
+                .builder()
+                .bucket(bucket)
+                .object(path)
+                .build());
+    }
+
+    /**
+     * 设置桶策略(固定设置为公有，不设置默认私有)
+     *
+     * @param bucket 桶名称
+     */
     @SneakyThrows
     public void setBucketPolicy(String bucket) {
         String config = "{\n" +
