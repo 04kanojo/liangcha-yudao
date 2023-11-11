@@ -11,9 +11,14 @@
 但是不代表一模一样，我融入了自己的想法，
 比如OAuth权限部分，我把数据库设计全部改为了Redis，验证码使用的Hutool等等。
 
-项目只是实现了相关功能，但是不代表每个应该使用的地方都在使用，
-大部分只用在了一个地方（进行测试），比如权限校验板块，
-项目本身只在OAuth2授权范围认证使用。
+**注：**
+
+- _本项目只是实现了相关功能，但是不代表每个应该使用的地方都在使用，
+  大部分只用在了一个地方（进行测试），比如权限校验板块，
+  项目本身只在OAuth2授权范围认证使用。_
+-
+
+_Java类与数据库部分字段可能不对应导致报错，请自行更改（服务器密码泄露导致最开始使用的数据库被修改，于是更换了一个数据库，但是我懒得再去找数据表差异了_
 
 ## 🐶使用技术
 
@@ -98,10 +103,69 @@
 3.permission：菜单校验
   ```
 
+- **docker**
+
+```
+基本参数
+-p 端口映射
+-d 后台运行
+-v 文件映射
+--name 容器名称
+```
+
+```
+创建mysql容器
+docker run --name mysql
+-p 3306:3306 # 端口映射
+-v /data/mysql/conf/my.cnf:/etc/mysql/my.cnf
+-v /data/mysql/data:/var/lib/mysql
+-v /data/mysql/log:/var/log/mysql
+-e MYSQL_ROOT_PASSWORD=root
+--restart=always #容器的重启策略，如果容器因任何原因退出，Docker 将自动重新启动容器。always 策略确保容器无论退出状态如何都会被重新启动。
+-d mysql:5.7.30
+```
+
+```
+创建nginx容器
+docker run --name nginx
+-d -p 80:80
+-v /root/docker/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
+-v /root/docker/nginx/logs:/var/log/nginx
+-v /root/docker/nginx/nginx-config/html:/usr/share/nginx/html
+nginx
+
+
+附上配置文件（default.conf）
+server {
+#服务器端口使用443，开启ssl, 这里ssl就是上面安装的ssl模块
+listen 80;
+listen 443 ssl;
+#域名，多个空格分开
+server_name www.liangchay.cn liangchay.cn;
+
+    #ssl证书地址
+    ssl_certificate /nginx_ssl/liangchay.cn_bundle.crt;
+    ssl_certificate_key /nginx_ssl/liangchay.cn.key;
+
+    #ssl验证相关配置
+    ssl_session_timeout 5m;    #缓存有效期
+    ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4;    #加密算法
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;    #安全链接可选的加密协议
+    ssl_prefer_server_ciphers off;   #使用服务器端的首选算法
+
+    location / {
+        root /usr/share/nginx/html;
+        index index.html index.htm;
+    }
+
+}
+ ```
+
 ## 🐾展望未来
 
 * **使用此框架完成实训和毕设**
 * **完成第三方登录和短信登录(申请原因：必须要网站开发完成)**
+* **完成支付功能**
 * **使用websocket监听用户状态，实现上下线提醒，在线聊天等**
 * **项目改造成cloud项目**
 
