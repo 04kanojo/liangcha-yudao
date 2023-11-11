@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50730
 File Encoding         : 65001
 
-Date: 2023-11-11 23:09:53
+Date: 2023-11-11 23:26:38
 */
 
 SET FOREIGN_KEY_CHECKS = 0;
@@ -45,8 +45,8 @@ CREATE TABLE `system_dept`
 -- Records of system_dept
 -- ----------------------------
 INSERT INTO `system_dept`
-VALUES ('100', '芋道源码', '0', '0', '1', '15888888888', 'ry@qq.com', '0', 'admin', '2021-01-05 17:03:47', '1',
-        '2022-06-19 00:29:10', '\0', '1');
+VALUES ('100', '凉茶', '0', '0', '1', '15888888888', 'ry@qq.com', '0', 'admin', '2021-01-05 17:03:47', '1',
+        '2023-11-11 15:26:09', '\0', '1');
 INSERT INTO `system_dept`
 VALUES ('101', '深圳总公司', '100', '1', '104', '15888888888', 'ry@qq.com', '0', 'admin', '2021-01-05 17:03:47', '1',
         '2022-05-16 20:25:23', '\0', '1');
@@ -1690,27 +1690,13 @@ CREATE TABLE `system_oauth2_client`
 -- Records of system_oauth2_client
 -- ----------------------------
 INSERT INTO `system_oauth2_client`
-VALUES ('1', 'default', 'admin123', '芋道源码', 'http://test.yudao.iocoder.cn/a5e2e244368878a366b516805a4aabf1.png',
-        '我是描述', '0', '1800', '43200', '[\"https://www.iocoder.cn\",\"https://doc.iocoder.cn\"]',
+VALUES ('1', 'default', 'admin123', '凉茶', '', '我是描述', '0', '1800', '43200', '[\"https://liangchay.cn\"]',
         '[\"password\",\"authorization_code\",\"implicit\",\"refresh_token\"]', '[\"user.read\",\"user.write\"]', '[]',
-        '[\"user.read\",\"user.write\"]', '[]', '{}', '1', '2022-05-11 21:47:12', '1', '2022-07-05 16:23:52', '\0');
+        '[\"user.read\",\"user.write\"]', '[]', '{}', '1', '2022-05-11 21:47:12', '1', '2023-11-11 15:25:44', '\0');
 INSERT INTO `system_oauth2_client`
-VALUES ('40', 'test', 'test2', 'biubiu', 'http://test.yudao.iocoder.cn/277a899d573723f1fcdfb57340f00379.png', null, '0',
-        '1800', '43200', '[\"https://www.iocoder.cn\"]', '[\"password\",\"authorization_code\",\"implicit\"]',
-        '[\"user_info\",\"projects\"]', '[\"user_info\"]', '[]', '[]', '{}', '1', '2022-05-12 00:28:20', '1',
-        '2022-06-19 00:26:13', '\0');
-INSERT INTO `system_oauth2_client`
-VALUES ('41', 'yudao-sso-demo-by-code', 'test', '基于授权码模式，如何实现 SSO 单点登录？',
-        'http://test.yudao.iocoder.cn/fe4ed36596adad5120036ef61a6d0153654544d44af8dd4ad3ffe8f759933d6f.png', null, '0',
-        '1800', '43200', '[\"http://127.0.0.1:18080\"]', '[\"authorization_code\",\"refresh_token\"]',
-        '[\"user.read\",\"user.write\"]', '[]', '[]', '[]', null, '1', '2022-09-29 13:28:31', '1',
-        '2022-09-29 13:28:31', '\0');
-INSERT INTO `system_oauth2_client`
-VALUES ('42', 'yudao-sso-demo-by-password', 'test', '基于密码模式，如何实现 SSO 单点登录？',
-        'http://test.yudao.iocoder.cn/604bdc695e13b3b22745be704d1f2aa8ee05c5f26f9fead6d1ca49005afbc857.jpeg', null, '0',
-        '1800', '43200', '[\"http://127.0.0.1:18080\"]', '[\"password\",\"refresh_token\"]',
-        '[\"user.read\",\"user.write\"]', '[]', '[]', '[]', null, '1', '2022-10-04 17:40:16', '1',
-        '2022-10-04 20:31:21', '\0');
+VALUES ('40', 'liangcha', 'liangcha', 'liangcha', '', 'liangcha', '0', '1800', '43200', '[\"https://liangchay.cn\"]',
+        '[\"password\",\"authorization_code\",\"implicit\"]', '[\"user_info\",\"projects\"]', '[\"user_info\"]', '[]',
+        '[]', '{}', '1', '2022-05-12 00:28:20', '1', '2023-11-11 15:25:44', '\0');
 
 -- ----------------------------
 -- Table structure for system_operate_log
@@ -3872,62 +3858,8 @@ CREATE TABLE `system_users`
 -- Records of system_users
 -- ----------------------------
 INSERT INTO `system_users`
-VALUES ('1', 'admin', '$2a$10$mRMIYLDtRHlf6.9ipiqH1.Z.bh/R9dO9d5iHiGYPigi6r5KOoR2Wm', '芋道源码', '管理员', '103',
-        '[1]', 'aoteman@126.com', '15612345678', '1',
+VALUES ('1', 'admin', '$2a$10$mRMIYLDtRHlf6.9ipiqH1.Z.bh/R9dO9d5iHiGYPigi6r5KOoR2Wm', '凉茶', '管理员', '103', '[1]',
+        'aoteman@126.com', '15612345678', '1',
         'http://127.0.0.1:48080/admin-api/infra/file/4/get/37e56010ecbee472cdd821ac4b608e151e62a74d9633f15d085aee026eedeb60.png',
-        '0', '0:0:0:0:0:0:0:1', '2023-10-24 20:20:54', 'admin', '2021-01-05 17:03:47', null, '2023-10-24 20:20:54',
+        '0', '0:0:0:0:0:0:0:1', '2023-10-24 20:20:54', 'admin', '2021-01-05 17:03:47', null, '2023-11-11 15:24:35',
         '\0', '1');
-INSERT INTO `system_users`
-VALUES ('100', 'yudao', '$2a$10$11U48RhyJ5pSBYWSn12AD./ld671.ycSzJHbyrtpeoMeYiw31eo8a', '芋道', '不要吓我', '104',
-        '[1]', 'yudao@iocoder.cn', '15601691300', '1', '', '1', '127.0.0.1', '2022-07-09 23:03:33', '',
-        '2021-01-07 09:07:17', null, '2022-07-09 23:03:33', '\0', '1');
-INSERT INTO `system_users`
-VALUES ('103', 'yuanma', '$2a$10$YMpimV4T6BtDhIaA8jSW.u8UTGBeGhc/qwXP4oxoMr4mOw9.qttt6', '源码', null, '106', null,
-        'yuanma@iocoder.cn', '15601701300', '0', '', '0', '127.0.0.1', '2022-07-08 01:26:27', '', '2021-01-13 23:50:35',
-        null, '2022-07-08 01:26:27', '\0', '1');
-INSERT INTO `system_users`
-VALUES ('104', 'test', '$2a$10$GP8zvqHB//TekuzYZSBYAuBQJiNq1.fxQVDYJ.uBCOnWCtDVKE4H6', '测试号', null, '107', '[1,2]',
-        '111@qq.com', '15601691200', '1', '', '0', '0:0:0:0:0:0:0:1', '2023-09-24 18:21:19', '', '2021-01-21 02:13:53',
-        null, '2023-09-24 18:21:19', '\0', '1');
-INSERT INTO `system_users`
-VALUES ('107', 'admin107', '$2a$10$dYOOBKMO93v/.ReCqzyFg.o67Tqk.bbc2bhrpyBGkIw9aypCtr2pm', '芋艿', null, null, null, '',
-        '15601691300', '0', '', '0', '', null, '1', '2022-02-20 22:59:33', '1', '2022-02-27 08:26:51', '\0', '118');
-INSERT INTO `system_users`
-VALUES ('108', 'admin108', '$2a$10$y6mfvKoNYL1GXWak8nYwVOH.kCWqjactkzdoIDgiKl93WN3Ejg.Lu', '芋艿', null, null, null, '',
-        '15601691300', '0', '', '0', '', null, '1', '2022-02-20 23:00:50', '1', '2022-02-27 08:26:53', '\0', '119');
-INSERT INTO `system_users`
-VALUES ('109', 'admin109', '$2a$10$JAqvH0tEc0I7dfDVBI7zyuB4E3j.uH6daIjV53.vUS6PknFkDJkuK', '芋艿', null, null, null, '',
-        '15601691300', '0', '', '0', '', null, '1', '2022-02-20 23:11:50', '1', '2022-02-27 08:26:56', '\0', '120');
-INSERT INTO `system_users`
-VALUES ('110', 'admin110', '$2a$10$mRMIYLDtRHlf6.9ipiqH1.Z.bh/R9dO9d5iHiGYPigi6r5KOoR2Wm', '小王', null, null, null, '',
-        '15601691300', '0', '', '0', '127.0.0.1', '2022-09-25 22:47:33', '1', '2022-02-22 00:56:14', null,
-        '2022-09-25 22:47:33', '\0', '121');
-INSERT INTO `system_users`
-VALUES ('111', 'test', '$2a$10$mRMIYLDtRHlf6.9ipiqH1.Z.bh/R9dO9d5iHiGYPigi6r5KOoR2Wm', '测试用户', null, null, '[]', '',
-        '', '0', '', '0', '0:0:0:0:0:0:0:1', '2023-10-18 23:31:51', '110', '2022-02-23 13:14:33', null,
-        '2023-10-18 23:31:51', '\0', '121');
-INSERT INTO `system_users`
-VALUES ('112', 'newobject', '$2a$10$3alwklxqfq8/hKoW6oUV0OJp0IdQpBDauLy4633SpUjrRsStl6kMa', '新对象', null, '100', '[]',
-        '', '', '1', '', '0', '0:0:0:0:0:0:0:1', '2023-02-10 13:48:13', '1', '2022-02-23 19:08:03', null,
-        '2023-02-10 13:48:13', '\0', '1');
-INSERT INTO `system_users`
-VALUES ('113', 'aoteman', '$2a$10$0acJOIk2D25/oC87nyclE..0lzeu9DtQ/n3geP4fkun/zIVRhHJIO', '芋道', null, null, null, '',
-        '15601691300', '0', '', '0', '127.0.0.1', '2022-03-19 18:38:51', '1', '2022-03-07 21:37:58', null,
-        '2022-03-19 18:38:51', '\0', '122');
-INSERT INTO `system_users`
-VALUES ('114', 'hrmgr', '$2a$10$TR4eybBioGRhBmDBWkqWLO6NIh3mzYa8KBKDDB5woiGYFVlRAi.fu', 'hr 小姐姐', null, null, '[3]',
-        '', '', '0', '', '0', '127.0.0.1', '2022-03-19 22:15:43', '1', '2022-03-19 21:50:58', null,
-        '2022-03-19 22:15:43', '\0', '1');
-INSERT INTO `system_users`
-VALUES ('115', 'aotemane', '$2a$10$/WCwGHu1eq0wOVDd/u8HweJ0gJCHyLS6T7ndCqI8UXZAQom1etk2e', '1', '11', '101', '[]', '',
-        '', '1', '', '0', '', null, '1', '2022-04-30 02:55:43', '1', '2022-06-22 13:34:58', '\0', '1');
-INSERT INTO `system_users`
-VALUES ('116', '15601691302', '$2a$10$L5C4S0U6adBWMvFv1Wwl4.DI/NwYS3WIfLj5Q.Naqr5II8CmqsDZ6', '小豆', null, null, null,
-        '', '', '0', '', '0', '', null, '1', '2022-05-17 10:07:10', '1', '2022-05-17 10:07:10', '\0', '124');
-INSERT INTO `system_users`
-VALUES ('117', 'admin123', '$2a$10$WI8Gg/lpZQIrOEZMHqka7OdFaD4Nx.B/qY8ZGTTUKrOJwaHFqibaC', '测试号', '1111', '100',
-        '[2]', '', '15601691234', '1', '', '0', '', null, '1', '2022-07-09 17:40:26', '1', '2022-07-09 17:40:26', '\0',
-        '1');
-INSERT INTO `system_users`
-VALUES ('118', 'goudan', '$2a$10$Lrb71muL.s5/AFjQ2IHkzOFlAFwUToH.zQL7bnghvTDt/QptjGgF6', '狗蛋', null, '103', '[1]', '',
-        '', '2', '', '0', '', null, '1', '2022-07-09 17:44:43', '1', '2022-12-31 17:29:13', '\0', '1');
