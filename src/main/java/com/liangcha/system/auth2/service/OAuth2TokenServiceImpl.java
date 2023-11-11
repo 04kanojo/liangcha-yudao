@@ -122,18 +122,7 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
         }
         // 从redis里面删除
         tokenCache.remove(getKey(accessToken, clientId));
-        removeRefreshToken(user.getRefreshToken(), clientId);
-    }
-
-    @Override
-    public void removeRefreshToken(String refreshToken, String clientId) {
-        LoginUser user = getUserByRefreshAccessToken(refreshToken, clientId);
-        // 未获取到用户直接返回
-        if (user == null) {
-            return;
-        }
-        // TODO 如果remove键为空或者没有键是否报错 记得测试
-        // 从redis里面删除
+        allTokenCache.remove(accessToken);
         refreshTokenCache.remove(getKey(user.getRefreshToken(), clientId));
     }
 

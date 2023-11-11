@@ -75,14 +75,6 @@ public interface OAuth2TokenService {
     void removeToken(String accessToken, String clientId);
 
     /**
-     * 移除刷新令牌
-     *
-     * @param refreshToken 刷新令牌
-     * @param clientId     客户端id
-     */
-    void removeRefreshToken(String refreshToken, String clientId);
-
-    /**
      * 刷新访问令牌
      *
      * @param refreshToken 刷新令牌

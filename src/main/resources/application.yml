@@ -53,7 +53,7 @@ liangcha:
   security:
     token-header: Authorization # 请求头名称
     password-encoder-length: 4 # 加密复杂度
-    token-expire-times: 3d # token过期时间
+    token-expire-times: 30m # token过期时间
     refresh-token-expire-times: 3d # refreshToken过期时间
     client-expire-times: 10d # client过期时间
     auth2-code-expire-times: 4m # oauth2授权码过期时间
