@@ -4,12 +4,12 @@
 
 ## 🐇前言
 
-**无意间发现gitee上[ruoyi-vue-yuedao](https://gitee.com/zhijiantianya/ruoyi-vue-pro)项目 ,决定在从0开始搭建框架，模仿此项目进行学习
-**
+**无意间发现gitee上[ruoyi-vue-yuedao](https://gitee.com/zhijiantianya/ruoyi-vue-pro)项目
+，决定在从0开始搭建框架，模仿此项目进行学习**
 
 本人目前是个大三学生，因为是学习阶段，所有大部分代码是很像的，
 但是不代表一模一样，我融入了自己的想法，
-比如OAuth权限部分,我把数据库设计全部改为了Redis，验证码使用的Hutool等等。
+比如OAuth权限部分，我把数据库设计全部改为了Redis，验证码使用的Hutool等等。
 
 项目只是实现了相关功能，但是不代表每个应该使用的地方都在使用，
 大部分只用在了一个地方（进行测试），比如权限校验板块，
@@ -34,9 +34,9 @@
 
 ## 🐷项目传送门
 
-| 项目名            | GitHub地址                                   |
-|----------------|--------------------------------------------|
-| liangcha-yudao | https://github.com/04kanojo/liangcha-yudao |
+| 项目名            | GitHub地址                                   | Gitee地址                                   |
+|----------------|--------------------------------------------|-------------------------------------------|
+| liangcha-yudao | https://github.com/04kanojo/liangcha-yudao | https://gitee.com/kanojo39/liangcha-yudao |
 
 ## 🐹后端更新日志
 
@@ -56,14 +56,15 @@
 | 2023/11/06 |  OAuth2密码模式认证   | 解决第三方登录无法通过security上下文获取，走过滤器的时候没存，因为只存默认客户端，做了些许优化 |
 | 2023/11/08 |  上传文件<br/>预览文件  |                                                     |
 | 2023/11/09 |      下载文件       |                     修复上传文件若干问题                      |
+| 2023/11/11 |      删除文件       |           修复刷新token时，原先的refreshToken并未更新            |
 
 ## 🐼技术要点记录
 
-- **关于基本架构,以及类的创建**
+- **关于基本架构，以及类的创建**
 
 ```
- dto是各种地方传递使用,例如OperateLogFrameworkServiceImpl这个类使用OperateLogService的方法
-  ,便传递dto,但是如果是前端调用接口,给controller,再给service,即可以用vo
+ dto是各种地方传递使用，例如OperateLogFrameworkServiceImpl这个类使用OperateLogService的方法
+  ，便传递dto，但是如果是前端调用接口，给controller，再给service，即可以用vo
   ```
 
 - **数据权限**
@@ -71,9 +72,9 @@
 ```
 @Permission注解使用
 
-假如要给selectUserByUsername添加数据权限功能,在selectUserByUsername上添加注解并无效果
-        ,因为此方法最后调用的是selectOne, 所以要重写selectOne方法,并且把注解加到selectOne方法上
-        ,否则无法实现数据权限
+假如要给selectUserByUsername添加数据权限功能，在selectUserByUsername上添加注解并无效果
+，因为此方法最后调用的是selectOne， 所以要重写selectOne方法，并且把注解加到selectOne方法上
+        ，否则无法实现数据权限
   ```
 
 - OAuth2认证流程
@@ -116,5 +117,5 @@
 
 ### bug随笔
 
-1.用户使用refreshToken刷新令牌,refreshToken未删除之前的
+1.用户使用refreshToken刷新令牌，refreshToken未删除之前的
 
