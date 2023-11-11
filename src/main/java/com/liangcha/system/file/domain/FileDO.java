@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
  *
  * @author 凉茶
  */
-@TableName("infra_file")
+@TableName("system_file")
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
