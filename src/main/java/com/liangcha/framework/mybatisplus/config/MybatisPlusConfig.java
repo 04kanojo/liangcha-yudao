@@ -1,4 +1,4 @@
-package com.liangcha.framework.mybatisplus;
+package com.liangcha.framework.mybatisplus.config;
 
 import cn.hutool.core.net.NetUtil;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;

@@ -138,14 +138,12 @@ public enum ErrorCodeEnum {
     //  通知公告 1002008000
     NOTICE_NOT_FOUND(1002008001, "当前通知公告不存在"),
 
-    //  短信渠道 1002011000
-    SMS_CHANNEL_NOT_EXISTS(1002011000, "短信渠道不存在"),
-    SMS_CHANNEL_DISABLE(1002011001, "短信渠道不处于开启状态，不允许选择"),
-    SMS_CHANNEL_HAS_CHILDREN(1002011002, "无法删除，该短信渠道还有短信模板"),
-
     //  短信模板 1002012000
     SMS_TEMPLATE_NOT_EXISTS(1002012000, "短信模板不存在"),
     SMS_TEMPLATE_CODE_DUPLICATE(1002012001, "已经存在编码为【{}】的短信模板"),
+
+    SMS_TEMPLATE_PARAM_SIZE_ERR(1002012002, "短信模板参数长度不对应"),
+
 
     //  短信发送 1002013000
     SMS_SEND_MOBILE_NOT_EXISTS(1002013000, "手机号不存在"),
@@ -163,18 +161,6 @@ public enum ErrorCodeEnum {
     SMS_CODE_SEND_TOO_FAST(1002014005, "短信发送过于频率"),
     SMS_CODE_IS_EXISTS(1002014006, "手机号已被使用"),
     SMS_CODE_IS_UNUSED(1002014007, "验证码未被使用"),
-
-    //  租户信息 1002015000
-    TENANT_NOT_EXISTS(1002015000, "租户不存在"),
-    TENANT_DISABLE(1002015001, "名字为【{}】的租户已被禁用"),
-    TENANT_EXPIRE(1002015002, "名字为【{}】的租户已过期"),
-    TENANT_CAN_NOT_UPDATE_SYSTEM(1002015003, "系统租户不能进行修改、删除等操作！"),
-    TENANT_NAME_DUPLICATE(1002015004, "名字为【{}】的租户已存在"),
-
-    //  租户套餐 1002016000
-    TENANT_PACKAGE_NOT_EXISTS(1002016000, "租户套餐不存在"),
-    TENANT_PACKAGE_USED(1002016001, "租户正在使用该套餐，请给租户重新设置套餐后再尝试删除"),
-    TENANT_PACKAGE_DISABLE(1002016002, "名字为【{}】的租户套餐已被禁用"),
 
     //  错误码模块 1002017000
     ERROR_CODE_NOT_EXISTS(1002017000, "错误码不存在"),

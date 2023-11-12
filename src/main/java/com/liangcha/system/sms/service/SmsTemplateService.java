@@ -1,6 +1,6 @@
 package com.liangcha.system.sms.service;
 
-import com.liangcha.system.sms.domain.SmsTemplateDO;
+import com.liangcha.system.sms.pojo.domain.SmsTemplateDO;
 
 import java.util.Map;
 
@@ -17,14 +17,14 @@ public interface SmsTemplateService {
      * @param params  内容的参数
      * @return 格式化后的内容
      */
-    String formatSmsTemplateContent(String content, Map<String, Object> params);
+    String formatSmsTemplateContent(String content, Map<String, String> params);
 
     /**
-     * 获得短信模板，从缓存中
+     * 获得短信模板
      *
-     * @param code 模板编码
+     * @param templateId 模板id
      * @return 短信模板
      */
-    SmsTemplateDO getSmsTemplateByCodeFromCache(String code);
+    SmsTemplateDO getByTemplateId(String templateId);
 
 }

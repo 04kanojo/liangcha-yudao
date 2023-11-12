@@ -2,6 +2,7 @@ package com.liangcha.system.auth.service;
 
 import com.liangcha.server.system.controller.auth.vo.AuthLoginReqVO;
 import com.liangcha.server.system.controller.auth.vo.AuthLoginRespVO;
+import com.liangcha.server.system.controller.auth.vo.AuthSmsLoginReqVO;
 import com.liangcha.server.system.controller.auth.vo.AuthSmsSendReqVO;
 import com.liangcha.system.auth.domain.AdminUserDO;
 
@@ -45,4 +46,12 @@ public interface AdminAuthService {
      * 根据用户名和密码校验用户
      */
     AdminUserDO authenticate(String username, String password);
+
+    /**
+     * 短信登录
+     *
+     * @param reqVO 登录信息
+     * @return 登录结果
+     */
+    AuthLoginRespVO smsLogin(AuthSmsLoginReqVO reqVO);
 }

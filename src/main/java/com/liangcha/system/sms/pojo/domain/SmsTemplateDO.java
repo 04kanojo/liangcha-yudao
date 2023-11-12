@@ -1,4 +1,4 @@
-package com.liangcha.system.sms.domain;
+package com.liangcha.system.sms.pojo.domain;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -25,7 +25,7 @@ import java.util.List;
 public class SmsTemplateDO extends BaseDO implements Serializable {
 
     /**
-     * 自增编号
+     * 编号
      */
     private Long id;
 
@@ -63,7 +63,7 @@ public class SmsTemplateDO extends BaseDO implements Serializable {
     private String content;
 
     /**
-     * 参数数组(自动根据内容生成)
+     * 参数数组
      */
     @TableField(typeHandler = JacksonTypeHandler.class)
     private List<String> params;
@@ -76,6 +76,6 @@ public class SmsTemplateDO extends BaseDO implements Serializable {
     /**
      * 短信 API 的模板编号
      */
-    private String apiTemplateId;
+    private String templateId;
 
 }

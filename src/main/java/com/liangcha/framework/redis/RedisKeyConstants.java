@@ -2,8 +2,9 @@ package com.liangcha.framework.redis;
 
 
 /**
- * System Redis Key 枚举类
- * 由于注解上不能调用方法,所以使用接口
+ * Redis Key 枚举类
+ * 问：为什么使用接口，不适用枚举
+ * 答：因为jetCaChe缓存注解key值需要的是字符串，用接口方便
  *
  * @author 凉茶
  */
@@ -68,6 +69,11 @@ public interface RedisKeyConstants {
      * 短信模版的缓存
      */
     String SMS_TEMPLATE = "sms_template:";
+
+    /**
+     * 短信code缓存
+     */
+    String SMS_CODE = "sms_code:";
 
     /**
      * 指定客户端token的缓存

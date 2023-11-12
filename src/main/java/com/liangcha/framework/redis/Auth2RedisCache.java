@@ -1,7 +1,6 @@
 package com.liangcha.framework.redis;
 
 import com.alicp.jetcache.Cache;
-import com.alicp.jetcache.CacheManager;
 import com.alicp.jetcache.anno.CacheType;
 import com.alicp.jetcache.template.QuickConfig;
 import com.liangcha.framework.security.config.SecurityProperties;
@@ -19,15 +18,15 @@ import java.util.List;
 import static com.liangcha.framework.redis.RedisKeyConstants.*;
 
 /**
+ * Auth2相关缓存
+ * <p>
  * accessToken和refreshToken为什么加上客户端的id
  * 答：第三方客户端存入accessToken和refreshToken和默认客户端同一个缓存，用来区分是哪个客户端的缓存(防止第三方客户端使用accessToken随便访问接口)
  *
  * @author 凉茶
  */
 @Component
-public class Auth2RedisConfig {
-    @Resource
-    private CacheManager cacheManager;
+public class Auth2RedisCache extends RedisCache {
 
     @Resource
     private SecurityProperties properties;

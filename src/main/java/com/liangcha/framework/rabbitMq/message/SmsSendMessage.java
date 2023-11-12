@@ -5,6 +5,7 @@ import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.LinkedHashMap;
 
 /**
  * 短信发送消息
@@ -28,8 +29,7 @@ public class SmsSendMessage implements Serializable {
     private String apiTemplateId;
 
     /**
-     * 短信验证码
+     * 参数集合
      */
-    @NotNull(message = "短信验证码不能为空")
-    private String code;
+    private LinkedHashMap<String, String> paramMap;
 }

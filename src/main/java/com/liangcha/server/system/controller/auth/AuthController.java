@@ -7,6 +7,7 @@ import com.liangcha.framework.security.config.SecurityProperties;
 import com.liangcha.framework.security.utils.SecurityFrameworkUtils;
 import com.liangcha.server.system.controller.auth.vo.AuthLoginReqVO;
 import com.liangcha.server.system.controller.auth.vo.AuthLoginRespVO;
+import com.liangcha.server.system.controller.auth.vo.AuthSmsLoginReqVO;
 import com.liangcha.server.system.controller.auth.vo.AuthSmsSendReqVO;
 import com.liangcha.system.auth.service.AdminAuthService;
 import io.swagger.annotations.Api;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.annotation.security.PermitAll;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -64,5 +66,12 @@ public class AuthController {
     public CommonResult<Boolean> sendLoginSmsCode(@RequestBody @Valid AuthSmsSendReqVO reqVO) {
         authService.sendSmsCode(reqVO);
         return success(true);
+    }
+
+    @PostMapping("/sms-login")
+    @PermitAll
+    @ApiOperation("使用短信验证码登录")
+    public CommonResult<AuthLoginRespVO> smsLogin(@RequestBody @Valid AuthSmsLoginReqVO reqVO) {
+        return success(authService.smsLogin(reqVO));
     }
 }

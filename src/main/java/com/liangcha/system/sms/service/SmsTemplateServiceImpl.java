@@ -4,7 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.alicp.jetcache.anno.Cached;
 import com.liangcha.framework.redis.RedisKeyConstants;
 import com.liangcha.system.sms.dao.SmsTemplateMapper;
-import com.liangcha.system.sms.domain.SmsTemplateDO;
+import com.liangcha.system.sms.pojo.domain.SmsTemplateDO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -25,13 +25,13 @@ public class SmsTemplateServiceImpl implements SmsTemplateService {
     private SmsTemplateMapper smsTemplateMapper;
 
     @Override
-    public String formatSmsTemplateContent(String content, Map<String, Object> params) {
+    public String formatSmsTemplateContent(String content, Map<String, String> params) {
         return StrUtil.format(content, params);
     }
 
     @Override
-    @Cached(name = RedisKeyConstants.SMS_TEMPLATE, key = "#code", expire = 10, timeUnit = TimeUnit.MINUTES)
-    public SmsTemplateDO getSmsTemplateByCodeFromCache(String code) {
-        return smsTemplateMapper.selectByCode(code);
+    @Cached(name = RedisKeyConstants.SMS_TEMPLATE, key = "#templateId", expire = 1, timeUnit = TimeUnit.HOURS)
+    public SmsTemplateDO getByTemplateId(String templateId) {
+        return smsTemplateMapper.selectByTemplateId(templateId);
     }
 }

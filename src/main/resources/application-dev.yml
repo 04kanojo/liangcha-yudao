@@ -4,10 +4,10 @@ spring:
     port: 6379
 
   rabbitmq:
-    host: 127.0.0.1  # rabbitmq的ip地址
+    host: localhost  # rabbitmq的ip地址
     port: 5672      # 端口
-    username: admin
-    password: 123456
+    username:
+    password:
     virtual-host: / # 虚拟主机
     listener:
       direct:
@@ -19,21 +19,29 @@ spring:
       strict: false # 严格匹配数据源,默认false. true未匹配到指定数据源时抛异常,false使用默认数据源
       datasource:
         master:
-          url: jdbc:mysql://127.0.0.1:3306/ruoyi-vue-pro?useUnicode=true&serverTimezone=Asia/Shanghai&characterEncoding=utf8&autoReconnect=true&useSSL=false&allowMultiQueries=true
+          url: jdbc:mysql://localhost:3306/liangcha-yudao?useUnicode=true&serverTimezone=Asia/Shanghai&characterEncoding=utf8&autoReconnect=true&useSSL=false&allowMultiQueries=true
           username: root
-          password: ()
+          password: root
           type: com.alibaba.druid.pool.DruidDataSource
         slave:
-          url: jdbc:mysql://127.0.0.1:3306/ruoyi-vue-pro?useUnicode=true&serverTimezone=Asia/Shanghai&characterEncoding=utf8&autoReconnect=true&useSSL=false&allowMultiQueries=true
+          url: jdbc:mysql://localhost:3306/liangcha-yudao?useUnicode=true&serverTimezone=Asia/Shanghai&characterEncoding=utf8&autoReconnect=true&useSSL=false&allowMultiQueries=true
           username: root
-          password: ()
+          password: root
           type: com.alibaba.druid.pool.DruidDataSource
 
 # minio配置
 minio:
-  url: http://liangchay.cn:9000  # 对象存储服务的URL
-  accessKey: () # Access key账户
-  secretKey: ()  # Secret key密码
+  url: localhost:9000  # 对象存储服务的URL
+  accessKey: root # Access key账户
+  secretKey: root # Secret key密码
+
+sms:
+  tencent:
+    accessKeyId:  #腾讯云的accessKey
+    accessKeySecret:  #腾讯云的accessKeySecret
+    signature:  #短信签名
+    sdkAppId:  #短信sdkAppId
+    connTimeout: 60 #请求超时时间 默认60秒
 
 jetcache:
   statIntervalMinutes: 30

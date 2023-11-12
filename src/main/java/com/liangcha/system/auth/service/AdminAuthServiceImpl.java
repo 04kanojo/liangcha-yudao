@@ -9,13 +9,14 @@ import com.liangcha.framework.captcha.CaptchaProperties;
 import com.liangcha.framework.convert.auth.AuthConvert;
 import com.liangcha.server.system.controller.auth.vo.AuthLoginReqVO;
 import com.liangcha.server.system.controller.auth.vo.AuthLoginRespVO;
+import com.liangcha.server.system.controller.auth.vo.AuthSmsLoginReqVO;
 import com.liangcha.server.system.controller.auth.vo.AuthSmsSendReqVO;
 import com.liangcha.system.auth.domain.AdminUserDO;
 import com.liangcha.system.auth2.pojo.LoginUser;
 import com.liangcha.system.auth2.service.OAuth2TokenService;
 import com.liangcha.system.log.dto.LoginLogCreateReqDTO;
 import com.liangcha.system.log.service.LoginLogService;
-import com.liangcha.system.sms.service.SmsCodeService;
+import com.liangcha.system.sms.service.SmsService;
 import com.liangcha.system.user.enums.LoginLogTypeEnum;
 import com.liangcha.system.user.enums.LoginResultEnum;
 import com.liangcha.system.user.enums.UserTypeEnum;
@@ -27,6 +28,7 @@ import java.util.Objects;
 
 import static com.liangcha.common.enums.ErrorCodeEnum.*;
 import static com.liangcha.common.utils.ServiceExceptionUtil.exception;
+import static com.liangcha.common.utils.ServletUtils.getClientIP;
 import static com.liangcha.common.utils.ServletUtils.getRequest;
 import static com.liangcha.system.auth2.enums.OAuth2ClientConstants.CLIENT_ID_DEFAULT;
 
@@ -47,7 +49,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     private CaptchaProperties captchaProperties;
 
     @Resource
-    private SmsCodeService smsCodeService;
+    private SmsService smsService;
 
     @Resource
     private LoginLogService loginLogService;
@@ -92,13 +94,28 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     }
 
     @Override
+    public AuthLoginRespVO smsLogin(AuthSmsLoginReqVO reqVO) {
+        // 校验验证码
+        smsService.useSmsCode(reqVO.getCode());
+
+        // 获得用户信息
+        AdminUserDO user = userService.getByMobile(reqVO.getMobile());
+        if (user == null) {
+            throw exception(USER_NOT_EXISTS);
+        }
+
+        // 创建 Token 令牌，记录登录日志
+        return createTokenAfterLoginSuccess(user.getId(), reqVO.getMobile(), LoginLogTypeEnum.LOGIN_MOBILE);
+    }
+
+    @Override
     public void sendSmsCode(AuthSmsSendReqVO reqVO) {
         // 登录场景，验证是否存在
         if (userService.getByMobile(reqVO.getMobile()) == null) {
             throw exception(AUTH_MOBILE_NOT_EXISTS);
         }
 
-        smsCodeService.sendSmsCode(reqVO);
+        smsService.sendSmsCode(AuthConvert.INSTANCE.convert(reqVO).setCreateIp(getClientIP()));
     }
 
     /**
