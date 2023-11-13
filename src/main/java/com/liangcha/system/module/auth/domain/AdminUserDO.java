@@ -1,7 +1,6 @@
 package com.liangcha.system.module.auth.domain;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.liangcha.common.pojo.BaseDO;
@@ -25,12 +24,6 @@ import java.util.Set;
 @EqualsAndHashCode(callSuper = true)
 @TableName(value = "system_users", autoResultMap = true)
 public class AdminUserDO extends BaseDO implements Serializable {
-
-    /**
-     * 用户ID
-     */
-    @TableId
-    private Long id;
 
     /**
      * 用户账号

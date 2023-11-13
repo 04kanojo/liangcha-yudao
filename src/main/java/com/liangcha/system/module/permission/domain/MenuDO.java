@@ -1,6 +1,5 @@
 package com.liangcha.system.module.permission.domain;
 
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.liangcha.common.enums.CommonStatusEnum;
 import com.liangcha.common.pojo.BaseDO;
@@ -23,12 +22,6 @@ public class MenuDO extends BaseDO implements Serializable {
      * 菜单编号 - 根节点
      */
     public static final Long ID_ROOT = 0L;
-
-    /**
-     * 菜单编号
-     */
-    @TableId
-    private Long id;
 
     /**
      * 菜单名称

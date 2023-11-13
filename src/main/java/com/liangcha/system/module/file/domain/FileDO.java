@@ -23,11 +23,6 @@ import lombok.NoArgsConstructor;
 public class FileDO extends BaseDO {
 
     /**
-     * 编号
-     */
-    private Long id;
-
-    /**
      * 原文件名
      */
     private String name;

@@ -2,6 +2,7 @@ package com.liangcha.common.pojo;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.Data;
 
@@ -15,6 +16,9 @@ import java.time.LocalDateTime;
  */
 @Data
 public abstract class BaseDO implements Serializable {
+
+    @TableId
+    private Long id;
 
     /**
      * 创建时间

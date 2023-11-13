@@ -20,11 +20,6 @@ import lombok.EqualsAndHashCode;
 public class LoginLogDO extends BaseDO {
 
     /**
-     * 日志主键
-     */
-    private Long id;
-
-    /**
      * 日志类型
      * <p>
      * 枚举 {@link LoginLogTypeEnum}

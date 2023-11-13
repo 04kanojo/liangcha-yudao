@@ -1,7 +1,6 @@
 package com.liangcha.system.module.social.domain;
 
 import com.baomidou.mybatisplus.annotation.KeySequence;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.liangcha.common.pojo.BaseDO;
 import com.liangcha.system.module.user.enums.UserTypeEnum;
@@ -25,16 +24,12 @@ import java.io.Serializable;
 public class SocialUserBindDO extends BaseDO implements Serializable {
 
     /**
-     * 编号
-     */
-    @TableId
-    private Long id;
-    /**
      * 关联的用户编号
      * <p>
      * 关联 UserDO 的编号
      */
     private Long userId;
+
     /**
      * 用户类型
      * <p>
@@ -48,6 +43,7 @@ public class SocialUserBindDO extends BaseDO implements Serializable {
      * 关联 {@link SocialUserDO#getId()}
      */
     private Long socialUserId;
+
     /**
      * 社交平台的类型
      * <p>

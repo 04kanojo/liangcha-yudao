@@ -1,7 +1,6 @@
 package com.liangcha.system.module.auth2.pojo.domain;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.liangcha.common.pojo.BaseDO;
@@ -19,12 +18,6 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @TableName(value = "system_oauth2_client", autoResultMap = true)
 public class OAuth2ClientDO extends BaseDO {
-
-    /**
-     * 编号，数据库自增
-     */
-    @TableId
-    private Long id;
 
     /**
      * 客户端编号

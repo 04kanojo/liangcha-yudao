@@ -1,6 +1,5 @@
 package com.liangcha.system.module.dept.domain;
 
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.liangcha.common.pojo.BaseDO;
 import lombok.Data;
@@ -15,12 +14,6 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class DeptDO extends BaseDO {
-
-    /**
-     * 部门ID
-     */
-    @TableId
-    private Long id;
 
     /**
      * 部门名称

@@ -1,7 +1,6 @@
 package com.liangcha.system.module.log.domain;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.liangcha.common.pojo.BaseDO;
@@ -33,12 +32,6 @@ public class OperateLogDO extends BaseDO {
      * {@link #resultData} 的最大长度
      */
     public static final Integer RESULT_MAX_LENGTH = 4000;
-
-    /**
-     * 日志主键
-     */
-    @TableId
-    private Long id;
 
     /**
      * 链路追踪编号

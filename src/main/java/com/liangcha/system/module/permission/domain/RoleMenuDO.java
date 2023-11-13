@@ -1,6 +1,5 @@
 package com.liangcha.system.module.permission.domain;
 
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.liangcha.common.pojo.BaseDO;
 import lombok.Data;
@@ -19,14 +18,10 @@ import java.io.Serializable;
 public class RoleMenuDO extends BaseDO implements Serializable {
 
     /**
-     * 自增主键
-     */
-    @TableId
-    private Long id;
-    /**
      * 角色ID
      */
     private Long roleId;
+
     /**
      * 菜单ID
      */

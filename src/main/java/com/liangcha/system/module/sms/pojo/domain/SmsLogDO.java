@@ -23,13 +23,6 @@ import java.util.Map;
 public class SmsLogDO extends BaseDO {
 
     /**
-     * 自增编号
-     */
-    private Long id;
-
-    // ========= 模板相关字段 =========
-
-    /**
      * 模板编号
      */
     private String templateId;

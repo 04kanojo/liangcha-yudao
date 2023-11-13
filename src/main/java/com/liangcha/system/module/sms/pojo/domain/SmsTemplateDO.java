@@ -25,13 +25,6 @@ import java.util.List;
 public class SmsTemplateDO extends BaseDO implements Serializable {
 
     /**
-     * 编号
-     */
-    private Long id;
-
-    // ========= 模板相关字段 =========
-
-    /**
      * 短信类型
      * <p>
      * 枚举 {@link SmsTemplateTypeEnum}

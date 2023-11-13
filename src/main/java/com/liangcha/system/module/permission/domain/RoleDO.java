@@ -1,7 +1,6 @@
 package com.liangcha.system.module.permission.domain;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.liangcha.common.pojo.BaseDO;
 import com.liangcha.framework.mybatisplus.type.JsonLongSetTypeHandler;
@@ -22,12 +21,6 @@ import java.util.Set;
 @EqualsAndHashCode(callSuper = true)
 @TableName(value = "system_role", autoResultMap = true)
 public class RoleDO extends BaseDO implements Serializable {
-
-    /**
-     * 角色ID
-     */
-    @TableId
-    private Long id;
 
     /**
      * 角色名称
