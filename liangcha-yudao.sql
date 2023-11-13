@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50730
 File Encoding         : 65001
 
-Date: 2023-11-11 23:26:38
+Date: 2023-11-13 20:18:13
 */
 
 SET FOREIGN_KEY_CHECKS = 0;
@@ -131,13 +131,25 @@ CREATE TABLE `system_login_log`
     `tenant_id`   bigint(20)                              NOT NULL DEFAULT '0' COMMENT '租户编号',
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 2620
+  AUTO_INCREMENT = 1723736763667226627
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci COMMENT ='系统访问记录';
 
 -- ----------------------------
 -- Records of system_login_log
 -- ----------------------------
+INSERT INTO `system_login_log`
+VALUES ('1723705971620667393', '100', '', '1', '2', 'admin', '0', '0:0:0:0:0:0:0:1',
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36',
+        null, '2023-11-12 22:15:03', null, '2023-11-12 22:15:03', '\0', '0');
+INSERT INTO `system_login_log`
+VALUES ('1723706855532486657', '100', '', '1', '2', 'admin', '0', '0:0:0:0:0:0:0:1',
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36',
+        null, '2023-11-12 22:18:34', null, '2023-11-12 22:18:34', '\0', '0');
+INSERT INTO `system_login_log`
+VALUES ('1723736763667226626', '103', '', '1', '2', '19923209856', '0', '0:0:0:0:0:0:0:1',
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36',
+        null, '2023-11-13 00:17:25', null, '2023-11-13 00:17:25', '\0', '0');
 
 -- ----------------------------
 -- Table structure for system_menu
@@ -3533,29 +3545,21 @@ DROP TABLE IF EXISTS `system_sms_log`;
 CREATE TABLE `system_sms_log`
 (
     `id`               bigint(20)                              NOT NULL AUTO_INCREMENT COMMENT '编号',
-    `channel_id`       bigint(20)                              NOT NULL COMMENT '短信渠道编号',
-    `channel_code`     varchar(63) COLLATE utf8mb4_unicode_ci  NOT NULL COMMENT '短信渠道编码',
-    `template_id`      bigint(20)                              NOT NULL COMMENT '模板编号',
+    `mobile`           varchar(11) COLLATE utf8mb4_unicode_ci  NOT NULL COMMENT '手机号',
+    `user_id`          bigint(20)                                       DEFAULT NULL COMMENT '用户编号',
+    `user_type`        tinyint(4)                                       DEFAULT NULL COMMENT '用户类型',
     `template_code`    varchar(63) COLLATE utf8mb4_unicode_ci  NOT NULL COMMENT '模板编码',
     `template_type`    tinyint(4)                              NOT NULL COMMENT '短信类型',
     `template_content` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '短信内容',
     `template_params`  varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '短信参数',
-    `api_template_id`  varchar(63) COLLATE utf8mb4_unicode_ci  NOT NULL COMMENT '短信 API 的模板编号',
-    `mobile`           varchar(11) COLLATE utf8mb4_unicode_ci  NOT NULL COMMENT '手机号',
-    `user_id`          bigint(20)                                       DEFAULT NULL COMMENT '用户编号',
-    `user_type`        tinyint(4)                                       DEFAULT NULL COMMENT '用户类型',
-    `send_status`      tinyint(4)                              NOT NULL DEFAULT '0' COMMENT '发送状态',
+    `template_id`      varchar(63) COLLATE utf8mb4_unicode_ci  NOT NULL COMMENT '短信 API 的模板编号',
+    `create_ip`        varchar(256) COLLATE utf8mb4_unicode_ci          DEFAULT NULL,
+    `use_ip`           varchar(256) COLLATE utf8mb4_unicode_ci          DEFAULT NULL,
     `send_time`        datetime                                         DEFAULT NULL COMMENT '发送时间',
-    `send_code`        int(11)                                          DEFAULT NULL COMMENT '发送结果的编码',
-    `send_msg`         varchar(255) COLLATE utf8mb4_unicode_ci          DEFAULT NULL COMMENT '发送结果的提示',
-    `api_send_code`    varchar(63) COLLATE utf8mb4_unicode_ci           DEFAULT NULL COMMENT '短信 API 发送结果的编码',
-    `api_send_msg`     varchar(255) COLLATE utf8mb4_unicode_ci          DEFAULT NULL COMMENT '短信 API 发送失败的提示',
-    `api_request_id`   varchar(255) COLLATE utf8mb4_unicode_ci          DEFAULT NULL COMMENT '短信 API 发送返回的唯一请求 ID',
-    `api_serial_no`    varchar(255) COLLATE utf8mb4_unicode_ci          DEFAULT NULL COMMENT '短信 API 发送返回的序号',
-    `receive_status`   tinyint(4)                              NOT NULL DEFAULT '0' COMMENT '接收状态',
-    `receive_time`     datetime                                         DEFAULT NULL COMMENT '接收时间',
-    `api_receive_code` varchar(63) COLLATE utf8mb4_unicode_ci           DEFAULT NULL COMMENT 'API 接收结果的编码',
-    `api_receive_msg`  varchar(255) COLLATE utf8mb4_unicode_ci          DEFAULT NULL COMMENT 'API 接收结果的说明',
+    `error_code`       varchar(256) COLLATE utf8mb4_unicode_ci          DEFAULT NULL COMMENT '错误码',
+    `err_message`      varchar(256) COLLATE utf8mb4_unicode_ci          DEFAULT NULL COMMENT '错误信息',
+    `message`          varchar(256) COLLATE utf8mb4_unicode_ci          DEFAULT NULL COMMENT '返回消息',
+    `biz_id`           varchar(256) COLLATE utf8mb4_unicode_ci          DEFAULT NULL COMMENT '回执id',
     `creator`          varchar(64) COLLATE utf8mb4_unicode_ci           DEFAULT '' COMMENT '创建者',
     `create_time`      datetime                                NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `updater`          varchar(64) COLLATE utf8mb4_unicode_ci           DEFAULT '' COMMENT '更新者',
@@ -3563,7 +3567,7 @@ CREATE TABLE `system_sms_log`
     `deleted`          bit(1)                                  NOT NULL DEFAULT b'0' COMMENT '是否删除',
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 449
+  AUTO_INCREMENT = 1723964367770914818
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci COMMENT ='短信日志';
 
@@ -3577,25 +3581,23 @@ CREATE TABLE `system_sms_log`
 DROP TABLE IF EXISTS `system_sms_template`;
 CREATE TABLE `system_sms_template`
 (
-    `id`              bigint(20)                              NOT NULL AUTO_INCREMENT COMMENT '编号',
-    `type`            tinyint(4)                              NOT NULL COMMENT '短信签名',
-    `status`          tinyint(4)                              NOT NULL COMMENT '开启状态',
-    `code`            varchar(63) COLLATE utf8mb4_unicode_ci  NOT NULL COMMENT '模板编码',
-    `name`            varchar(63) COLLATE utf8mb4_unicode_ci  NOT NULL COMMENT '模板名称',
-    `content`         varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '模板内容',
-    `params`          varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '参数数组',
-    `remark`          varchar(255) COLLATE utf8mb4_unicode_ci          DEFAULT NULL COMMENT '备注',
-    `api_template_id` varchar(63) COLLATE utf8mb4_unicode_ci  NOT NULL COMMENT '短信 API 的模板编号',
-    `channel_id`      bigint(20)                              NOT NULL COMMENT '短信渠道编号',
-    `channel_code`    varchar(63) COLLATE utf8mb4_unicode_ci  NOT NULL COMMENT '短信渠道编码',
-    `creator`         varchar(64) COLLATE utf8mb4_unicode_ci           DEFAULT '' COMMENT '创建者',
-    `create_time`     datetime                                NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `updater`         varchar(64) COLLATE utf8mb4_unicode_ci           DEFAULT '' COMMENT '更新者',
-    `update_time`     datetime                                NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    `deleted`         bit(1)                                  NOT NULL DEFAULT b'0' COMMENT '是否删除',
+    `id`          bigint(20)                              NOT NULL AUTO_INCREMENT COMMENT '编号',
+    `status`      tinyint(4)                              NOT NULL COMMENT '开启状态',
+    `code`        varchar(63) COLLATE utf8mb4_unicode_ci  NOT NULL COMMENT '模板编码',
+    `name`        varchar(63) COLLATE utf8mb4_unicode_ci  NOT NULL COMMENT '模板名称',
+    `type`        int(1)                                           DEFAULT NULL COMMENT '短信类型',
+    `content`     varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '模板内容',
+    `params`      varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '参数数组',
+    `remark`      varchar(255) COLLATE utf8mb4_unicode_ci          DEFAULT NULL COMMENT '备注',
+    `template_id` varchar(63) COLLATE utf8mb4_unicode_ci  NOT NULL COMMENT '短信 API 的模板编号',
+    `creator`     varchar(64) COLLATE utf8mb4_unicode_ci           DEFAULT '' COMMENT '创建者',
+    `create_time` datetime                                NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updater`     varchar(64) COLLATE utf8mb4_unicode_ci           DEFAULT '' COMMENT '更新者',
+    `update_time` datetime                                NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `deleted`     bit(1)                                  NOT NULL DEFAULT b'0' COMMENT '是否删除',
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 17
+  AUTO_INCREMENT = 667
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci COMMENT ='短信模板';
 
@@ -3603,50 +3605,9 @@ CREATE TABLE `system_sms_template`
 -- Records of system_sms_template
 -- ----------------------------
 INSERT INTO `system_sms_template`
-VALUES ('2', '1', '0', 'test_01', '测试验证码短信', '正在进行登录操作{operation}，您的验证码是{code}',
-        '[\"operation\",\"code\"]', null, '4383920', '6', 'DEBUG_DING_TALK', '', '2021-03-31 10:49:38', '1',
-        '2022-12-10 21:26:20', '\0');
-INSERT INTO `system_sms_template`
-VALUES ('3', '1', '0', 'test_02', '公告通知', '您的验证码{code}，该验证码5分钟内有效，请勿泄漏于他人！', '[\"code\"]',
-        null, 'SMS_207945135', '2', 'ALIYUN', '', '2021-03-31 11:56:30', '1', '2021-04-10 01:22:02', '\0');
-INSERT INTO `system_sms_template`
-VALUES ('6', '3', '0', 'test-01', '测试模板', '哈哈哈 {name}', '[\"name\"]', 'f哈哈哈', '4383920', '6',
-        'DEBUG_DING_TALK', '1', '2021-04-10 01:07:21', '1', '2022-12-10 21:26:09', '\0');
-INSERT INTO `system_sms_template`
-VALUES ('7', '3', '0', 'test-04', '测试下', '老鸡{name}，牛逼{code}', '[\"name\",\"code\"]', null, 'suibian', '4',
-        'DEBUG_DING_TALK', '1', '2021-04-13 00:29:53', '1', '2021-04-14 00:30:38', '\0');
-INSERT INTO `system_sms_template`
-VALUES ('8', '1', '0', 'user-sms-login', '前台用户短信登录', '您的验证码是{code}', '[\"code\"]', null, '4372216', '6',
-        'DEBUG_DING_TALK', '1', '2021-10-11 08:10:00', '1', '2022-12-10 21:25:59', '\0');
-INSERT INTO `system_sms_template`
-VALUES ('9', '2', '0', 'bpm_task_assigned', '【工作流】任务被分配',
-        '您收到了一条新的待办任务：{processInstanceName}-{taskName}，申请人：{startUserNickname}，处理链接：{detailUrl}',
-        '[\"processInstanceName\",\"taskName\",\"startUserNickname\",\"detailUrl\"]', null, 'suibian', '4',
-        'DEBUG_DING_TALK', '1', '2022-01-21 22:31:19', '1', '2022-01-22 00:03:36', '\0');
-INSERT INTO `system_sms_template`
-VALUES ('10', '2', '0', 'bpm_process_instance_reject', '【工作流】流程被不通过',
-        '您的流程被审批不通过：{processInstanceName}，原因：{reason}，查看链接：{detailUrl}',
-        '[\"processInstanceName\",\"reason\",\"detailUrl\"]', null, 'suibian', '4', 'DEBUG_DING_TALK', '1',
-        '2022-01-22 00:03:31', '1', '2022-05-01 12:33:14', '\0');
-INSERT INTO `system_sms_template`
-VALUES ('11', '2', '0', 'bpm_process_instance_approve', '【工作流】流程被通过',
-        '您的流程被审批通过：{processInstanceName}，查看链接：{detailUrl}', '[\"processInstanceName\",\"detailUrl\"]',
-        null, 'suibian', '4', 'DEBUG_DING_TALK', '1', '2022-01-22 00:04:31', '1', '2022-03-27 20:32:21', '\0');
-INSERT INTO `system_sms_template`
-VALUES ('12', '2', '0', 'demo', '演示模板', '我就是测试一下下', '[]', null, 'biubiubiu', '6', 'DEBUG_DING_TALK', '1',
-        '2022-04-10 23:22:49', '1', '2023-03-24 23:45:07', '\0');
-INSERT INTO `system_sms_template`
-VALUES ('14', '1', '0', 'user-update-mobile', '会员用户 - 修改手机',
-        '您的验证码{code}，该验证码 5 分钟内有效，请勿泄漏于他人！', '[\"code\"]', '', 'null', '4', 'DEBUG_DING_TALK', '1',
-        '2023-08-19 18:58:01', '1', '2023-08-19 11:34:04', '\0');
-INSERT INTO `system_sms_template`
-VALUES ('15', '1', '0', 'user-update-password', '会员用户 - 修改密码',
-        '您的验证码{code}，该验证码 5 分钟内有效，请勿泄漏于他人！', '[\"code\"]', '', 'null', '4', 'DEBUG_DING_TALK', '1',
-        '2023-08-19 18:58:01', '1', '2023-08-19 11:34:18', '\0');
-INSERT INTO `system_sms_template`
-VALUES ('16', '1', '0', 'user-reset-password', '会员用户 - 重置密码',
-        '您的验证码{code}，该验证码 5 分钟内有效，请勿泄漏于他人！', '[\"code\"]', '', 'null', '4', 'DEBUG_DING_TALK', '1',
-        '2023-08-19 18:58:01', '1', '2023-08-19 11:34:18', '\0');
+VALUES ('666', '0', 'admin-sms-login', '登录', '1',
+        '亲爱的用户，您正在申请登录，验证码为：{1}，{2}分钟有效，若非本人操作，请勿泄露。', '[\"1\",\"2\"]', null, '1978630',
+        '', '2023-11-12 12:41:18', '', '2023-11-13 06:46:25', '\0');
 
 -- ----------------------------
 -- Table structure for system_social_user
@@ -3859,7 +3820,7 @@ CREATE TABLE `system_users`
 -- ----------------------------
 INSERT INTO `system_users`
 VALUES ('1', 'admin', '$2a$10$mRMIYLDtRHlf6.9ipiqH1.Z.bh/R9dO9d5iHiGYPigi6r5KOoR2Wm', '凉茶', '管理员', '103', '[1]',
-        'aoteman@126.com', '15612345678', '1',
+        'G2494552478@hotmail.com', '19923209856', '1',
         'http://127.0.0.1:48080/admin-api/infra/file/4/get/37e56010ecbee472cdd821ac4b608e151e62a74d9633f15d085aee026eedeb60.png',
-        '0', '0:0:0:0:0:0:0:1', '2023-10-24 20:20:54', 'admin', '2021-01-05 17:03:47', null, '2023-11-11 15:24:35',
+        '0', '0:0:0:0:0:0:0:1', '2023-11-13 00:17:25', 'admin', '2021-01-05 17:03:47', null, '2023-11-13 00:17:25',
         '\0', '1');
