@@ -1,7 +1,6 @@
 package com.liangcha.system.sms.service;
 
 import com.liangcha.system.sms.dao.SmsLogMapper;
-import com.liangcha.system.sms.enums.SmsSendStatusEnum;
 import com.liangcha.system.sms.pojo.domain.SmsLogDO;
 import com.liangcha.system.sms.pojo.domain.SmsTemplateDO;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +25,7 @@ public class SmsLogServiceImpl implements SmsLogService {
     private SmsLogMapper smsLogMapper;
 
     @Override
-    public void createSmsLog(String mobile, Long userId, Integer userType, Boolean isSend,
+    public Long createSmsLog(String mobile, Long userId, Integer userType,
                              SmsTemplateDO template, String templateContent, LinkedHashMap<String, String> templateParams) {
         SmsLogDO smsLog = new SmsLogDO()
                 .setMobile(mobile)
@@ -38,19 +37,29 @@ public class SmsLogServiceImpl implements SmsLogService {
                 .setTemplateType(template.getType())
                 .setTemplateContent(templateContent)
                 .setTemplateParams(templateParams)
-                .setCreateIp(getClientIP())
-                .setSendStatus(isSend ? SmsSendStatusEnum.INIT.getStatus() : SmsSendStatusEnum.IGNORE.getStatus());
+                .setTemplateType(template.getType())
+                .setCreateIp(getClientIP());
 
         // 插入数据库
         smsLogMapper.insert(smsLog);
+        return smsLog.getId();
     }
 
     @Override
     public void updateLastByMobile(String mobile) {
         SmsLogDO smsLog = smsLogMapper.selectLastByMobile(mobile);
         smsLog.setUseIp(getClientIP());
-        smsLog.setSendStatus(SmsSendStatusEnum.SUCCESS.getStatus());
         smsLogMapper.updateById(smsLog);
+    }
+
+    @Override
+    public SmsLogDO getById(Long id) {
+        return smsLogMapper.selectById(id);
+    }
+
+    @Override
+    public void updateById(SmsLogDO smmLog) {
+        smsLogMapper.updateById(smmLog);
     }
 
 }

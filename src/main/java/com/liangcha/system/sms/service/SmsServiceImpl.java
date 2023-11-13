@@ -3,11 +3,13 @@ package com.liangcha.system.sms.service;
 import cn.hutool.core.collection.CollUtil;
 import com.alicp.jetcache.Cache;
 import com.liangcha.common.enums.CommonStatusEnum;
+import com.liangcha.framework.convert.sms.SmsConvert;
 import com.liangcha.framework.rabbitMq.message.SmsSendMessage;
 import com.liangcha.framework.rabbitMq.producer.SmsProducer;
 import com.liangcha.system.sms.dto.SmsCodeSendReqDTO;
 import com.liangcha.system.sms.enums.SmsSceneEnum;
 import com.liangcha.system.sms.pojo.SmsCode;
+import com.liangcha.system.sms.pojo.domain.SmsLogDO;
 import com.liangcha.system.sms.pojo.domain.SmsTemplateDO;
 import com.liangcha.system.sms.properties.SmsCodeProperties;
 import org.dromara.sms4j.api.entity.SmsResponse;
@@ -68,13 +70,15 @@ public class SmsServiceImpl implements SmsService {
     @Override
     public void doSendSms(SmsSendMessage message) {
         // 发送验证码
-        // TODO 使用返回数据更新smslog日志 睡觉了
         SmsResponse smsResponse = SmsFactory
                 .createSmsBlend(SupplierType.TENCENT)
                 .sendMessage(message.getMobile(),
                         message.getApiTemplateId(),
                         message.getParamMap());
-        System.out.println(smsResponse);
+
+        // 更新数据库
+        SmsLogDO smsLog = SmsConvert.INSTANCE.convert(smsResponse).setId(message.getLogId());
+        smsLogService.updateById(smsLog);
     }
 
     /**
@@ -112,12 +116,12 @@ public class SmsServiceImpl implements SmsService {
 
         // 创建发送日志。如果模板被禁用，则不发送短信，只记录日志
         String content = smsTemplateService.formatSmsTemplateContent(template.getContent(), paramMap);
-        Boolean isSend = CommonStatusEnum.ENABLE.getStatus().equals(template.getStatus());
-        smsLogService.createSmsLog(mobile, userId, userType, isSend, template, content, paramMap);
+        boolean isSend = CommonStatusEnum.ENABLE.getStatus().equals(template.getStatus());
+        Long logId = smsLogService.createSmsLog(mobile, userId, userType, template, content, paramMap);
 
         // 发送 MQ 消息，异步执行发送短信
         if (isSend) {
-            smsProducer.sendSmsSendMessage(mobile, template.getTemplateId(), paramMap);
+            smsProducer.sendSmsSendMessage(mobile, template.getTemplateId(), paramMap, logId);
         }
     }
 

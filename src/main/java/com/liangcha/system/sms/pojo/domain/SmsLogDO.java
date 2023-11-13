@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.liangcha.common.pojo.BaseDO;
-import com.liangcha.system.user.enums.UserTypeEnum;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -19,7 +18,6 @@ import java.util.Map;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class SmsLogDO extends BaseDO {
@@ -57,8 +55,6 @@ public class SmsLogDO extends BaseDO {
     @TableField(typeHandler = JacksonTypeHandler.class)
     private Map<String, String> templateParams;
 
-    // ========= 手机相关字段 =========
-
     /**
      * 手机号
      */
@@ -71,24 +67,42 @@ public class SmsLogDO extends BaseDO {
 
     /**
      * 用户类型
-     * <p>
-     * 枚举 {@link UserTypeEnum}
      */
     private Integer userType;
 
+    /**
+     * 创建ip
+     */
     private String createIp;
 
+    /**
+     * 使用ip
+     */
     private String useIp;
 
+    /**
+     * 错误码
+     */
+    private String errorCode;
 
     /**
-     * 发送状态
+     * 错误信息
      */
-    private Integer sendStatus;
+    private String errMessage;
+
+    /**
+     * 返回消息
+     */
+    private String message;
 
     /**
      * 发送时间
      */
     private LocalDateTime sendTime;
+
+    /**
+     * 回执id
+     */
+    private String bizId;
 
 }

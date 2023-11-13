@@ -32,4 +32,9 @@ public class SmsSendMessage implements Serializable {
      * 参数集合
      */
     private LinkedHashMap<String, String> paramMap;
+
+    /**
+     * 日志id
+     */
+    private Long logId;
 }

@@ -26,10 +26,11 @@ public class SmsProducer {
      * @param mobile        手机号
      * @param apiTemplateId 短信模板编号
      */
-    public void sendSmsSendMessage(String mobile, String apiTemplateId, LinkedHashMap<String, String> params) {
+    public void sendSmsSendMessage(String mobile, String apiTemplateId, LinkedHashMap<String, String> params, Long logId) {
         SmsSendMessage message = new SmsSendMessage()
                 .setMobile(mobile)
                 .setParamMap(params)
+                .setLogId(logId)
                 .setApiTemplateId(apiTemplateId);
 
         rabbitTemplate.convertAndSend(SMS, message);
