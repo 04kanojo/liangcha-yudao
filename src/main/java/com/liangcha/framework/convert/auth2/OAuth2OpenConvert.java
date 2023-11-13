@@ -1,12 +1,12 @@
 package com.liangcha.framework.convert.auth2;
 
 import com.liangcha.common.utils.CollectionUtils;
-import com.liangcha.server.system.controller.auth2.vo.OAuth2OpenAccessTokenRespVO;
-import com.liangcha.server.system.controller.auth2.vo.OAuth2OpenAuthorizeInfoRespVO;
-import com.liangcha.server.system.controller.auth2.vo.OAuth2OpenCheckTokenRespVO;
-import com.liangcha.system.auth2.pojo.LoginUser;
-import com.liangcha.system.auth2.pojo.OAuth2Approve;
-import com.liangcha.system.auth2.pojo.domain.OAuth2ClientDO;
+import com.liangcha.system.controller.auth2.vo.OAuth2OpenAccessTokenRespVO;
+import com.liangcha.system.controller.auth2.vo.OAuth2OpenAuthorizeInfoRespVO;
+import com.liangcha.system.controller.auth2.vo.OAuth2OpenCheckTokenRespVO;
+import com.liangcha.system.module.auth2.pojo.LoginUser;
+import com.liangcha.system.module.auth2.pojo.OAuth2Approve;
+import com.liangcha.system.module.auth2.pojo.domain.OAuth2ClientDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

@@ -1,7 +1,7 @@
 package com.liangcha.framework.convert.auth2;
 
-import com.liangcha.server.system.controller.auth2.vo.OAuth2ClientRespVO;
-import com.liangcha.system.auth2.pojo.domain.OAuth2ClientDO;
+import com.liangcha.system.controller.auth2.vo.OAuth2ClientRespVO;
+import com.liangcha.system.module.auth2.pojo.domain.OAuth2ClientDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

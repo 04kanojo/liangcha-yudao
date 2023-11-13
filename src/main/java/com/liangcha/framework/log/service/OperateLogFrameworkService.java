@@ -1,6 +1,6 @@
 package com.liangcha.framework.log.service;
 
-import com.liangcha.system.log.domain.OperateLogDO;
+import com.liangcha.system.module.log.domain.OperateLogDO;
 
 /**
  * 操作日志 Framework Service 接口

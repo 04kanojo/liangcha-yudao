@@ -1,7 +1,7 @@
 package com.liangcha.framework.convert.log;
 
-import com.liangcha.system.log.domain.OperateLogDO;
-import com.liangcha.system.log.dto.OperateLogCreateReqDTO;
+import com.liangcha.system.module.log.domain.OperateLogDO;
+import com.liangcha.system.module.log.dto.OperateLogCreateReqDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

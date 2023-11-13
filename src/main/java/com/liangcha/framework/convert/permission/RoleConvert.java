@@ -1,10 +1,10 @@
 package com.liangcha.framework.convert.permission;
 
-import com.liangcha.server.system.controller.role.vo.RoleCreateReqVO;
-import com.liangcha.server.system.controller.role.vo.RoleRespVO;
-import com.liangcha.server.system.controller.role.vo.RoleSimpleRespVO;
-import com.liangcha.server.system.controller.role.vo.RoleUpdateReqVO;
-import com.liangcha.system.permission.domain.RoleDO;
+import com.liangcha.system.controller.role.vo.RoleCreateReqVO;
+import com.liangcha.system.controller.role.vo.RoleRespVO;
+import com.liangcha.system.controller.role.vo.RoleSimpleRespVO;
+import com.liangcha.system.controller.role.vo.RoleUpdateReqVO;
+import com.liangcha.system.module.permission.domain.RoleDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

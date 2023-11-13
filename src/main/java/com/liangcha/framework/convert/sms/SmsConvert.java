@@ -1,6 +1,6 @@
 package com.liangcha.framework.convert.sms;
 
-import com.liangcha.system.sms.pojo.domain.SmsLogDO;
+import com.liangcha.system.module.sms.pojo.domain.SmsLogDO;
 import org.dromara.sms4j.api.entity.SmsResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

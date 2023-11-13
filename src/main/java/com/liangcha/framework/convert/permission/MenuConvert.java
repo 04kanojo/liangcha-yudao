@@ -1,10 +1,10 @@
 package com.liangcha.framework.convert.permission;
 
-import com.liangcha.server.system.controller.promission.vo.MenuCreateReqVO;
-import com.liangcha.server.system.controller.promission.vo.MenuRespVO;
-import com.liangcha.server.system.controller.promission.vo.MenuSimpleRespVO;
-import com.liangcha.server.system.controller.promission.vo.MenuUpdateReqVO;
-import com.liangcha.system.permission.domain.MenuDO;
+import com.liangcha.system.controller.promission.vo.MenuCreateReqVO;
+import com.liangcha.system.controller.promission.vo.MenuRespVO;
+import com.liangcha.system.controller.promission.vo.MenuSimpleRespVO;
+import com.liangcha.system.controller.promission.vo.MenuUpdateReqVO;
+import com.liangcha.system.module.permission.domain.MenuDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

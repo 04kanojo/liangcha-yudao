@@ -1,9 +1,9 @@
 package com.liangcha.framework.convert.auth2;
 
-import com.liangcha.server.system.controller.auth2.vo.OAuth2UserInfoRespVO;
-import com.liangcha.system.auth.domain.AdminUserDO;
-import com.liangcha.system.dept.domain.DeptDO;
-import com.liangcha.system.dept.domain.PostDO;
+import com.liangcha.system.controller.auth2.vo.OAuth2UserInfoRespVO;
+import com.liangcha.system.module.auth.domain.AdminUserDO;
+import com.liangcha.system.module.dept.domain.DeptDO;
+import com.liangcha.system.module.dept.domain.PostDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

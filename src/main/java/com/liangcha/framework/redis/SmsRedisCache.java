@@ -3,8 +3,8 @@ package com.liangcha.framework.redis;
 import com.alicp.jetcache.Cache;
 import com.alicp.jetcache.anno.CacheType;
 import com.alicp.jetcache.template.QuickConfig;
-import com.liangcha.system.sms.pojo.SmsCode;
-import com.liangcha.system.sms.properties.SmsCodeProperties;
+import com.liangcha.system.module.sms.pojo.SmsCode;
+import com.liangcha.system.module.sms.properties.SmsCodeProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 

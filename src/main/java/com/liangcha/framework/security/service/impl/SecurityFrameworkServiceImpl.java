@@ -2,8 +2,8 @@ package com.liangcha.framework.security.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import com.liangcha.framework.security.service.SecurityFrameworkService;
-import com.liangcha.system.auth2.pojo.LoginUser;
-import com.liangcha.system.permission.service.PermissionService;
+import com.liangcha.system.module.auth2.pojo.LoginUser;
+import com.liangcha.system.module.permission.service.PermissionService;
 import lombok.AllArgsConstructor;
 
 import java.util.Arrays;

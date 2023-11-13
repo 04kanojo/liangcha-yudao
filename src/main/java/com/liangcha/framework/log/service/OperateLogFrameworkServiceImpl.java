@@ -1,9 +1,9 @@
 package com.liangcha.framework.log.service;
 
 import com.liangcha.framework.convert.log.OperateLogConvert;
-import com.liangcha.system.log.domain.OperateLogDO;
-import com.liangcha.system.log.dto.OperateLogCreateReqDTO;
-import com.liangcha.system.log.service.OperateLogService;
+import com.liangcha.system.module.log.domain.OperateLogDO;
+import com.liangcha.system.module.log.dto.OperateLogCreateReqDTO;
+import com.liangcha.system.module.log.service.OperateLogService;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 

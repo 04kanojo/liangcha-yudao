@@ -4,8 +4,8 @@ import cn.hutool.core.util.StrUtil;
 import com.alicp.jetcache.Cache;
 import com.liangcha.framework.security.config.SecurityProperties;
 import com.liangcha.framework.security.utils.SecurityFrameworkUtils;
-import com.liangcha.system.auth2.pojo.LoginUser;
-import com.liangcha.system.auth2.service.OAuth2TokenService;
+import com.liangcha.system.module.auth2.pojo.LoginUser;
+import com.liangcha.system.module.auth2.service.OAuth2TokenService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static com.liangcha.system.auth2.enums.OAuth2ClientConstants.CLIENT_ID_DEFAULT;
+import static com.liangcha.system.module.auth2.enums.OAuth2ClientConstants.CLIENT_ID_DEFAULT;
 
 /**
  * Token 过滤器，验证 token 的有效性
