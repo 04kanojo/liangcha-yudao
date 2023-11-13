@@ -17,6 +17,10 @@ import java.time.LocalDateTime;
 @Data
 public abstract class BaseDO implements Serializable {
 
+    /**
+     * id
+     * 注：如果将id放在这个地方，如果需要setId的时候返回的是BaseDo对象
+     */
     @TableId
     private Long id;
 

@@ -44,7 +44,7 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @Override
     public void updateUserLogin(Long id, String loginIp) {
-        userMapper.updateById(new AdminUserDO().setId(id).setLoginIp(loginIp).setLoginDate(LocalDateTime.now()));
+        userMapper.updateById((AdminUserDO) new AdminUserDO().setLoginIp(loginIp).setLoginDate(LocalDateTime.now()).setId(id));
     }
 
 }

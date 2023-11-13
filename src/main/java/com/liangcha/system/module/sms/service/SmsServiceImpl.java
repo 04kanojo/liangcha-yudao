@@ -6,12 +6,12 @@ import com.liangcha.common.enums.CommonStatusEnum;
 import com.liangcha.framework.convert.sms.SmsConvert;
 import com.liangcha.framework.rabbitMq.message.SmsSendMessage;
 import com.liangcha.framework.rabbitMq.producer.SmsProducer;
-import com.liangcha.system.module.sms.properties.SmsCodeProperties;
 import com.liangcha.system.module.sms.dto.SmsCodeSendReqDTO;
 import com.liangcha.system.module.sms.enums.SmsSceneEnum;
 import com.liangcha.system.module.sms.pojo.SmsCode;
 import com.liangcha.system.module.sms.pojo.domain.SmsLogDO;
 import com.liangcha.system.module.sms.pojo.domain.SmsTemplateDO;
+import com.liangcha.system.module.sms.properties.SmsCodeProperties;
 import org.dromara.sms4j.api.entity.SmsResponse;
 import org.dromara.sms4j.core.factory.SmsFactory;
 import org.dromara.sms4j.provider.enumerate.SupplierType;
@@ -77,7 +77,7 @@ public class SmsServiceImpl implements SmsService {
                         message.getParamMap());
 
         // 更新数据库
-        SmsLogDO smsLog = SmsConvert.INSTANCE.convert(smsResponse).setId(message.getLogId());
+        SmsLogDO smsLog = (SmsLogDO) SmsConvert.INSTANCE.convert(smsResponse).setId(message.getLogId());
         smsLogService.updateById(smsLog);
     }
 

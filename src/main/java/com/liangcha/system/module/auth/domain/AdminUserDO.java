@@ -77,7 +77,7 @@ public class AdminUserDO extends BaseDO implements Serializable {
     private String avatar;
 
     /**
-     * 帐号状态
+     * 账号状态
      */
     private Integer status;
 
