@@ -17,6 +17,8 @@ import java.util.stream.Collectors;
 
 /**
  * List<Integer> 的类型转换器实现类，对应数据库的 varchar 类型
+ * 例：数据库数据 1,2,3
+ * 转换后得到List<Integer>类型的数据
  *
  * @author 凉茶
  */
