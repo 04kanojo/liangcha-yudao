@@ -1,8 +1,11 @@
 package com.liangcha.mall.product.brand.service;
 
+import com.liangcha.mall.controller.product.brand.vo.ProductBrandCreateReqVO;
 import com.liangcha.mall.controller.product.brand.vo.ProductBrandListReqVO;
+import com.liangcha.mall.controller.product.brand.vo.ProductBrandUpdateReqVO;
 import com.liangcha.mall.product.brand.domain.ProductBrandDO;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -12,20 +15,20 @@ import java.util.List;
  */
 public interface ProductBrandService {
 
-//    /**
-//     * 创建品牌
-//     *
-//     * @param createReqVO 创建信息
-//     * @return 编号
-//     */
-//    Long createBrand(@Valid ProductBrandCreateReqVO createReqVO);
-//
-//    /**
-//     * 更新品牌
-//     *
-//     * @param updateReqVO 更新信息
-//     */
-//    void updateBrand(@Valid ProductBrandUpdateReqVO updateReqVO);
+    /**
+     * 创建品牌
+     *
+     * @param createReqVO 创建信息
+     * @return 编号
+     */
+    Long createBrand(@Valid ProductBrandCreateReqVO createReqVO);
+
+    /**
+     * 更新品牌
+     *
+     * @param updateReqVO 更新信息
+     */
+    void updateBrand(@Valid ProductBrandUpdateReqVO updateReqVO);
 //
 //    /**
 //     * 删除品牌
@@ -57,13 +60,8 @@ public interface ProductBrandService {
      * @return 品牌列表
      */
     List<ProductBrandDO> getBrandList(ProductBrandListReqVO listReqVO);
-//
-//    /**
-//     * 验证选择的商品分类是否合法
-//     *
-//     * @param id 分类编号
-//     */
-//    void validateProductBrand(Long id);
+
+
 //
 //    /**
 //     * 获得品牌分页

@@ -1,7 +1,9 @@
 package com.liangcha.mall.convert.product.brand;
 
 import cn.hutool.db.PageResult;
+import com.liangcha.mall.controller.product.brand.vo.ProductBrandCreateReqVO;
 import com.liangcha.mall.controller.product.brand.vo.ProductBrandRespVO;
+import com.liangcha.mall.controller.product.brand.vo.ProductBrandUpdateReqVO;
 import com.liangcha.mall.product.brand.domain.ProductBrandDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -18,9 +20,9 @@ public interface ProductBrandConvert {
 
     ProductBrandConvert INSTANCE = Mappers.getMapper(ProductBrandConvert.class);
 
-//    ProductBrandDO convert(ProductBrandCreateReqVO bean);
-//
-//    ProductBrandDO convert(ProductBrandUpdateReqVO bean);
+    ProductBrandDO convert(ProductBrandCreateReqVO bean);
+
+    ProductBrandDO convert(ProductBrandUpdateReqVO bean);
 
     ProductBrandRespVO convert(ProductBrandDO bean);
 

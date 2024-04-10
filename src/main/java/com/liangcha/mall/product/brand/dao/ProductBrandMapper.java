@@ -25,9 +25,10 @@ public interface ProductBrandMapper extends BaseMapper<ProductBrandDO> {
                 .like(ProductBrandDO::getName, reqVO.getName()));
     }
 
-//    default ProductBrandDO selectByName(String name) {
-//        return selectOne(ProductBrandDO::getName, name);
-//    }
+    default ProductBrandDO selectByName(String name) {
+        return selectOne(new LambdaQueryWrapper<ProductBrandDO>()
+                .eq(ProductBrandDO::getName, name));
+    }
 //
 //    default List<ProductBrandDO> selectListByStatus(Integer status) {
 //        return selectList(ProductBrandDO::getStatus, status);

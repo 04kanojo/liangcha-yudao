@@ -223,7 +223,12 @@ public enum ErrorCodeEnum {
     FILE_TYPE_ERR(1_001_003_004, "文件类型错误"),
 
     FILE_BUCKET_LENGTH_ERR(1_001_003_005, "桶长度最短3个字符最长63个字符"),
-    ;
+
+    // ========== 商品品牌相关编号 1-008-002-000 ==========
+    BRAND_NOT_EXISTS(1_008_002_000, "品牌不存在"),
+    BRAND_DISABLED(1_008_002_001, "品牌已禁用"),
+    BRAND_NAME_EXIST(1_008_002_002, "品牌名称已存在");
+
 
     private final Integer code;
     private final String msg;

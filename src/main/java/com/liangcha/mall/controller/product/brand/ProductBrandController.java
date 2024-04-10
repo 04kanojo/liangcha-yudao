@@ -2,8 +2,10 @@ package com.liangcha.mall.controller.product.brand;
 
 
 import com.liangcha.common.pojo.CommonResult;
+import com.liangcha.mall.controller.product.brand.vo.ProductBrandCreateReqVO;
 import com.liangcha.mall.controller.product.brand.vo.ProductBrandListReqVO;
 import com.liangcha.mall.controller.product.brand.vo.ProductBrandRespVO;
+import com.liangcha.mall.controller.product.brand.vo.ProductBrandUpdateReqVO;
 import com.liangcha.mall.convert.product.brand.ProductBrandConvert;
 import com.liangcha.mall.product.brand.domain.ProductBrandDO;
 import com.liangcha.mall.product.brand.service.ProductBrandService;
@@ -11,9 +13,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
@@ -32,20 +32,20 @@ public class ProductBrandController {
     @Resource
     private ProductBrandService brandService;
 
-//    @PostMapping("/create")
-//    @ApiOperation(value = "创建品牌")
-//    @PreAuthorize("@ss.hasPermission('product:brand:create')")
-//    public CommonResult<Long> createBrand(@Valid @RequestBody ProductBrandCreateReqVO createReqVO) {
-//        return success(brandService.createBrand(createReqVO));
-//    }
-//
-//    @PutMapping("/update")
-//    @Operation(summary = "更新品牌")
-//    @PreAuthorize("@ss.hasPermission('product:brand:update')")
-//    public CommonResult<Boolean> updateBrand(@Valid @RequestBody ProductBrandUpdateReqVO updateReqVO) {
-//        brandService.updateBrand(updateReqVO);
-//        return success(true);
-//    }
+    @PostMapping("/create")
+    @ApiOperation("创建品牌")
+    @PreAuthorize("@ss.hasPermission('product:brand:create')")
+    public CommonResult<Long> createBrand(@Valid @RequestBody ProductBrandCreateReqVO createReqVO) {
+        return success(brandService.createBrand(createReqVO));
+    }
+
+    @PutMapping("/update")
+    @ApiOperation("更新品牌")
+    @PreAuthorize("@ss.hasPermission('product:brand:update')")
+    public CommonResult<Boolean> updateBrand(@Valid @RequestBody ProductBrandUpdateReqVO updateReqVO) {
+        brandService.updateBrand(updateReqVO);
+        return success(true);
+    }
 //
 //    @DeleteMapping("/delete")
 //    @Operation(summary = "删除品牌")
