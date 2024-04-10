@@ -1,17 +1,17 @@
 package com.liangcha.system.controller;
 
-import com.liangcha.common.enums.ErrorCodeEnum;
 import com.liangcha.common.pojo.CommonResult;
-import com.liangcha.common.utils.ServiceExceptionUtil;
 import com.liangcha.framework.log.annotation.Log;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.dromara.sms4j.api.SmsBlend;
 import org.dromara.sms4j.core.factory.SmsFactory;
 import org.dromara.sms4j.provider.enumerate.SupplierType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.LinkedHashMap;
 
 import static com.liangcha.common.pojo.CommonResult.success;
@@ -28,11 +28,9 @@ public class TestController {
     @GetMapping("/null")
     @ApiOperation("忘记测试什么了")
     @Log
-    public CommonResult<String> test(HttpServletRequest request, @RequestParam("msg") String msg) {
-        if (true) {
-            throw ServiceExceptionUtil.exception(ErrorCodeEnum.ERR_REQUEST);
-        }
-        return CommonResult.success(msg);
+    public CommonResult<String> test() {
+        System.out.println("成功");
+        return CommonResult.success("666");
     }
 
     @PostMapping("/send")
@@ -47,7 +45,9 @@ public class TestController {
         }
 
         SmsBlend smsBlend = SmsFactory.createSmsBlend(SupplierType.TENCENT);
-        smsBlend.sendMessage("**", "1978630", map);
+        smsBlend.sendMessage("19923209856", "1978630", map);
+
+
         return success(true);
     }
 }

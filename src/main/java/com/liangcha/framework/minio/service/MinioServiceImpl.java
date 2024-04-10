@@ -15,7 +15,7 @@ import java.io.InputStream;
 @Service
 public class MinioServiceImpl implements MinioService {
 
-    private final String baseUrl = "http://liangchay.cn:9000/";
+    private final String baseUrl = "http://47.109.22.202:9000/";
 
     @Resource
     private MinioUtil minioUtil;

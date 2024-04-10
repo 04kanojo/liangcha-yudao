@@ -100,6 +100,7 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
         tokenCache.put(getKey(user.getAccessToken(), client.getClientId()), user);
         refreshTokenCache.put(getKey(user.getRefreshToken(), client.getClientId()), user);
         allTokenCache.put(user.getAccessToken(), clientId);
+
         return user;
     }
 

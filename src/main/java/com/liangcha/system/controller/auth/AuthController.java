@@ -2,7 +2,6 @@ package com.liangcha.system.controller.auth;
 
 import cn.hutool.core.util.StrUtil;
 import com.liangcha.common.pojo.CommonResult;
-import com.liangcha.framework.log.annotation.Log;
 import com.liangcha.framework.security.config.SecurityProperties;
 import com.liangcha.framework.security.utils.SecurityFrameworkUtils;
 import com.liangcha.system.controller.auth.vo.AuthLoginReqVO;
@@ -54,13 +53,13 @@ public class AuthController {
         return success(true);
     }
 
-    @Log
     @PostMapping("/refresh-token")
     @ApiOperation("刷新令牌")
     public CommonResult<AuthLoginRespVO> refreshToken(String refreshToken) {
         return success(authService.refreshToken(refreshToken));
     }
 
+    // 套餐已过期
     @PostMapping("/send-sms-code")
     @ApiOperation("发送手机验证码")
     public CommonResult<Boolean> sendLoginSmsCode(@RequestBody @Valid AuthSmsSendReqVO reqVO) {
